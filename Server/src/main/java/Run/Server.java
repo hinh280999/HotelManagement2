@@ -2,7 +2,7 @@ package Run;
 
 import java.util.List;
 
-import Dao.Impliment.KhachHangDaoImp;
+import Dao.Impliment.KhachHangDao;
 import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
 
@@ -11,7 +11,7 @@ public class Server {
 	public static void main(String[] args) {
 
 
-		IKhachHangDao Dao = new KhachHangDaoImp() ;
+		IKhachHangDao Dao = new KhachHangDao() ;
 //		KhachHang adObj = new KhachHang("Hinh", "Myemail", "123123", "asdasdzxc", "12313123");
 //		
 //		Dao.add(adObj);
