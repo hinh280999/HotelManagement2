@@ -11,7 +11,7 @@ import Entity.KhachHang;
 import Utilities.HibernateUtil;
 
 public class KhachHangDao implements IKhachHangDao {
-	private static final int limit = 2;
+	private static final int limit = 15;
 	private OgmSessionFactory sessionFactory;
 
 	public KhachHangDao() {
