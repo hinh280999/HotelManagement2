@@ -1,40 +1,44 @@
 package Run;
 
-import java.util.List;
-
-import Dao.Impliment.KhachHangDao;
-import Dao.Interface.IKhachHangDao;
-import Entity.KhachHang;
+import Dao.Impliment.DichVuDao;
+import Dao.Interface.IDichVuDao;
+import Entity.DichVu;
 
 public class Server {
 
 	public static void main(String[] args) {
 
+		IDichVuDao Dao = new DichVuDao();
 
-		IKhachHangDao Dao = new KhachHangDao() ;
-//		KhachHang adObj = new KhachHang("Hinh", "Myemail", "123123", "asdasdzxc", "12313123");
-//		
-//		Dao.add(adObj);
-		
-		
-//		try {
-//			KhachHang getObj  = Dao.get(-1);
-//			System.out.println(getObj.toString());
-//		} catch (Exception e) {
-//			System.err.println(e.getMessage());
-//		}
-		
-		List<KhachHang> templist = Dao.getListByPage(2);
-//		templist.stream().sorted((l, r) -> l.getMaKH().compareTo(r.getMaKH()));
-		for (KhachHang khachHang : templist) {
-			System.out.println(khachHang.toString());
+		DichVu tDichVu = new DichVu("Coca-cola", 10000.0);
+
+		if (Dao.add(tDichVu)) {
+			System.out.println("Add DV Complete");
+		} else {
+			System.out.println("Add DV Fail");
 		}
-//		getObj.setDiaChi("this is new dia chi");
-//		System.out.println(Dao.update(getObj));
-//		
-//		KhachHang temp = Dao.get(1);
-//		System.out.println(temp.toString());
+
+		DichVu dvInfo = null;
+		try {
+			dvInfo = Dao.get(tDichVu.getMaDv());
+			System.out.println(dvInfo.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		dvInfo.setTenDv("Pepsi");
+		if (Dao.update(dvInfo)) {
+			System.out.println("update DV Complete");
+		} else {
+			System.out.println("update DV Fail");
+		}
+		
+		if (Dao.delete(dvInfo)) {
+			System.out.println("delete DV Complete");
+		} else {
+			System.out.println("delete DV Fail");
+		}
+
 	}
 
 }

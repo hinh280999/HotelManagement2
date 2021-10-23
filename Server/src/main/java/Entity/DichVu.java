@@ -11,7 +11,7 @@ public class DichVu {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int maDv;
 	private String tenDv;
-	private String donGia;
+	private double donGia;
 
 	public int getMaDv() {
 		return maDv;
@@ -29,15 +29,15 @@ public class DichVu {
 		this.tenDv = tenDv;
 	}
 
-	public String getDonGia() {
+	public double getDonGia() {
 		return donGia;
 	}
 
-	public void setDonGia(String donGia) {
+	public void setDonGia(double donGia) {
 		this.donGia = donGia;
 	}
 
-	public DichVu(String tenDv, String donGia) {
+	public DichVu(String tenDv, double donGia) {
 		super();
 		this.tenDv = tenDv;
 		this.donGia = donGia;
