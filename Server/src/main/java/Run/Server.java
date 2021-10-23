@@ -1,20 +1,40 @@
 package Run;
 
-import org.hibernate.HibernateException;
-import org.hibernate.ogm.OgmSessionFactory;
+import java.util.List;
 
-import Utilities.HibernateUtil;
+import Dao.Impliment.KhachHangDaoImp;
+import Dao.Interface.KhachHangDao;
+import Entity.KhachHang;
 
 public class Server {
 
 	public static void main(String[] args) {
-		try {
-			OgmSessionFactory sessionFactory = HibernateUtil.getInstance().getSessionFactory();
-		} catch (HibernateException exception){
-		     System.out.println("Problem creating session factory");
-		     exception.printStackTrace();
-		}
 
+
+		KhachHangDao Dao = new KhachHangDaoImp() ;
+//		KhachHang adObj = new KhachHang("Hinh", "Myemail", "123123", "asdasdzxc", "12313123");
+//		
+//		Dao.add(adObj);
+		
+		
+//		try {
+//			KhachHang getObj  = Dao.get(-1);
+//			System.out.println(getObj.toString());
+//		} catch (Exception e) {
+//			System.err.println(e.getMessage());
+//		}
+		
+		List<KhachHang> templist = Dao.getListByPage(2);
+//		templist.stream().sorted((l, r) -> l.getMaKH().compareTo(r.getMaKH()));
+		for (KhachHang khachHang : templist) {
+			System.out.println(khachHang.toString());
+		}
+//		getObj.setDiaChi("this is new dia chi");
+//		System.out.println(Dao.update(getObj));
+//		
+//		KhachHang temp = Dao.get(1);
+//		System.out.println(temp.toString());
+		
 	}
 
 }

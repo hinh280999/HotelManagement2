@@ -3,12 +3,21 @@ package Utilities;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.ogm.OgmSessionFactory;
 import org.hibernate.ogm.boot.OgmSessionFactoryBuilder;
-import org.hibernate.ogm.cfg.OgmConfiguration;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.service.ServiceRegistry;
+
+import Entity.ChucVu;
+import Entity.DichVu;
+import Entity.KhachHang;
+import Entity.LoaiPhong;
+import Entity.NhanVien;
+import Entity.PhieuDichVu;
+import Entity.PhieuThue;
+import Entity.Phong;
+import Entity.TaiKhoan;
+import Entity.TinhTrangPhong;
 
 public class HibernateUtil {
 	private static HibernateUtil instance = null;
@@ -18,7 +27,18 @@ public class HibernateUtil {
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySetting(OgmProperties.ENABLED, true)
 				.configure().build();
 
-		Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
+		Metadata metadata = new MetadataSources(serviceRegistry)
+				.addAnnotatedClass(ChucVu.class)
+				.addAnnotatedClass(DichVu.class)
+				.addAnnotatedClass(KhachHang.class)
+				.addAnnotatedClass(LoaiPhong.class)
+				.addAnnotatedClass(NhanVien.class)
+				.addAnnotatedClass(PhieuThue.class)
+				.addAnnotatedClass(PhieuDichVu.class)
+				.addAnnotatedClass(Phong.class)
+				.addAnnotatedClass(TaiKhoan.class)
+				.addAnnotatedClass(TinhTrangPhong.class)
+				.getMetadataBuilder().build();
 
 		sessionFactory = metadata.getSessionFactoryBuilder().unwrap(OgmSessionFactoryBuilder.class).build();
 
