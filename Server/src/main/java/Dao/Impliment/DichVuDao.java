@@ -124,30 +124,30 @@ public class DichVuDao implements IDichVuDao {
 		return false;
 	}
 
-	@Override
-	public List<DichVu> getListByPage(int pageNumb) {
-		OgmSession session = sessionFactory.getCurrentSession();
-		Transaction tr = session.beginTransaction();
-
-		int skip = limit * (pageNumb - 1);
-		String query = "db.dichvus.find({})";
-
-		try {
-			List<DichVu> list = session.createNativeQuery(query, DichVu.class).setFirstResult(skip)
-					.setMaxResults(limit).list();
-
-			tr.commit();
-			session.close();
-
-			return list;
-		} catch (Exception e) {
-			tr.rollback();
-			session.close();
-
-			e.printStackTrace();
-		}
-
-		return null;
-	}
+//	@Override
+//	public List<DichVu> getListByPage(int pageNumb) {
+//		OgmSession session = sessionFactory.getCurrentSession();
+//		Transaction tr = session.beginTransaction();
+//
+//		int skip = limit * (pageNumb - 1);
+//		String query = "db.dichvus.find({})";
+//
+//		try {
+//			List<DichVu> list = session.createNativeQuery(query, DichVu.class).setFirstResult(skip)
+//					.setMaxResults(limit).list();
+//
+//			tr.commit();
+//			session.close();
+//
+//			return list;
+//		} catch (Exception e) {
+//			tr.rollback();
+//			session.close();
+//
+//			e.printStackTrace();
+//		}
+//
+//		return null;
+//	}
 
 }

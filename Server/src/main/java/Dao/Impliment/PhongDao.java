@@ -126,28 +126,28 @@ public class PhongDao implements IPhongDao {
 		return false;
 	}
 
-	@Override
-	public List<Phong> getListByPage(int pageNumb) {
-		OgmSession session = sessionFactory.getCurrentSession();
-		Transaction tr = session.beginTransaction();
-		
-		int skip = limit*(pageNumb-1);
-		String query = "db.Phongs.find({}).skip("+skip+").limit("+limit+")";
-		try {
-			List<Phong> list = session.createNativeQuery(query, Phong.class)
-					.getResultList();
-			tr.commit();
-			session.close();
-
-			return list;
-		} catch (Exception e) {
-			tr.rollback();
-			session.close();
-
-			e.printStackTrace();
-		}
-
-		return null;
-	}
+//	@Override
+//	public List<Phong> getListByPage(int pageNumb) {
+//		OgmSession session = sessionFactory.getCurrentSession();
+//		Transaction tr = session.beginTransaction();
+//		
+//		int skip = limit*(pageNumb-1);
+//		String query = "db.Phongs.find({}).skip("+skip+").limit("+limit+")";
+//		try {
+//			List<Phong> list = session.createNativeQuery(query, Phong.class)
+//					.getResultList();
+//			tr.commit();
+//			session.close();
+//
+//			return list;
+//		} catch (Exception e) {
+//			tr.rollback();
+//			session.close();
+//
+//			e.printStackTrace();
+//		}
+//
+//		return null;
+//	}
 
 }

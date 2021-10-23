@@ -126,30 +126,30 @@ public class KhachHangDao implements IKhachHangDao {
 		return false;
 	}
 
-	@Override
-	public List<KhachHang> getListByPage(int pageNumb) {
-		OgmSession session = sessionFactory.getCurrentSession();
-		Transaction tr = session.beginTransaction();
-
-		int skip = limit * (pageNumb - 1);
-		String query = "db.khachhangs.find({})";
-
-		try {
-			List<KhachHang> list = session.createNativeQuery(query, KhachHang.class).setFirstResult(skip)
-					.setMaxResults(limit).list();
-
-			tr.commit();
-			session.close();
-
-			return list;
-		} catch (Exception e) {
-			tr.rollback();
-			session.close();
-
-			e.printStackTrace();
-		}
-
-		return null;
-	}
+//	@Override
+//	public List<KhachHang> getListByPage(int pageNumb) {
+//		OgmSession session = sessionFactory.getCurrentSession();
+//		Transaction tr = session.beginTransaction();
+//
+//		int skip = limit * (pageNumb - 1);
+//		String query = "db.khachhangs.find({})";
+//
+//		try {
+//			List<KhachHang> list = session.createNativeQuery(query, KhachHang.class).setFirstResult(skip)
+//					.setMaxResults(limit).list();
+//
+//			tr.commit();
+//			session.close();
+//
+//			return list;
+//		} catch (Exception e) {
+//			tr.rollback();
+//			session.close();
+//
+//			e.printStackTrace();
+//		}
+//
+//		return null;
+//	}
 
 }

@@ -13,6 +13,4 @@ public interface IBaseDao<T> {
     boolean update(T updateObject);
     
     boolean delete(T deleteObject);
-    
-    List<T> getListByPage(int pageNumb);
 }
