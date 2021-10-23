@@ -2,7 +2,7 @@ package Dao.Interface;
 
 import java.util.List;
 
-public interface BaseDAO<T> {
+public interface IBaseDao<T> {
 
 	T get(int id) throws Exception;
     

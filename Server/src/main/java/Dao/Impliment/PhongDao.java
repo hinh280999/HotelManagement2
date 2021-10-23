@@ -6,20 +6,20 @@ import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
-import Dao.Interface.KhachHangDao;
-import Entity.KhachHang;
+import Dao.Interface.IPhongDao;
+import Entity.Phong;
 import Utilities.HibernateUtil;
 
-public class KhachHangDaoImp implements KhachHangDao {
-	private static final int limit = 2;
+public class PhongDao implements IPhongDao {
 	private OgmSessionFactory sessionFactory;
+	private static int limit = 2;
 
-	public KhachHangDaoImp() {
+	public PhongDao() {
 		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 	}
 
 	@Override
-	public KhachHang get(int id) throws Exception {
+	public Phong get(int id) throws Exception {
 		if (id <= 0)
 			throw new Exception("id < 0 is not allow");
 
@@ -27,7 +27,7 @@ public class KhachHangDaoImp implements KhachHangDao {
 		Transaction tr = session.beginTransaction();
 
 		try {
-			KhachHang temp = session.find(KhachHang.class, id);
+			Phong temp = session.find(Phong.class, id);
 
 			tr.commit();
 			session.close();
@@ -43,13 +43,13 @@ public class KhachHangDaoImp implements KhachHangDao {
 	}
 
 	@Override
-	public List<KhachHang> getAll() {
+	public List<Phong> getAll() {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		String query = "db.Phongs.find({})";
 		try {
-			String query = "db.khachhangs.find({})";
-			List<KhachHang> list = session.createNativeQuery(query, KhachHang.class).getResultList();
-
+			List<Phong> list = session.createNativeQuery(query, Phong.class)
+					.getResultList();
 			tr.commit();
 			session.close();
 
@@ -65,7 +65,7 @@ public class KhachHangDaoImp implements KhachHangDao {
 	}
 
 	@Override
-	public boolean add(KhachHang addObject) {
+	public boolean add(Phong addObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
@@ -86,7 +86,7 @@ public class KhachHangDaoImp implements KhachHangDao {
 	}
 
 	@Override
-	public boolean update(KhachHang updateObject) {
+	public boolean update(Phong updateObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
@@ -107,7 +107,7 @@ public class KhachHangDaoImp implements KhachHangDao {
 	}
 
 	@Override
-	public boolean delete(KhachHang deleteObject) {
+	public boolean delete(Phong deleteObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
@@ -127,17 +127,15 @@ public class KhachHangDaoImp implements KhachHangDao {
 	}
 
 	@Override
-	public List<KhachHang> getListByPage(int pageNumb) {
+	public List<Phong> getListByPage(int pageNumb) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-
-		int skip = limit * (pageNumb - 1);
-		String query = "db.khachhangs.find({})";
-
+		
+		int skip = limit*(pageNumb-1);
+		String query = "db.Phongs.find({}).skip("+skip+").limit("+limit+")";
 		try {
-			List<KhachHang> list = session.createNativeQuery(query, KhachHang.class).setFirstResult(skip)
-					.setMaxResults(limit).list();
-
+			List<Phong> list = session.createNativeQuery(query, Phong.class)
+					.getResultList();
 			tr.commit();
 			session.close();
 
