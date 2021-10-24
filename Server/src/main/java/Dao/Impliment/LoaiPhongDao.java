@@ -8,7 +8,6 @@ import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.ILoaiPhongDao;
 import Entity.LoaiPhong;
-import Entity.Phong;
 import Utilities.HibernateUtil;
 
 public class LoaiPhongDao implements ILoaiPhongDao {

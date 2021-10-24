@@ -8,7 +8,6 @@ import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IDichVuDao;
 import Entity.DichVu;
-import Entity.KhachHang;
 import Utilities.HibernateUtil;
 
 public class DichVuDao implements IDichVuDao {
