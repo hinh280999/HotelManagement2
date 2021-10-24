@@ -63,4 +63,11 @@ public class Phong {
 		this.maTTP = maTTP;
 	}
 
+	@Override
+	public String toString() {
+		return "Phong [maP=" + maP + ", ten=" + ten + ", maLP=" + maLP.getTenLP() + ", maTTP=" + maTTP.getTenTTP() + "]";
+	}
+	
+	
+
 }
