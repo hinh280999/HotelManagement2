@@ -1,9 +1,5 @@
 package TestRun;
 
-import Dao.Impliment.PhongDao;
-import Dao.Interface.IPhongDao;
-import Entity.Phong;
-
 public class PhongDaoTest {
 
 	public static void main(String[] args) {

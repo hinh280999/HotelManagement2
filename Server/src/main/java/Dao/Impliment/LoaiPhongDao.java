@@ -6,12 +6,12 @@ import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
-import Dao.Interface.ILoaiPhong;
+import Dao.Interface.ILoaiPhongDao;
 import Entity.LoaiPhong;
 import Entity.Phong;
 import Utilities.HibernateUtil;
 
-public class LoaiPhongDao implements ILoaiPhong {
+public class LoaiPhongDao implements ILoaiPhongDao {
 	private OgmSessionFactory sessionFactory;
 
 	public LoaiPhongDao() {
