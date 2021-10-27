@@ -14,9 +14,11 @@ public class PhieuThue {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int maPT;
-	private Date NgayDat;
-	private Date NgayKetThuc;
-	private Date NgayLap;
+	private Date ngayDat;
+	private Date ngayKetThuc;
+	private Date ngayLap;
+	private Date ngayNhan;
+	private Date ngayTra;
 
 	@ManyToOne
 	@JoinColumn(name = "maP")
@@ -28,36 +30,20 @@ public class PhieuThue {
 	@JoinColumn(name = "maKH")
 	private KhachHang khachHang;
 
+	public Date getNgayNhan() {
+		return ngayNhan;
+	}
+
+	public void setNgayNhan(Date ngayNhan) {
+		this.ngayNhan = ngayNhan;
+	}
+
 	public int getMaPT() {
 		return maPT;
 	}
 
 	public void setMaPT(int maPT) {
 		this.maPT = maPT;
-	}
-
-	public Date getNgayDat() {
-		return NgayDat;
-	}
-
-	public void setNgayDat(Date ngayDat) {
-		NgayDat = ngayDat;
-	}
-
-	public Date getNgayKetThuc() {
-		return NgayKetThuc;
-	}
-
-	public void setNgayKetThuc(Date ngayKetThuc) {
-		NgayKetThuc = ngayKetThuc;
-	}
-
-	public Date getNgayLap() {
-		return NgayLap;
-	}
-
-	public void setNgayLap(Date ngayLap) {
-		NgayLap = ngayLap;
 	}
 
 	public Phong getPhong() {
@@ -84,13 +70,6 @@ public class PhieuThue {
 		this.khachHang = khachHang;
 	}
 
-	public PhieuThue(Date ngayDat, Date ngayKetThuc, Date ngayLap) {
-		super();
-		NgayDat = ngayDat;
-		NgayKetThuc = ngayKetThuc;
-		NgayLap = ngayLap;
-	}
-
 	public PhieuThue(int maPT) {
 		super();
 		this.maPT = maPT;
@@ -99,5 +78,47 @@ public class PhieuThue {
 	public PhieuThue() {
 		super();
 	}
+
+	public PhieuThue(Date ngayDat, Date ngayKetThuc, Phong phong, NhanVien nhanVien, KhachHang khachHang) {
+		super();
+		this.ngayDat = ngayDat;
+		this.ngayKetThuc = ngayKetThuc;
+		this.phong = phong;
+		this.nhanVien = nhanVien;
+		this.khachHang = khachHang;
+	}
+
+	public Date getNgayDat() {
+		return ngayDat;
+	}
+
+	public void setNgayDat(Date ngayDat) {
+		this.ngayDat = ngayDat;
+	}
+
+	public Date getNgayKetThuc() {
+		return ngayKetThuc;
+	}
+
+	public void setNgayKetThuc(Date ngayKetThuc) {
+		this.ngayKetThuc = ngayKetThuc;
+	}
+
+	public Date getNgayLap() {
+		return ngayLap;
+	}
+
+	public void setNgayLap(Date ngayLap) {
+		this.ngayLap = ngayLap;
+	}
+
+	public Date getNgayTra() {
+		return ngayTra;
+	}
+
+	public void setNgayTra(Date ngayTra) {
+		this.ngayTra = ngayTra;
+	}
+	
 
 }
