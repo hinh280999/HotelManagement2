@@ -19,6 +19,7 @@ public class PhieuThue {
 	private Date ngayLap;
 	private Date ngayNhan;
 	private Date ngayTra;
+	private String trangThai;
 
 	@ManyToOne
 	@JoinColumn(name = "maP")
@@ -86,6 +87,7 @@ public class PhieuThue {
 		this.phong = phong;
 		this.nhanVien = nhanVien;
 		this.khachHang = khachHang;
+		this.trangThai = "NEW";
 	}
 
 	public Date getNgayDat() {
@@ -118,6 +120,14 @@ public class PhieuThue {
 
 	public void setNgayTra(Date ngayTra) {
 		this.ngayTra = ngayTra;
+	}
+
+	public String getTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
 	}
 	
 
