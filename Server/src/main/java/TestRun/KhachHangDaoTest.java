@@ -1,10 +1,7 @@
 package TestRun;
 
-import java.util.List;
-
-import org.bson.Document;
-
 import Dao.Impliment.KhachHangDao;
+import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
 import Model.PageList;
 
@@ -12,10 +9,11 @@ public class KhachHangDaoTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		KhachHangDao Dao = new KhachHangDao();
+		IKhachHangDao Dao = new KhachHangDao();
 		
 		
 		PageList<KhachHang> page = Dao.searchListKhachhang("Phan",1);
+		System.out.println(page.toString());
 		for (KhachHang kh : page.getListData()) {
 			System.out.println(kh.toString());
 		}

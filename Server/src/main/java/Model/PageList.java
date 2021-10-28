@@ -42,4 +42,11 @@ public class PageList<T> {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "PageList [listDataSize=" + listData.size() + ", currentPage=" + currentPage + ", maxPage=" + maxPage + "]";
+	}
+	
+	
+
 }
