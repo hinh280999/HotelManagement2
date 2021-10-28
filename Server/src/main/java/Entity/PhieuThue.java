@@ -87,6 +87,7 @@ public class PhieuThue {
 		this.phong = phong;
 		this.nhanVien = nhanVien;
 		this.khachHang = khachHang;
+		this.ngayLap = new Date();
 		this.trangThai = "NEW";
 	}
 
@@ -129,6 +130,15 @@ public class PhieuThue {
 	public void setTrangThai(String trangThai) {
 		this.trangThai = trangThai;
 	}
+
+	@Override
+	public String toString() {
+		return "PhieuThue [ngayDat=" + ngayDat + ", ngayKetThuc=" + ngayKetThuc + ", ngayLap=" + ngayLap
+				+ ", trangThai=" + trangThai + ", phong=" + phong.getMaP() + ", nhanVien=" + nhanVien.getMaNV() + ", khachHang="
+				+ khachHang.getMaKH() + "]";
+	}
+	
+	
 	
 
 }
