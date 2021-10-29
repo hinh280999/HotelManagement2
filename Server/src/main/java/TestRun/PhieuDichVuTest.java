@@ -86,7 +86,7 @@ public class PhieuDichVuTest {
 		// ============= =========================================================== //
 		IPhieuDichVu pdvDao = new PhieuDichVuDao();
 		IDichVuDao dvDao = new DichVuDao();
-		
+
 		DichVu tDichVu = new DichVu("Coca-cola", 10000.0);
 		dvDao.add(tDichVu);
 
@@ -96,36 +96,41 @@ public class PhieuDichVuTest {
 		pdvSample.setPhieuThue(samplePT);
 		pdvSample.setSoLuong(1);
 		pdvSample.setDaThanhToan(false);
-		
-		 if(pdvDao.add(pdvSample)) System.out.println("Add success");
-		 else System.out.println("add fail");
-		 
-		 PhieuDichVu temp = null;
-		 
-		 try {
+
+		if (pdvDao.add(pdvSample))
+			System.out.println("Add success");
+		else
+			System.out.println("add fail");
+
+		PhieuDichVu temp = null;
+
+		try {
 			temp = pdvDao.get(pdvSample.getMaPDV());
 			System.out.println(temp.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 
-		 temp.setDaThanhToan(true);
-		 if (pdvDao.update(temp)) System.out.println("update success");
-		 else System.out.println("update fail");
-		 
-		 if (pdvDao.delete(temp)) System.out.println("delete success");
-		 else System.out.println("delete fail");
-		
+
+		temp.setDaThanhToan(true);
+		if (pdvDao.update(temp))
+			System.out.println("update success");
+		else
+			System.out.println("update fail");
+
+		if (pdvDao.delete(temp.getMaPDV()))
+			System.out.println("delete success");
+		else
+			System.out.println("delete fail");
 
 		// ==== Delete All Sample Object (Khach Hang, Nhan Vien, Phong, .....) ==== //
-		DaoTTP.delete(tTTP);
-		LPDao.delete(newLP);
-		khDao.delete(tKhachHang);
-		phongDao.delete(samplePhong);
-		cvDao.delete(sampleCV);
-		nvDao.delete(tempNV);
-		ptDao.delete(samplePT);
+		DaoTTP.delete(tTTP.getMaTTP());
+		LPDao.delete(newLP.getMaLP());
+		khDao.delete(tKhachHang.getMaKH());
+		phongDao.delete(samplePhong.getMaP());
+		nvDao.delete(tempNV.getMaNV());
+		cvDao.delete(sampleCV.getMaCV());
+		ptDao.delete(samplePT.getMaPT());
 
 	}
 

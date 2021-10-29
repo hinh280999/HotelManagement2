@@ -48,14 +48,14 @@ public class PhongDaoTest {
 			System.out.println("update Phong Fail");
 		}
 
-		if (Dao.delete(pInfo)) {
+		if (Dao.delete(pInfo.getMaP())) {
 			System.out.println("delete Phong Complete");
 		} else {
 			System.out.println("delete Phong Fail");
 		}
 		
-		DaoTTP.delete(tTTP);
-		LPDao.delete(newLP);
+		DaoTTP.delete(tTTP.getMaTTP());
+		LPDao.delete(newLP.getMaLP());
 	}
 
 }

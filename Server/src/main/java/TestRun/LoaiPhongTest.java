@@ -33,7 +33,7 @@ public class LoaiPhongTest {
 			System.out.println("update Fail");
 		}
 
-		if (Dao.delete(lpInfo)) {
+		if (Dao.delete(lpInfo.getMaLP())) {
 			System.out.println("delete Complete");
 		} else {
 			System.out.println("delete Fail");

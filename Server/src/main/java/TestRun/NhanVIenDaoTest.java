@@ -38,7 +38,7 @@ public class NhanVIenDaoTest {
 		if (nvDao.update(temp)) System.out.println("update success");
 		else System.out.println("fail success");
 		
-		if(nvDao.delete(temp)) System.out.println("delete success");
+		if(nvDao.delete(temp.getMaNV())) System.out.println("delete success");
 		else System.out.println("delete fail");
 
 	}

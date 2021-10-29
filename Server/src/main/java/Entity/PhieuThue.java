@@ -24,9 +24,11 @@ public class PhieuThue {
 	@ManyToOne
 	@JoinColumn(name = "maP")
 	private Phong phong;
+	
 	@ManyToOne
 	@JoinColumn(name = "maNV")
 	private NhanVien nhanVien;
+	
 	@ManyToOne
 	@JoinColumn(name = "maKH")
 	private KhachHang khachHang;

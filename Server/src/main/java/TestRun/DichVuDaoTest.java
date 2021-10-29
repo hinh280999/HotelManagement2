@@ -31,7 +31,7 @@ public class DichVuDaoTest {
 			System.out.println("update DV Fail");
 		}
 
-		if (Dao.delete(dvInfo)) {
+		if (Dao.delete(dvInfo.getMaDv())) {
 			System.out.println("delete DV Complete");
 		} else {
 			System.out.println("delete DV Fail");

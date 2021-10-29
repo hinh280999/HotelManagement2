@@ -27,7 +27,7 @@ public class ChucVuDaoTest {
 		if (Dao.update(temp)) System.out.println("update success");
 		else System.out.println("update fail");
 		
-		if (Dao.delete(temp)) System.out.println("delete success");
+		if (Dao.delete(temp.getMaCV())) System.out.println("delete success");
 		else System.out.println("delete fail");
 	}
 

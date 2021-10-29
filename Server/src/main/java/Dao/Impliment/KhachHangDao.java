@@ -116,11 +116,12 @@ public class KhachHangDao implements IKhachHangDao {
 	}
 
 	@Override
-	public boolean delete(KhachHang deleteObject) {
+	public boolean delete(int deleteObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		KhachHang deletObj = new KhachHang(deleteObject);
 		try {
-			session.delete(deleteObject);
+			session.delete(deletObj);
 
 			tr.commit();
 			session.close();

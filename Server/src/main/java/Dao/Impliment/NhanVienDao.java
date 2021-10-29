@@ -10,12 +10,13 @@ import Dao.Interface.INhanVien;
 import Entity.NhanVien;
 import Utilities.HibernateUtil;
 
-public class NhanVienDao implements INhanVien{
+public class NhanVienDao implements INhanVien {
 	private OgmSessionFactory sessionFactory;
 
 	public NhanVienDao() {
 		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 	}
+
 	@Override
 	public NhanVien get(int id) throws Exception {
 		if (id <= 0)
@@ -46,8 +47,7 @@ public class NhanVienDao implements INhanVien{
 		Transaction tr = session.beginTransaction();
 		String query = "db.nhanviens.find({})";
 		try {
-			List<NhanVien> list = session.createNativeQuery(query, NhanVien.class)
-					.getResultList();
+			List<NhanVien> list = session.createNativeQuery(query, NhanVien.class).getResultList();
 			tr.commit();
 			session.close();
 
@@ -105,11 +105,12 @@ public class NhanVienDao implements INhanVien{
 	}
 
 	@Override
-	public boolean delete(NhanVien deleteObject) {
+	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+
 		try {
-			session.delete(deleteObject);
+			session.remove(session.find(NhanVien.class, deleteObjectId));
 
 			tr.commit();
 			session.close();

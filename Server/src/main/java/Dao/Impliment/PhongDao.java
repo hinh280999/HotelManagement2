@@ -107,11 +107,14 @@ public class PhongDao implements IPhongDao {
 	}
 
 	@Override
-	public boolean delete(Phong deleteObject) {
+	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		
+		Phong deleteObj = new Phong();
+		deleteObj.setMaP(deleteObjectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();

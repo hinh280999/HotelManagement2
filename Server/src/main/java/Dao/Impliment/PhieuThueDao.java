@@ -12,12 +12,13 @@ import Entity.Phong;
 import Entity.TinhTrangPhong;
 import Utilities.HibernateUtil;
 
-public class PhieuThueDao implements IPhieuThue{
+public class PhieuThueDao implements IPhieuThue {
 	private OgmSessionFactory sessionFactory;
 
 	public PhieuThueDao() {
 		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 	}
+
 	@Override
 	public PhieuThue get(int id) throws Exception {
 		if (id <= 0)
@@ -48,8 +49,7 @@ public class PhieuThueDao implements IPhieuThue{
 		Transaction tr = session.beginTransaction();
 		String query = "db.phieuthues.find({})";
 		try {
-			List<PhieuThue> list = session.createNativeQuery(query, PhieuThue.class)
-					.getResultList();
+			List<PhieuThue> list = session.createNativeQuery(query, PhieuThue.class).getResultList();
 			tr.commit();
 			session.close();
 
@@ -71,10 +71,10 @@ public class PhieuThueDao implements IPhieuThue{
 		Phong phongThue = addObject.getPhong();
 		try {
 			session.save(addObject);
-			
+
 			phongThue.setMaTTP(new TinhTrangPhong(2)); // đã đặt
 			session.update(phongThue);
-			
+
 			tr.commit();
 			session.close();
 
@@ -111,11 +111,13 @@ public class PhieuThueDao implements IPhieuThue{
 	}
 
 	@Override
-	public boolean delete(PhieuThue deleteObject) {
+	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		
+		PhieuThue deleteObj = new PhieuThue(deleteObjectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();

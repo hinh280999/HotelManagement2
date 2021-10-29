@@ -33,7 +33,7 @@ public class TTPDaoTest {
 			System.out.println("update Fail");
 		}
 
-		if (Dao.delete(ttpInfo)) {
+		if (Dao.delete(ttpInfo.getMaTTP())) {
 			System.out.println("delete Complete");
 		} else {
 			System.out.println("delete Fail");

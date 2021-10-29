@@ -70,8 +70,8 @@ public class PhieuThueTest {
 
 		// === Start Add PhieuPhong ===========================================================//
 
-		Date ngayDat = new Date(2021, 12, 10);
-		Date ngayKetThuc = new Date(2022, 1, 10);
+		Date ngayDat = new Date("2021/11/10");
+		Date ngayKetThuc = new Date("2021/11/20");
 		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, samplePhong, tempNV, tKhachHang);
 
 		if (Dao.add(samplePT))
@@ -104,19 +104,20 @@ public class PhieuThueTest {
 			e.printStackTrace();
 		}
 
-		if (Dao.delete(temp))
+		if (Dao.delete(temp.getMaPT()))
 			System.out.println("delete PT success");
 		else
 			System.out.println("delete PT fail");
 
 		
 		// ==== Delete All Sample Object (Khach Hang, Nhan Vien, Phong, .....) ==== //
-		DaoTTP.delete(tTTP);
-		LPDao.delete(newLP);
-		khDao.delete(tKhachHang);
-		phongDao.delete(samplePhong);
-		cvDao.delete(sampleCV);
-		nvDao.delete(tempNV);
+		DaoTTP.delete(tTTP.getMaTTP());
+		LPDao.delete(newLP.getMaLP());
+		khDao.delete(tKhachHang.getMaKH());
+		phongDao.delete(samplePhong.getMaP());
+		nvDao.delete(tempNV.getMaNV());
+		cvDao.delete(sampleCV.getMaCV());
+		
 		
 	}
 }

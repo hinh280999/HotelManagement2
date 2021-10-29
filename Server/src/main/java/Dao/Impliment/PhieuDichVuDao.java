@@ -105,11 +105,13 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 	}
 
 	@Override
-	public boolean delete(PhieuDichVu deleteObject) {
+	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		PhieuDichVu deleteObj = new PhieuDichVu();
+		deleteObj.setMaPDV(deleteObjectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();

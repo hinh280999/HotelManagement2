@@ -106,11 +106,13 @@ public class TinhTrangPhongDao implements ITinhTrangPhongDao {
 	}
 
 	@Override
-	public boolean delete(TinhTrangPhong deleteObject) {
+	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		
+		TinhTrangPhong deleteObj = new TinhTrangPhong(deleteObjectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();

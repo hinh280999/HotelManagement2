@@ -106,11 +106,12 @@ public class LoaiPhongDao implements ILoaiPhongDao {
 	}
 
 	@Override
-	public boolean delete(LoaiPhong deleteObject) {
+	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		LoaiPhong deleteObj = new LoaiPhong(deleteObjectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();

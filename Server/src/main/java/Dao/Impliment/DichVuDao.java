@@ -7,6 +7,7 @@ import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IDichVuDao;
+import Entity.ChucVu;
 import Entity.DichVu;
 import Utilities.HibernateUtil;
 
@@ -104,11 +105,13 @@ public class DichVuDao implements IDichVuDao {
 	}
 
 	@Override
-	public boolean delete(DichVu deleteObject) {
+	public boolean delete(int objectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		DichVu deleteObj = new DichVu();
+		deleteObj.setMaDv(objectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();

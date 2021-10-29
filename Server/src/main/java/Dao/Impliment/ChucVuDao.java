@@ -107,11 +107,13 @@ public class ChucVuDao implements IChucVu {
 	}
 
 	@Override
-	public boolean delete(ChucVu deleteObject) {
+	public boolean delete(int objectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+		ChucVu deleteObj = new ChucVu();
+		deleteObj.setMaCV(objectId);
 		try {
-			session.delete(deleteObject);
+			session.delete(deleteObj);
 
 			tr.commit();
 			session.close();
