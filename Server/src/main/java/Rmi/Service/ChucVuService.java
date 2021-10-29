@@ -26,7 +26,6 @@ public class ChucVuService implements IChucVuService {
 			ChucVu chucvu = chucVuDao.get(id);
 			return MappingChucVuDTO.mapToChucVuDTO(chucvu);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -41,8 +40,7 @@ public class ChucVuService implements IChucVuService {
 
 	@Override
 	public boolean deleteChucVu(int object) {
-		// TODO Auto-generated method stub
-		return false;
+		return chucVuDao.delete(object);
 	}
 
 }
