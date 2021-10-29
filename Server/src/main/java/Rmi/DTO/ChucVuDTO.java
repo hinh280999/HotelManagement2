@@ -1,6 +1,12 @@
 package Rmi.DTO;
 
-public class ChucVuDTO {
+import java.io.Serializable;
+
+public class ChucVuDTO  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int maCV;
 	private String tenCV;
 	private Double luong;
