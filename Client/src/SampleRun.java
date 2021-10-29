@@ -24,6 +24,23 @@ public class SampleRun {
 		
 		if (chucVuService.addChucVu(Dto)) System.out.println("Add From Client success");
 		else System.out.println("Add from client fail");
+		
+		ChucVuDTO temp = null;
+		try {
+			temp = chucVuService.getChucVuById(120);
+			System.out.println(temp.getTenCV());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Fail because id maybe not found in database");
+		}
+		
+		
+		temp.setTenCV("Rmi update CV name");
+		if (chucVuService.updateChucVu(temp)) System.out.println("Update success");
+		else System.out.println("Update from client fail");
+		
+		if (chucVuService.deleteChucVu(temp.getMaCV())) System.out.println("delete success");
+		else System.out.println("delete from client fail");
 	}
 
 }
