@@ -7,12 +7,10 @@ import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IDichVuDao;
-import Entity.ChucVu;
 import Entity.DichVu;
 import Utilities.HibernateUtil;
 
 public class DichVuDao implements IDichVuDao {
-	private static final int limit = 15;
 	private OgmSessionFactory sessionFactory;
 
 	public DichVuDao() {

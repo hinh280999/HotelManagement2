@@ -3,7 +3,7 @@ package Utilities;
 import Entity.ChucVu;
 import Rmi.DTO.ChucVuDTO;
 
-public class MappingChucVuDTO {
+public class MappingDtoFacade {
 
 	public static ChucVu mapToChucVu(ChucVuDTO mapObject) {
 		ChucVu returnVL = new ChucVu();

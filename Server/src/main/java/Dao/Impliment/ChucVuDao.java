@@ -8,7 +8,6 @@ import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IChucVu;
 import Entity.ChucVu;
-import Entity.DichVu;
 import Utilities.HibernateUtil;
 
 public class ChucVuDao implements IChucVu {

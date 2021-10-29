@@ -76,7 +76,9 @@ public class PhieuDichVuTest {
 		// da co khach hang sample
 		khDao.add(tKhachHang);
 
+		@SuppressWarnings("deprecation")
 		Date ngayDat = new Date(2021, 12, 10);
+		@SuppressWarnings("deprecation")
 		Date ngayKetThuc = new Date(2022, 1, 10);
 		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, samplePhong, tempNV, tKhachHang);
 

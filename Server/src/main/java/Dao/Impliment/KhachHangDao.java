@@ -1,15 +1,11 @@
 package Dao.Impliment;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.Document;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 import org.hibernate.query.NativeQuery;
-
-import com.google.gson.Gson;
 
 import Constant.Page;
 import Dao.Interface.IKhachHangDao;
@@ -20,11 +16,9 @@ import Utilities.KhachHangUtil;
 
 public class KhachHangDao implements IKhachHangDao {
 	private OgmSessionFactory sessionFactory;
-	private Gson gs;
 
 	public KhachHangDao() {
 		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
-		gs = new Gson();
 	}
 
 	@Override
@@ -144,16 +138,16 @@ public class KhachHangDao implements IKhachHangDao {
 		String mongoAggregate = "db.khachhangs.aggregate([{ '$match': { '$text': { '$search': '" + tenKh + "' }}}])";
 
 		try {
-			NativeQuery javaQuery = session.createNativeQuery(mongoAggregate);
+			NativeQuery<?> javaQuery = session.createNativeQuery(mongoAggregate);
 			int totalRow = javaQuery.getResultList().size();
 
 			List<?> khachHangs_Paged = javaQuery.setFirstResult(Page.LIMITROW_ONPAGE * (pageNumb - 1))
 					.setMaxResults(Page.LIMITROW_ONPAGE).getResultList();
 
 			PageList<KhachHang> pageList = new PageList<>();
-			int maxPage = (int)Math.ceil(totalRow / Page.LIMITROW_ONPAGE);
+			int maxPage = (int) Math.ceil(totalRow / Page.LIMITROW_ONPAGE);
 			pageList.setListData(KhachHangUtil.convertToListKhachHang(khachHangs_Paged));
-			pageList.setMaxPage( maxPage == 0 ? 1 : maxPage );
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
 			pageList.setCurrentPage(pageNumb);
 
 			tr.commit();

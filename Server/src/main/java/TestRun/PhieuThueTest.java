@@ -70,7 +70,9 @@ public class PhieuThueTest {
 
 		// === Start Add PhieuPhong ===========================================================//
 
+		@SuppressWarnings("deprecation")
 		Date ngayDat = new Date("2021/11/10");
+		@SuppressWarnings("deprecation")
 		Date ngayKetThuc = new Date("2021/11/20");
 		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, samplePhong, tempNV, tKhachHang);
 

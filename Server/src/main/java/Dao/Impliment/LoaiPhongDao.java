@@ -47,8 +47,7 @@ public class LoaiPhongDao implements ILoaiPhongDao {
 		Transaction tr = session.beginTransaction();
 		String query = "db.loaiphongs.find({})";
 		try {
-			List<LoaiPhong> list = session.createNativeQuery(query, LoaiPhong.class)
-					.getResultList();
+			List<LoaiPhong> list = session.createNativeQuery(query, LoaiPhong.class).getResultList();
 			tr.commit();
 			session.close();
 

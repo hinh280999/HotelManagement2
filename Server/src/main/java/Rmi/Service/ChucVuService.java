@@ -8,7 +8,7 @@ import Dao.Interface.IChucVu;
 import Entity.ChucVu;
 import Rmi.DTO.ChucVuDTO;
 import Rmi.Interface.IChucVuService;
-import Utilities.MappingChucVuDTO;
+import Utilities.MappingDtoFacade;
 
 public class ChucVuService extends UnicastRemoteObject implements IChucVuService {
 
@@ -23,7 +23,7 @@ public class ChucVuService extends UnicastRemoteObject implements IChucVuService
 	
 	@Override
 	public boolean addChucVu(ChucVuDTO object) throws RemoteException{
-		ChucVu addObject  = MappingChucVuDTO.mapToChucVu(object);
+		ChucVu addObject  = MappingDtoFacade.mapToChucVu(object);
 		return chucVuDao.add(addObject);
 	}
 
@@ -31,7 +31,7 @@ public class ChucVuService extends UnicastRemoteObject implements IChucVuService
 	public ChucVuDTO getChucVuById(int id) throws RemoteException{
 		try {
 			ChucVu chucvu = chucVuDao.get(id);
-			return MappingChucVuDTO.mapToChucVuDTO(chucvu);
+			return MappingDtoFacade.mapToChucVuDTO(chucvu);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

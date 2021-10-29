@@ -12,7 +12,6 @@ import Utilities.HibernateUtil;
 
 public class PhongDao implements IPhongDao {
 	private OgmSessionFactory sessionFactory;
-	private static int limit = 2;
 
 	public PhongDao() {
 		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
