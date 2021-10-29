@@ -50,4 +50,11 @@ public class ChucVuDTO implements Serializable {
 		this.luong = luong;
 	}
 
+	public ChucVuDTO(int maCV, String tenCV, Double luong) {
+		super();
+		this.maCV = maCV;
+		this.tenCV = tenCV;
+		this.luong = luong;
+	}
+
 }
