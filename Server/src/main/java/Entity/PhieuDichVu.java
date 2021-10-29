@@ -80,4 +80,12 @@ public class PhieuDichVu {
 		daThanhToan = false;
 	}
 
+	@Override
+	public String toString() {
+		return "PhieuDichVu [maPDV=" + maPDV + ", soLuong=" + soLuong + ", ngayLap=" + ngayLap + ", daThanhToan="
+				+ daThanhToan + ", phieuThue=" + phieuThue.getTrangThai() + ", dichVu=" + dichVu.getTenDv() + "]";
+	}
+	
+	
+
 }
