@@ -6,20 +6,19 @@ import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
-import Dao.Interface.IPhieuThue;
-import Entity.PhieuThue;
-import Entity.Phong;
-import Entity.TinhTrangPhong;
+import Dao.Interface.IPhieuDichVu;
+import Entity.PhieuDichVu;
 import Utilities.HibernateUtil;
 
-public class PhieuThueDao implements IPhieuThue{
+public class PhieuDichVuDao implements IPhieuDichVu {
 	private OgmSessionFactory sessionFactory;
 
-	public PhieuThueDao() {
+	public PhieuDichVuDao() {
 		sessionFactory = HibernateUtil.getInstance().getSessionFactory();
 	}
+
 	@Override
-	public PhieuThue get(int id) throws Exception {
+	public PhieuDichVu get(int id) throws Exception {
 		if (id <= 0)
 			throw new Exception("id < 0 is not allow");
 
@@ -27,7 +26,7 @@ public class PhieuThueDao implements IPhieuThue{
 		Transaction tr = session.beginTransaction();
 
 		try {
-			PhieuThue temp = session.find(PhieuThue.class, id);
+			PhieuDichVu temp = session.find(PhieuDichVu.class, id);
 
 			tr.commit();
 			session.close();
@@ -43,13 +42,12 @@ public class PhieuThueDao implements IPhieuThue{
 	}
 
 	@Override
-	public List<PhieuThue> getAll() {
+	public List<PhieuDichVu> getAll() {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		String query = "db.phieuthues.find({})";
+		String query = "db.phieudichvus.find({})";
 		try {
-			List<PhieuThue> list = session.createNativeQuery(query, PhieuThue.class)
-					.getResultList();
+			List<PhieuDichVu> list = session.createNativeQuery(query, PhieuDichVu.class).getResultList();
 			tr.commit();
 			session.close();
 
@@ -65,16 +63,12 @@ public class PhieuThueDao implements IPhieuThue{
 	}
 
 	@Override
-	public boolean add(PhieuThue addObject) {
+	public boolean add(PhieuDichVu addObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		Phong phongThue = addObject.getPhong();
 		try {
 			session.save(addObject);
-			
-			phongThue.setMaTTP(new TinhTrangPhong(2)); // đã đặt
-			session.update(phongThue);
-			
+
 			tr.commit();
 			session.close();
 
@@ -90,7 +84,7 @@ public class PhieuThueDao implements IPhieuThue{
 	}
 
 	@Override
-	public boolean update(PhieuThue updateObject) {
+	public boolean update(PhieuDichVu updateObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
@@ -111,7 +105,7 @@ public class PhieuThueDao implements IPhieuThue{
 	}
 
 	@Override
-	public boolean delete(PhieuThue deleteObject) {
+	public boolean delete(PhieuDichVu deleteObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
