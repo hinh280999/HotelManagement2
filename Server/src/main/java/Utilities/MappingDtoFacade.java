@@ -3,9 +3,11 @@ package Utilities;
 import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
+import Entity.LoaiPhong;
 import Rmi.DTO.ChucVuDTO;
 import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.KhachHangDTO;
+import Rmi.DTO.LoaiPhongDTO;
 
 public class MappingDtoFacade {
 
@@ -41,6 +43,16 @@ public class MappingDtoFacade {
 		KhachHangDTO rv = new KhachHangDTO(khachHang.getTen(), khachHang.getEmail(), khachHang.getSdt(),
 				khachHang.getDiaChi(), khachHang.getSoCMND());
 		rv.setMaKH(khachHang.getMaKH());
+		return rv;
+	}
+
+	public static LoaiPhong mapToLoaiPhong(LoaiPhongDTO Dto) {
+		return new LoaiPhong(Dto.getTenLP(), Dto.getDonGia());
+	}
+
+	public static LoaiPhongDTO mapToLoaiPhongDTO(LoaiPhong loaiPhong) {
+		LoaiPhongDTO rv = new LoaiPhongDTO(loaiPhong.getTenLP(), loaiPhong.getDonGia());
+		rv.setMaLP(loaiPhong.getMaLP());
 		return rv;
 	}
 }
