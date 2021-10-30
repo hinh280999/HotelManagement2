@@ -28,20 +28,27 @@ public class DichVuService extends UnicastRemoteObject implements IDichVuService
 
 	@Override
 	public DichVuDTO getObjectById(int id) throws RemoteException {
-		// TODO Auto-generated method stub
+		try {
+			DichVuDTO rv = MappingDtoFacade.mapToDichVuDTO(dichVuDao.get(id));
+			return rv;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public boolean updateObject(DichVuDTO objectDTO) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		DichVu updateObject = MappingDtoFacade.mapToDichVu(objectDTO);
+		updateObject.setMaDv(objectDTO.getMaDv());
+		return dichVuDao.update(updateObject);
 	}
 
 	@Override
 	public boolean deleteObjectById(int objectId) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+
+		return dichVuDao.delete(objectId);
 	}
 
 }
