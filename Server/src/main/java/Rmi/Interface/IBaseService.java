@@ -4,8 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface IBaseService<T> extends Remote {
-	boolean addChucVu(T objectDTO) throws RemoteException;
-	T getChucVuById(int id)throws RemoteException;
-	boolean updateChucVu(T objectDTO)throws RemoteException;
-	boolean deleteChucVu(int objectId)throws RemoteException;
+	boolean addObject(T objectDTO) throws RemoteException;
+	T getObjectById(int id)throws RemoteException;
+	boolean updateObject(T objectDTO)throws RemoteException;
+	boolean deleteObjectById(int objectId)throws RemoteException;
 }
