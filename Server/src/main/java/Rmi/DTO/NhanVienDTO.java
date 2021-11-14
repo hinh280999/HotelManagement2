@@ -14,8 +14,8 @@ public class NhanVienDTO implements Serializable {
 	private String gioiTinh;
 	private String sdt;
 
-	private int taiKhoan_id;
 	private int chucVu_id;
+	private TaiKhoanDTO taiKhoan;
 
 	public NhanVienDTO() {
 		super();
@@ -74,12 +74,12 @@ public class NhanVienDTO implements Serializable {
 		this.sdt = sdt;
 	}
 
-	public int getTaiKhoan_id() {
-		return taiKhoan_id;
+	public TaiKhoanDTO getTaiKhoan() {
+		return taiKhoan;
 	}
 
-	public void setTaiKhoan_id(int taiKhoan_id) {
-		this.taiKhoan_id = taiKhoan_id;
+	public void setTaiKhoan(TaiKhoanDTO taiKhoan) {
+		this.taiKhoan = taiKhoan;
 	}
 
 	public int getChucVu_id() {

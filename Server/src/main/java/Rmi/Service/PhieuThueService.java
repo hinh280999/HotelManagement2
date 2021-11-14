@@ -1,17 +1,11 @@
 package Rmi.Service;
 
 import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Date;
 
 import Dao.Impliment.PhieuThueDao;
 import Dao.Interface.IPhieuThue;
-import Entity.KhachHang;
-import Entity.NhanVien;
 import Entity.PhieuThue;
-import Entity.Phong;
 import Rmi.DTO.PhieuThueDTO;
 import Rmi.Interface.IPhieuThueService;
 import Utilities.MappingDtoFacade;
