@@ -21,6 +21,7 @@ import Rmi.DTO.PhieuDichVuDTO;
 import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TaiKhoanDTO;
+import Rmi.DTO.TinhTrangPhongDTO;
 
 public class MappingDtoFacade {
 
@@ -158,12 +159,23 @@ public class MappingDtoFacade {
 		PhieuThue pt = new PhieuThue(objectDTO.getPhieuThue_id());
 
 		PhieuDichVu rv = new PhieuDichVu();
-		
+
 		rv.setNgayLap(objectDTO.getNgayLap());
 		rv.setDichVu(dv);
 		rv.setPhieuThue(pt);
 		rv.setSoLuong(objectDTO.getSoLuong());
 		rv.setDaThanhToan(objectDTO.isDaThanhToan());
 		return rv;
+	}
+
+	public static TinhTrangPhong mapToTinhTrangPhong(TinhTrangPhongDTO objectDTO) {
+		TinhTrangPhong ttp = new TinhTrangPhong(objectDTO.getTenTTP());
+		return ttp;
+	}
+
+	public static TinhTrangPhongDTO mapToTinhTrangPhongDto(TinhTrangPhong tinhTrangPhong) {
+		TinhTrangPhongDTO rvDto = new TinhTrangPhongDTO(tinhTrangPhong.getMaTTP());
+		rvDto.setTenTTP(tinhTrangPhong.getTenTTP());
+		return rvDto;
 	}
 }
