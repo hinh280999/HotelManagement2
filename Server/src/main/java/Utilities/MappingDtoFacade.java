@@ -8,12 +8,14 @@ import Entity.NhanVien;
 import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TaiKhoan;
+import Entity.TinhTrangPhong;
 import Rmi.DTO.ChucVuDTO;
 import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TaiKhoanDTO;
 
 public class MappingDtoFacade {
@@ -126,6 +128,24 @@ public class MappingDtoFacade {
 		rvDto.setKhachHang_id(phieuThue.getKhachHang().getMaKH());
 
 		rvDto.setTrangThai(phieuThue.getTrangThai());
+		return rvDto;
+	}
+
+	public static Phong mapToPhong(PhongDTO objectDTO) {
+		LoaiPhong lp = new LoaiPhong(objectDTO.getLoaiPhong_id());
+		TinhTrangPhong ttp = new TinhTrangPhong(objectDTO.getTinhTrangPhong_id());
+
+		Phong rv = new Phong(objectDTO.getTen());
+		rv.setMaLP(lp);
+		rv.setMaTTP(ttp);
+
+		return rv;
+	}
+
+	public static PhongDTO mapToPhongDTO(Phong phong) {
+		PhongDTO rvDto = new PhongDTO(phong.getTen(), phong.getMaLP().getMaLP(), phong.getMaTTP().getMaTTP());
+		rvDto.setMaP(phong.getMaP());
+
 		return rvDto;
 	}
 }
