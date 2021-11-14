@@ -43,4 +43,9 @@ public class TaiKhoan {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "TaiKhoan [tenTK=" + tenTK + ", matKhau=" + matKhau + ", isAdmin=" + isAdmin + "]";
+	}
+
 }
