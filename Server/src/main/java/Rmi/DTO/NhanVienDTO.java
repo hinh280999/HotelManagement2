@@ -2,7 +2,7 @@ package Rmi.DTO;
 
 import java.io.Serializable;
 
-public class NhanVienDTO implements Serializable{
+public class NhanVienDTO implements Serializable {
 
 	/**
 	 * 
@@ -14,8 +14,8 @@ public class NhanVienDTO implements Serializable{
 	private String gioiTinh;
 	private String sdt;
 
-	private TaiKhoanDTO taiKhoan;
-	private ChucVuDTO chucVu;
+	private int taiKhoan_id;
+	private int chucVu_id;
 
 	public NhanVienDTO() {
 		super();
@@ -74,26 +74,20 @@ public class NhanVienDTO implements Serializable{
 		this.sdt = sdt;
 	}
 
-	public TaiKhoanDTO getTaiKhoan() {
-		return taiKhoan;
+	public int getTaiKhoan_id() {
+		return taiKhoan_id;
 	}
 
-	public void setTaiKhoan(TaiKhoanDTO taiKhoan) {
-		this.taiKhoan = taiKhoan;
+	public void setTaiKhoan_id(int taiKhoan_id) {
+		this.taiKhoan_id = taiKhoan_id;
 	}
 
-	public ChucVuDTO getChucVu() {
-		return chucVu;
+	public int getChucVu_id() {
+		return chucVu_id;
 	}
 
-	public void setChucVu(ChucVuDTO chucVu) {
-		this.chucVu = chucVu;
-	}
-
-	@Override
-	public String toString() {
-		return "NhanVienDTO [maNV=" + maNV + ", ten=" + ten + ", email=" + email + ", gioiTinh=" + gioiTinh + ", sdt="
-				+ sdt + ", taiKhoan=" + taiKhoan.getTenTK() + ", chucVu=" + chucVu.getTenCV() + "]";
+	public void setChucVu_id(int chucVu_id) {
+		this.chucVu_id = chucVu_id;
 	}
 
 }

@@ -3,7 +3,7 @@ package Rmi.DTO;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PhieuThueDTO implements Serializable{
+public class PhieuThueDTO implements Serializable {
 	/**
 	 * 
 	 */
@@ -16,11 +16,11 @@ public class PhieuThueDTO implements Serializable{
 	private Date ngayTra;
 	private String trangThai;
 
-	private PhongDTO phong;
+	private int phong_id;
 
-	private NhanVienDTO nhanVien;
+	private int nhanVien_id;
 
-	private KhachHangDTO khachHang;
+	private int khachHang_id;
 
 	public PhieuThueDTO() {
 		super();
@@ -31,15 +31,14 @@ public class PhieuThueDTO implements Serializable{
 		this.maPT = maPT;
 	}
 
-	public PhieuThueDTO(Date ngayDat, Date ngayKetThuc, Date ngayLap, PhongDTO phong, NhanVienDTO nhanVien,
-			KhachHangDTO khachHang) {
+	public PhieuThueDTO(Date ngayDat, Date ngayKetThuc, Date ngayLap, int phong, int nhanVien, int khachHang) {
 		super();
 		this.ngayDat = ngayDat;
 		this.ngayKetThuc = ngayKetThuc;
 		this.ngayLap = ngayLap;
-		this.phong = phong;
-		this.nhanVien = nhanVien;
-		this.khachHang = khachHang;
+		this.phong_id = phong;
+		this.nhanVien_id = nhanVien;
+		this.khachHang_id = khachHang;
 		this.trangThai = "NEW";
 	}
 
@@ -99,35 +98,35 @@ public class PhieuThueDTO implements Serializable{
 		this.trangThai = trangThai;
 	}
 
-	public PhongDTO getPhong() {
-		return phong;
+	public int getPhong_id() {
+		return phong_id;
 	}
 
-	public void setPhong(PhongDTO phong) {
-		this.phong = phong;
+	public void setPhong_id(int phong_id) {
+		this.phong_id = phong_id;
 	}
 
-	public NhanVienDTO getNhanVien() {
-		return nhanVien;
+	public int getNhanVien_id() {
+		return nhanVien_id;
 	}
 
-	public void setNhanVien(NhanVienDTO nhanVien) {
-		this.nhanVien = nhanVien;
+	public void setNhanVien_id(int nhanVien_id) {
+		this.nhanVien_id = nhanVien_id;
 	}
 
-	public KhachHangDTO getKhachHang() {
-		return khachHang;
+	public int getKhachHang_id() {
+		return khachHang_id;
 	}
 
-	public void setKhachHang(KhachHangDTO khachHang) {
-		this.khachHang = khachHang;
+	public void setKhachHang_id(int khachHang_id) {
+		this.khachHang_id = khachHang_id;
 	}
 
 	@Override
 	public String toString() {
 		return "PhieuThueDTO [maPT=" + maPT + ", ngayDat=" + ngayDat + ", ngayKetThuc=" + ngayKetThuc + ", ngayLap="
-				+ ngayLap + ", ngayNhan=" + ngayNhan + ", ngayTra=" + ngayTra + ", trangThai=" + trangThai + ", phong="
-				+ phong.getTen() + ", nhanVien=" + nhanVien.getTen() + ", khachHang=" + khachHang.getTen() + "]";
+				+ ngayLap + ", trangThai=" + trangThai + ", phong_id=" + phong_id + ", nhanVien_id=" + nhanVien_id
+				+ ", khachHang_id=" + khachHang_id + "]";
 	}
 
 }

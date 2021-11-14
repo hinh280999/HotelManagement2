@@ -2,7 +2,7 @@ package Rmi.DTO;
 
 import java.io.Serializable;
 
-public class PhongDTO implements Serializable{
+public class PhongDTO implements Serializable {
 	/**
 	 * 
 	 */
@@ -10,9 +10,9 @@ public class PhongDTO implements Serializable{
 	private int maP;
 	private String ten;
 
-	private LoaiPhongDTO maLP;
+	private int loaiPhong_id;
 
-	private TinhTrangPhongDTO maTTP;
+	private int tinhTrangPhong_id;
 
 	public PhongDTO() {
 		super();
@@ -23,11 +23,11 @@ public class PhongDTO implements Serializable{
 		this.maP = maP;
 	}
 
-	public PhongDTO(String ten, LoaiPhongDTO maLP, TinhTrangPhongDTO maTTP) {
+	public PhongDTO(String ten, int maLP, int maTTP) {
 		super();
 		this.ten = ten;
-		this.maLP = maLP;
-		this.maTTP = maTTP;
+		this.loaiPhong_id = maLP;
+		this.tinhTrangPhong_id = maTTP;
 	}
 
 	public int getMaP() {
@@ -46,26 +46,26 @@ public class PhongDTO implements Serializable{
 		this.ten = ten;
 	}
 
-	public LoaiPhongDTO getMaLP() {
-		return maLP;
+	public int getLoaiPhong_id() {
+		return loaiPhong_id;
 	}
 
-	public void setMaLP(LoaiPhongDTO maLP) {
-		this.maLP = maLP;
+	public void setLoaiPhong_id(int loaiPhong_id) {
+		this.loaiPhong_id = loaiPhong_id;
 	}
 
-	public TinhTrangPhongDTO getMaTTP() {
-		return maTTP;
+	public int getTinhTrangPhong_id() {
+		return tinhTrangPhong_id;
 	}
 
-	public void setMaTTP(TinhTrangPhongDTO maTTP) {
-		this.maTTP = maTTP;
+	public void setTinhTrangPhong_id(int tinhTrangPhong_id) {
+		this.tinhTrangPhong_id = tinhTrangPhong_id;
 	}
 
 	@Override
 	public String toString() {
-		return "PhongDTO [maP=" + maP + ", ten=" + ten + ", maLP=" + maLP.getTenLP() + ", maTTP=" + maTTP.getTenTTP()
-				+ "]";
+		return "PhongDTO [maP=" + maP + ", ten=" + ten + ", loaiPhong_id=" + loaiPhong_id + ", tinhTrangPhong_id="
+				+ tinhTrangPhong_id + "]";
 	}
 
 }

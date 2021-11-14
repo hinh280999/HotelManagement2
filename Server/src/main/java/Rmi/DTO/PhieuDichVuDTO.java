@@ -3,7 +3,7 @@ package Rmi.DTO;
 import java.io.Serializable;
 import java.util.Date;
 
-public class PhieuDichVuDTO implements Serializable{
+public class PhieuDichVuDTO implements Serializable {
 	/**
 	 * 
 	 */
@@ -13,21 +13,20 @@ public class PhieuDichVuDTO implements Serializable{
 	private Date ngayLap;
 	private boolean daThanhToan;
 
-	private PhieuThueDTO phieuThue;
-	private DichVuDTO dichVu;
+	private int phieuThue_id;
+	private int dichVu_id;
 
 	public PhieuDichVuDTO() {
 		super();
 	}
 
-	public PhieuDichVuDTO(int soLuong, Date ngayLap, PhieuThueDTO phieuThue, DichVuDTO dichVu) {
+	public PhieuDichVuDTO(int soLuong, Date ngayLap, int maPhieuThue, int maDichVu) {
 		super();
 		this.soLuong = soLuong;
 		this.ngayLap = ngayLap;
-		this.phieuThue = phieuThue;
-		this.dichVu = dichVu;
+		this.phieuThue_id = maPhieuThue;
+		this.dichVu_id = maDichVu;
 	}
-	
 
 	public PhieuDichVuDTO(int maPDV) {
 		super();
@@ -66,22 +65,20 @@ public class PhieuDichVuDTO implements Serializable{
 		this.daThanhToan = daThanhToan;
 	}
 
-	public PhieuThueDTO getPhieuThue() {
-		return phieuThue;
+	public int getPhieuThue_id() {
+		return phieuThue_id;
 	}
 
-	public void setPhieuThue(PhieuThueDTO phieuThue) {
-		this.phieuThue = phieuThue;
+	public void setPhieuThue_id(int phieuThue_id) {
+		this.phieuThue_id = phieuThue_id;
 	}
 
-	public DichVuDTO getDichVu() {
-		return dichVu;
+	public int getDichVu_id() {
+		return dichVu_id;
 	}
 
-	public void setDichVu(DichVuDTO dichVu) {
-		this.dichVu = dichVu;
+	public void setDichVu_id(int dichVu_id) {
+		this.dichVu_id = dichVu_id;
 	}
-	
-	
 
 }
