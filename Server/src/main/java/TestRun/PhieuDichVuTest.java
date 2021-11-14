@@ -47,7 +47,7 @@ public class PhieuDichVuTest {
 		ITinhTrangPhongDao DaoTTP = new TinhTrangPhongDao();
 		ILoaiPhongDao LPDao = new LoaiPhongDao();
 
-		TinhTrangPhong tTTP = new TinhTrangPhong("Trống");
+		TinhTrangPhong tTTP = new TinhTrangPhong("Trống2");
 		LoaiPhong newLP = new LoaiPhong("Standard", 100000.0);
 		DaoTTP.add(tTTP);
 		LPDao.add(newLP);
@@ -85,6 +85,8 @@ public class PhieuDichVuTest {
 		// đã có phiếu thuê Sample
 		ptDao.add(samplePT);
 
+		PhieuThue tempPt = new PhieuThue(samplePT.getMaPT());
+
 		// ============= =========================================================== //
 		IPhieuDichVu pdvDao = new PhieuDichVuDao();
 		IDichVuDao dvDao = new DichVuDao();
@@ -92,10 +94,12 @@ public class PhieuDichVuTest {
 		DichVu tDichVu = new DichVu("Coca-cola", 10000.0);
 		dvDao.add(tDichVu);
 
+		DichVu tempDv = new DichVu(tDichVu.getMaDv());
+
 		PhieuDichVu pdvSample = new PhieuDichVu();
 		pdvSample.setNgayLap(new Date());
-		pdvSample.setDichVu(tDichVu);
-		pdvSample.setPhieuThue(samplePT);
+		pdvSample.setDichVu(tempDv);
+		pdvSample.setPhieuThue(tempPt);
 		pdvSample.setSoLuong(1);
 		pdvSample.setDaThanhToan(false);
 
@@ -126,14 +130,14 @@ public class PhieuDichVuTest {
 			System.out.println("delete fail");
 
 		// ==== Delete All Sample Object (Khach Hang, Nhan Vien, Phong, .....) ==== //
+		ptDao.delete(samplePT.getMaPT());
 		DaoTTP.delete(tTTP.getMaTTP());
 		LPDao.delete(newLP.getMaLP());
 		khDao.delete(tKhachHang.getMaKH());
+
 		phongDao.delete(samplePhong.getMaP());
 		nvDao.delete(tempNV.getMaNV());
 		cvDao.delete(sampleCV.getMaCV());
-		ptDao.delete(samplePT.getMaPT());
-
 	}
 
 }

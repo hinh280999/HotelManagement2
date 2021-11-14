@@ -1,10 +1,13 @@
 package Utilities;
 
+import java.util.Date;
+
 import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
 import Entity.NhanVien;
+import Entity.PhieuDichVu;
 import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TaiKhoan;
@@ -14,6 +17,7 @@ import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
+import Rmi.DTO.PhieuDichVuDTO;
 import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TaiKhoanDTO;
@@ -147,5 +151,19 @@ public class MappingDtoFacade {
 		rvDto.setMaP(phong.getMaP());
 
 		return rvDto;
+	}
+
+	public static PhieuDichVu mapToPhieuDichVu(PhieuDichVuDTO objectDTO) {
+		DichVu dv = new DichVu(objectDTO.getDichVu_id());
+		PhieuThue pt = new PhieuThue(objectDTO.getPhieuThue_id());
+
+		PhieuDichVu rv = new PhieuDichVu();
+		
+		rv.setNgayLap(objectDTO.getNgayLap());
+		rv.setDichVu(dv);
+		rv.setPhieuThue(pt);
+		rv.setSoLuong(objectDTO.getSoLuong());
+		rv.setDaThanhToan(objectDTO.isDaThanhToan());
+		return rv;
 	}
 }
