@@ -1,11 +1,14 @@
 package Utilities;
 
+import java.util.Date;
+
 import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
 import Entity.NhanVien;
 import Entity.PhieuThue;
+import Entity.Phong;
 import Entity.TaiKhoan;
 import Rmi.DTO.ChucVuDTO;
 import Rmi.DTO.DichVuDTO;
@@ -13,6 +16,7 @@ import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TaiKhoanDTO;
 
 public class MappingDtoFacade {
@@ -63,31 +67,61 @@ public class MappingDtoFacade {
 	}
 
 	public static NhanVien mapToNhanVien(NhanVienDTO objectDTO) {
-		NhanVien rv = new Entity.NhanVien(objectDTO.getTen(), objectDTO.getEmail(), objectDTO.getGioiTinh(), objectDTO.getSdt());
-		
+		NhanVien rv = new Entity.NhanVien(objectDTO.getTen(), objectDTO.getEmail(), objectDTO.getGioiTinh(),
+				objectDTO.getSdt());
+
 		ChucVu cv = mapToChucVu(objectDTO.getChucVu());
 		cv.setMaCV(objectDTO.getChucVu().getMaCV());
-		
-		TaiKhoan tk = new TaiKhoan(objectDTO.getTaiKhoan().getTenTK(), objectDTO.getTaiKhoan().getMatKhau(), objectDTO.getTaiKhoan().isAdmin());
-		
+
+		TaiKhoan tk = new TaiKhoan(objectDTO.getTaiKhoan().getTenTK(), objectDTO.getTaiKhoan().getMatKhau(),
+				objectDTO.getTaiKhoan().isAdmin());
+
 		rv.setChucVu(cv);
 		rv.setTaiKhoan(tk);
 		return rv;
 	}
 
 	public static NhanVienDTO mapToNhanVienDTO(NhanVien nhanVien) {
-		NhanVienDTO rvDto = new NhanVienDTO(nhanVien.getTen(), nhanVien.getEmail(), nhanVien.getGioiTinh(), nhanVien.getSdt());
-		
+		NhanVienDTO rvDto = new NhanVienDTO(nhanVien.getTen(), nhanVien.getEmail(), nhanVien.getGioiTinh(),
+				nhanVien.getSdt());
+
 		ChucVuDTO cvDto = mapToChucVuDTO(nhanVien.getChucVu());
-		TaiKhoanDTO tkDto = new TaiKhoanDTO(nhanVien.getTaiKhoan().getTenTK(), nhanVien.getTaiKhoan().getMatKhau(), nhanVien.getTaiKhoan().isAdmin());
-		
+		TaiKhoanDTO tkDto = new TaiKhoanDTO(nhanVien.getTaiKhoan().getTenTK(), nhanVien.getTaiKhoan().getMatKhau(),
+				nhanVien.getTaiKhoan().isAdmin());
+
 		rvDto.setChucVu(cvDto);
 		rvDto.setTaiKhoan(tkDto);
 		return rvDto;
 	}
 
-	public static PhieuThue mapToPhieuThue(PhieuThueDTO objectDTO) {
-		//PhieuThue rv = new PhieuThue(null, null, null, null, null)
-		return null;
+	public static PhieuThue mapToPhieuThueAdd(PhieuThueDTO objectDTO) {
+		Phong phong = new Phong();
+		phong.setMaP(objectDTO.getPhong().getMaP());
+
+		NhanVien nv = new NhanVien(objectDTO.getNhanVien().getMaNV());
+
+		KhachHang kh = new KhachHang(objectDTO.getKhachHang().getMaKH());
+
+		PhieuThue rv = new PhieuThue(objectDTO.getNgayDat(), objectDTO.getNgayKetThuc(), phong, nv, kh);
+		return rv;
+	}
+
+	public static PhieuThueDTO mapToPhieuThueDTO(PhieuThue phieuThue) {
+		//public PhieuThueDTO(Date ngayDat, Date ngayKetThuc, Date ngayLap, PhongDTO phong, NhanVienDTO nhanVien,KhachHangDTO khachHang)
+		PhieuThueDTO rvDto = new PhieuThueDTO();
+		rvDto.setMaPT(phieuThue.getMaPT());
+		
+		rvDto.setNgayDat(phieuThue.getNgayDat());
+		rvDto.setNgayKetThuc(phieuThue.getNgayKetThuc());
+		
+		rvDto.setNgayNhan((phieuThue.getNgayNhan() != null) ? phieuThue.getNgayNhan() : null);
+		rvDto.setNgayTra((phieuThue.getNgayTra() != null) ? phieuThue.getNgayTra() : null);
+		
+		rvDto.setPhong(new PhongDTO(phieuThue.getPhong().getMaP()));
+		rvDto.setNhanVien(mapToNhanVienDTO(phieuThue.getNhanVien()));
+		rvDto.setKhachHang(mapToKhachHangDTO(phieuThue.getKhachHang()));
+		
+		rvDto.setTrangThai(phieuThue.getTrangThai());
+		return rvDto;
 	}
 }

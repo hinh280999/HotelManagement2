@@ -24,32 +24,35 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 		phieuThueDao = new PhieuThueDao();
 	}
 
-
 	@Override
 	public boolean addObject(PhieuThueDTO objectDTO) throws RemoteException {
-		//(Date ngayDat, Date ngayKetThuc, Phong phong, NhanVien nhanVien, KhachHang khachHang)
-		Phong phong = new Phong(objectDTO.getPhong().getTen());
-		phong.setMaP(objectDTO.getPhong().getMaP());
-		
-		KhachHang kh = new KhachHang();
-		kh.setMaKH(objectDTO.getKhachHang().getMaKH());
-		//PhieuThue addObj = MappingDtoFacade.mapToPhieuThue(objectDTO.getNgayDat(),objectDTO.getNgayKetThuc(),phong,);
-		return false;
+		PhieuThue addObj = MappingDtoFacade.mapToPhieuThueAdd(objectDTO);
+		return phieuThueDao.add(addObj);
 	}
 
 	@Override
 	public PhieuThueDTO getObjectById(int id) throws RemoteException {
+
+		try {
+			PhieuThueDTO phieuThueDto = MappingDtoFacade.mapToPhieuThueDTO(phieuThueDao.get(id));
+			return phieuThueDto;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public boolean updateObject(PhieuThueDTO objectDTO) throws RemoteException {
-		return false;
+		PhieuThue updateObj = MappingDtoFacade.mapToPhieuThueAdd(objectDTO);
+		updateObj.setTrangThai(objectDTO.getTrangThai());
+		return phieuThueDao.update(updateObj);
 	}
 
 	@Override
 	public boolean deleteObjectById(int objectId) throws RemoteException {
-		return false;
+		return phieuThueDao.delete(objectId);
 	}
 
 }
