@@ -5,12 +5,14 @@ import Entity.DichVu;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
 import Entity.NhanVien;
+import Entity.PhieuThue;
 import Entity.TaiKhoan;
 import Rmi.DTO.ChucVuDTO;
 import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
+import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.TaiKhoanDTO;
 
 public class MappingDtoFacade {
@@ -82,5 +84,10 @@ public class MappingDtoFacade {
 		rvDto.setChucVu(cvDto);
 		rvDto.setTaiKhoan(tkDto);
 		return rvDto;
+	}
+
+	public static PhieuThue mapToPhieuThue(PhieuThueDTO objectDTO) {
+		//PhieuThue rv = new PhieuThue(null, null, null, null, null)
+		return null;
 	}
 }

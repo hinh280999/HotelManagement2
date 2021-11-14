@@ -42,4 +42,10 @@ public class TinhTrangPhong {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "TinhTrangPhong [maTTP=" + maTTP + ", tenTTP=" + tenTTP + "]";
+	}
+	
+
 }

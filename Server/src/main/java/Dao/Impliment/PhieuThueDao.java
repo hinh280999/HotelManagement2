@@ -68,11 +68,15 @@ public class PhieuThueDao implements IPhieuThue {
 	public boolean add(PhieuThue addObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		Phong phongThue = addObject.getPhong();
+		String query = "db.tinhtrangphongs.find({'tenTTP' : 'Đã Thuê'})";
 		try {
 			session.save(addObject);
 
-			phongThue.setMaTTP(new TinhTrangPhong(2)); // đã đặt
+			Phong phongThue = session.get(Phong.class, addObject.getPhong().getMaP());
+
+			TinhTrangPhong ttp = session.createNativeQuery(query, TinhTrangPhong.class).getSingleResult();
+			phongThue.setMaTTP(ttp);
+
 			session.update(phongThue);
 
 			tr.commit();
@@ -114,10 +118,17 @@ public class PhieuThueDao implements IPhieuThue {
 	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		
-		PhieuThue deleteObj = new PhieuThue(deleteObjectId);
+		String query = "db.tinhtrangphongs.find({'tenTTP' : 'Trống'})";
 		try {
-			session.delete(deleteObj);
+			PhieuThue temp = session.find(PhieuThue.class, deleteObjectId);
+
+			Phong phongThue = session.get(Phong.class, temp.getPhong().getMaP());
+			TinhTrangPhong ttp = session.createNativeQuery(query, TinhTrangPhong.class).getSingleResult();
+			phongThue.setMaTTP(ttp);
+
+			session.update(phongThue);
+
+			session.delete(temp);
 
 			tr.commit();
 			session.close();

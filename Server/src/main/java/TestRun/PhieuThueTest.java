@@ -39,7 +39,7 @@ public class PhieuThueTest {
 		ITinhTrangPhongDao DaoTTP = new TinhTrangPhongDao();
 		ILoaiPhongDao LPDao = new LoaiPhongDao();
 
-		TinhTrangPhong tTTP = new TinhTrangPhong("Trống");
+		TinhTrangPhong tTTP = new TinhTrangPhong("Trống2");
 		LoaiPhong newLP = new LoaiPhong("Standard", 100000.0);
 		DaoTTP.add(tTTP);
 		LPDao.add(newLP);
@@ -74,7 +74,15 @@ public class PhieuThueTest {
 		Date ngayDat = new Date("2021/11/10");
 		@SuppressWarnings("deprecation")
 		Date ngayKetThuc = new Date("2021/11/20");
-		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, samplePhong, tempNV, tKhachHang);
+		
+		Phong phong1 = new Phong();
+		phong1.setMaP(samplePhong.getMaP());
+		
+		NhanVien nv1 = new NhanVien(tempNV.getMaNV());
+		
+		KhachHang th1 = new KhachHang(tKhachHang.getMaKH());
+		
+		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, phong1, nv1, th1);
 
 		if (Dao.add(samplePT))
 			System.out.println("Add PT Success");
@@ -105,21 +113,17 @@ public class PhieuThueTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		if (Dao.delete(temp.getMaPT()))
 			System.out.println("delete PT success");
 		else
 			System.out.println("delete PT fail");
-
 		
-		// ==== Delete All Sample Object (Khach Hang, Nhan Vien, Phong, .....) ==== //
 		DaoTTP.delete(tTTP.getMaTTP());
 		LPDao.delete(newLP.getMaLP());
 		khDao.delete(tKhachHang.getMaKH());
 		phongDao.delete(samplePhong.getMaP());
 		nvDao.delete(tempNV.getMaNV());
 		cvDao.delete(sampleCV.getMaCV());
-		
-		
 	}
 }
