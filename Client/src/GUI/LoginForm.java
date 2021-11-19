@@ -198,13 +198,14 @@ public class LoginForm extends JFrame implements ActionListener {
 	private void FuntionDangNhap() throws MalformedURLException, RemoteException, NotBoundException, ConnectException {
 		String tenTk = txtEmail.getText().toString();
 		String mk = txtPassword.getText().toString();
-		if (validateInput(tenTk, mk) == false) return;
+		if (validateInput(tenTk, mk) == false)
+			return;
 		try {
 			taiKhoanService = new TaiKhoanService();
 			TaiKhoanDTO rvTk = taiKhoanService.getTaiKhoanByName(tenTk);
 			if (rvTk.getMatKhau().equals(mk)) {
 				MainFrame frame = new MainFrame();
-				frame.setLogInAccount("Admin", "Admin");
+				frame.setLogInAccount(rvTk.getTenTK(), rvTk.getMatKhau(), rvTk.isAdmin());
 				frame.setVisible(true);
 				this.dispose();
 			} else {

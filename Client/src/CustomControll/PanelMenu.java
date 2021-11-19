@@ -3,11 +3,15 @@ package CustomControll;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.Font;
 
 public class PanelMenu extends JPanel {
 	static Color colorWhite = Color.WHITE;
@@ -18,7 +22,7 @@ public class PanelMenu extends JPanel {
 	private JLabel lbText;
 	private JLabel lbIcon;
 
-	public PanelMenu(String text) {
+	public PanelMenu(String text, ImageIcon menuIcon) {
 		super();
 		setLayout(null);
 		
@@ -26,15 +30,16 @@ public class PanelMenu extends JPanel {
 		setForeground(Color.WHITE);
 		
 		lbText = new JLabel("");
+		lbText.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lbText.setText(text);
 		lbText.setForeground(colorWhite);
-		lbText.setBounds(60, 0, 190, 40);
+		lbText.setBounds(70, 0, 190, 40);
 		add(lbText);
 
 		lbIcon = new JLabel("");
-		lbIcon.setText("Icon");
+		lbIcon.setIcon(menuIcon);
 		lbIcon.setForeground(colorWhite);
-		lbIcon.setBounds(0, 0, 45, 40);
+		lbIcon.setBounds(10, 0, 45, 40);
 		add(lbIcon);
 
 		addMouseListener(new MouseAdapter() {

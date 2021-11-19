@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,11 +21,12 @@ import CustomControll.PanelMenu;
 
 public class MainFrame extends JFrame {
 	private Color colorEnter = Color.WHITE;
-	private String username;
-	private String permission;
+	private String username = "Sample";
+	private String password;
+	private boolean permission;
 	private JPanel contentPane, panelMain;
 	private List<JPanel> listMenuPanel;
-	private JLabel titleLabel;
+	private JLabel titleLabel, lblIconTitle;
 	private final JSeparator separator = new JSeparator();
 
 	/**
@@ -37,7 +39,7 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1290, 720);
+		setBounds(0, 0, 1440, 900);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -47,78 +49,105 @@ public class MainFrame extends JFrame {
 		setContentPane(contentPane);
 
 		JPanel panelContainer = new JPanel();
-		panelContainer.setBounds(0, 0, 1286, 692);
+		panelContainer.setBounds(0, 0, 1436, 854);
 		panelContainer.setLayout(null);
 		contentPane.add(panelContainer);
 
 		JPanel panelSideBar = new JPanel();
-		panelSideBar.setBounds(0, 0, 250, 692);
+		panelSideBar.setBounds(0, 0, 250, 858);
 		panelSideBar.setBackground(Color.decode("#3a71fc"));
 		panelContainer.add(panelSideBar);
 		panelSideBar.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setText("CLick me");
-		lblNewLabel.setForeground(SystemColor.text);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(0, 10, 250, 83);
-		panelSideBar.add(lblNewLabel);
+		JLabel lblUsername = new JLabel();
+		lblUsername.setText("Hello: " +username);
+		lblUsername.setBackground(Color.WHITE);
+		lblUsername.setForeground(SystemColor.text);
+		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblUsername.setBounds(0, 10, 250, 83);
+		panelSideBar.add(lblUsername);
+
+		ImageIcon pDieuKhienIcon = new ImageIcon(new ImageIcon("icon/monitor.png").getImage());
+		PanelMenu pDieuKhien = new PanelMenu("Bảng điều khiển", pDieuKhienIcon);
+		pDieuKhien.setBounds(0, 103, 250, 40);
+		panelSideBar.add(pDieuKhien);
 
 		separator.setBounds(0, 91, 250, 2);
 		panelSideBar.add(separator);
 
-		JLabel lblNewLabel_1 = new JLabel("Xá»­ lÃ½");
-		lblNewLabel_1.setForeground(SystemColor.text);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(10, 103, 55, 30);
-		panelSideBar.add(lblNewLabel_1);
+		JLabel lbLeTan = new JLabel("Nghiệp vụ lễ tân");
+		lbLeTan.setForeground(SystemColor.text);
+		lbLeTan.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbLeTan.setBounds(0, 150, 250, 30);
+		panelSideBar.add(lbLeTan);
 
-		PanelMenu panel = new PanelMenu("Ä�áº·t PhÃ²ng");
-		panel.addMouseListener(new MouseAdapter() {
+		ImageIcon pDatPhongIcon = new ImageIcon(new ImageIcon("icon/iconDatPhong.png").getImage());
+		PanelMenu pDatPhong = new PanelMenu("Đặt Phòng", pDatPhongIcon);
+		pDatPhong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setMainPanel(new Page1(),"Dat Phong", null);
+				setMainPanel(new DatPhongForm(), "Đặt Phòng", pDatPhongIcon);
 			}
 		});
-		panel.setBounds(0, 140, 250, 40);
-		panelSideBar.add(panel);
-		panel.setLayout(null);
+		pDatPhong.setBounds(0, 190, 250, 40);
+		panelSideBar.add(pDatPhong);
+		pDatPhong.setLayout(null);
 
-		PanelMenu panel_1 = new PanelMenu("XÃ³a PhÃ²ng");
-		panel_1.setLayout(null);
-		panel_1.setBounds(0, 180, 250, 40);
-		panelSideBar.add(panel_1);
+		ImageIcon pNhanPhongIcon = new ImageIcon(new ImageIcon("icon/iconNhanPhong.png").getImage());
+		PanelMenu pNhanPhong = new PanelMenu("Nhận Phòng", pNhanPhongIcon);
+		pNhanPhong.setBounds(0, 230, 250, 40);
+		panelSideBar.add(pNhanPhong);
+
+		ImageIcon pTraPhongIcon = new ImageIcon(new ImageIcon("icon/iconTraPhong.png").getImage());
+		PanelMenu pTraPhong = new PanelMenu("Trả Phòng", pTraPhongIcon);
+		pTraPhong.setBounds(0, 270, 250, 40);
+		panelSideBar.add(pTraPhong);
+
+		ImageIcon pGoiDichVuIcon = new ImageIcon(new ImageIcon("icon/iconGoiDichVu.png").getImage());
+		PanelMenu pGoiDichVu = new PanelMenu("Gọi Dịch Vụ", pGoiDichVuIcon);
+		pGoiDichVu.setBounds(0, 310, 250, 40);
+		panelSideBar.add(pGoiDichVu);
+
+		ImageIcon pThanhToanIcon = new ImageIcon(new ImageIcon("icon/iconThanhToan.png").getImage());
+		PanelMenu pThanhToan = new PanelMenu("Thanh Toán", pThanhToanIcon);
+		pThanhToan.setBounds(0, 350, 250, 40);
+		panelSideBar.add(pThanhToan);
+
+		JLabel LbQuanLy = new JLabel("Quản Lý");
+		LbQuanLy.setForeground(Color.WHITE);
+		LbQuanLy.setFont(new Font("Tahoma", Font.BOLD, 16));
+		LbQuanLy.setBounds(0, 390, 250, 30);
+		panelSideBar.add(LbQuanLy);
 
 		panelMain = new JPanel();
-		panelMain.setBounds(250, 40, 1035, 692);
+		panelMain.setBounds(250, 40, 1186, 818);
 		panelContainer.add(panelMain);
 		panelMain.setLayout(new BorderLayout(0, 0));
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.decode("#ffa454"));
-		panel_2.setBounds(250, 0, 1035, 40);
-		panelContainer.add(panel_2);
-		panel_2.setLayout(null);
+		JPanel pTitle = new JPanel();
+		pTitle.setBackground(Color.decode("#ffa454"));
+		pTitle.setBounds(250, 0, 1186, 40);
+		pTitle.setLayout(null);
 
-		JLabel lblNewLabel_2 = new JLabel("icon");
-		lblNewLabel_2.setBounds(10, 0, 40, 40);
-		panel_2.add(lblNewLabel_2);
+		lblIconTitle = new JLabel("");
+		lblIconTitle.setBounds(10, 0, 40, 40);
+		pTitle.add(lblIconTitle);
 
 		titleLabel = new JLabel("");
 		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		titleLabel.setBounds(60, 0, 100, 40);
-		panel_2.add(titleLabel);
+		pTitle.add(titleLabel);
+		panelContainer.add(pTitle);
 
-		
 		// =====================================
 		listMenuPanel = new ArrayList<JPanel>();
 	}
 
-	public void setLogInAccount(String string, String string2) {
-		this.username = string;
-		this.permission = string2;
+	public void setLogInAccount(String username, String password, boolean permission) {
+		this.username = username;
+		this.password = password;
+		this.permission = permission;
 	}
 
 	private void setCorlor(JPanel panel) {
@@ -137,8 +166,9 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	private void setMainPanel(JPanel panel, String text, Icon icon) {
+	private void setMainPanel(JPanel panel, String text, ImageIcon icon) {
 		titleLabel.setText(text);
+		lblIconTitle.setIcon(icon);
 		panelMain.removeAll();
 		panelMain.add(panel, BorderLayout.CENTER);
 	}
