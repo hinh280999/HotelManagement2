@@ -16,6 +16,7 @@ public class Page1 extends JPanel{
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblNewLabel.setBounds(43, 76, 297, 118);
 		add(lblNewLabel);
+		// viet giien o day 
 		
 	}
 

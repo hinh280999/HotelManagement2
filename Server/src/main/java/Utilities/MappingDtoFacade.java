@@ -178,4 +178,8 @@ public class MappingDtoFacade {
 		rvDto.setTenTTP(tinhTrangPhong.getTenTTP());
 		return rvDto;
 	}
+
+	public static TaiKhoanDTO mapToTaiKhoanDTO(TaiKhoan taiKhoan) {
+		return new TaiKhoanDTO(taiKhoan.getTenTK(), taiKhoan.getMatKhau(), taiKhoan.isAdmin());
+	}
 }
