@@ -9,11 +9,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.net.ConnectException;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -22,9 +27,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import CustomControll.ColorButton;
 import CustomControll.GradientPanel;
+import Dao.TaiKhoanService;
+import Rmi.DTO.TaiKhoanDTO;
 
 public class LoginForm extends JFrame implements ActionListener {
-
+	private TaiKhoanService taiKhoanService;
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JPasswordField txtPassword;
@@ -78,12 +85,12 @@ public class LoginForm extends JFrame implements ActionListener {
 		LogInfromPanel.add(panelForm);
 
 		txtEmail = new JTextField();
-		txtEmail.setText("Sá»‘ Ä‘iá»‡n thoáº¡i/E-mail");
+		txtEmail.setText("Nhập tên tài khoản");
 		txtEmail.setForeground(new Color(169, 169, 169));
 		txtEmail.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (txtEmail.getText().toString().equals("Sá»‘ Ä‘iá»‡n thoáº¡i/E-mail")) {
+				if (txtEmail.getText().toString().equals("Nhập tên tài khoản")) {
 					txtEmail.setText("");
 					txtEmail.setForeground(new Color(0, 0, 0));
 				}
@@ -92,7 +99,7 @@ public class LoginForm extends JFrame implements ActionListener {
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (txtEmail.getText().toString().equals("")) {
-					txtEmail.setText("Sá»‘ Ä‘iá»‡n thoáº¡i/E-mail");
+					txtEmail.setText("Nhập tên tài khoản");
 					txtEmail.setForeground(new Color(169, 169, 169));
 				}
 			}
@@ -107,15 +114,15 @@ public class LoginForm extends JFrame implements ActionListener {
 
 		btnDangNhap = new ColorButton();
 		btnDangNhap.setBounds(6, 239, 283, 28);
-		btnDangNhap.setText("Ä�Äƒng nháº­p");
-		btnDangNhap.setToolTipText("Ä�Äƒng nháº­p");
+		btnDangNhap.setText("Đăng Nhập");
+		btnDangNhap.setToolTipText("Nút Đăng Nhập");
 		panelForm.add(btnDangNhap);
 
-		JLabel lblNewLabel_1 = new JLabel("TÃ i khoáº£n");
+		JLabel lblNewLabel_1 = new JLabel("Tài Khoản");
 		lblNewLabel_1.setBounds(6, 79, 59, 16);
 		panelForm.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("Máº­t kháº©u");
+		JLabel lblNewLabel_2 = new JLabel("Mật Khẩu");
 		lblNewLabel_2.setBounds(6, 150, 59, 16);
 		panelForm.add(lblNewLabel_2);
 
@@ -126,7 +133,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		lblNewLabel_3.setIcon(imageIcon);
 		panelForm.add(lblNewLabel_3);
 
-		btnQuenMk = new JButton("QuÃªn máº­t kháº©u ? ");
+		btnQuenMk = new JButton("Quên Mật Khẩu ? ");
 		btnQuenMk.setBounds(6, 297, 121, 28);
 		panelForm.add(btnQuenMk);
 
@@ -148,7 +155,7 @@ public class LoginForm extends JFrame implements ActionListener {
 				setState(JFrame.ICONIFIED);
 			}
 		});
-		btnMinimize.setToolTipText("Thu g\u1ECDn");
+		btnMinimize.setToolTipText("Thu gọn");
 		btnMinimize.setIcon(new ImageIcon("img/minimize.png"));
 		btnMinimize.setContentAreaFilled(false);
 		btnMinimize.setBounds(649, 0, 28, 28);
@@ -159,7 +166,7 @@ public class LoginForm extends JFrame implements ActionListener {
 				System.exit(0);
 			}
 		});
-		btnClose.setToolTipText("Tho\u00E1t");
+		btnClose.setToolTipText("Thoát");
 		btnClose.setIcon(new ImageIcon("img/cross.png"));
 		btnClose.setContentAreaFilled(false);
 		btnClose.setBounds(691, 0, 28, 28);
@@ -176,21 +183,63 @@ public class LoginForm extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnDangNhap)) {
-			System.out.println("Click Ä�Äƒng Nháº­p");
-			FuntionDangNhap();
+			try {
+				FuntionDangNhap();
+			} catch (MalformedURLException | RemoteException | NotBoundException | ConnectException e1) {
+
+			}
 		}
 		if (o.equals(btnQuenMk)) {
-			System.out.println("Click QuÃªn máº­t kháº©u");
+			System.out.println("Quên mật khẩu");
 		}
 
 	}
 
-	private void FuntionDangNhap() {
-		if (txtEmail.getText().toString().equals("admin") && txtPassword.getText().toString().equals("1")) {
-			MainFrame frame = new MainFrame();
-			frame.setLogInAccount("Admin", "Admin");
-			frame.setVisible(true);
-			this.dispose();
+	private void FuntionDangNhap() throws MalformedURLException, RemoteException, NotBoundException, ConnectException {
+		String tenTk = txtEmail.getText().toString();
+		String mk = txtPassword.getText().toString();
+		if (validateInput(tenTk, mk) == false) return;
+		try {
+			taiKhoanService = new TaiKhoanService();
+			TaiKhoanDTO rvTk = taiKhoanService.getTaiKhoanByName(tenTk);
+			if (rvTk.getMatKhau().equals(mk)) {
+				MainFrame frame = new MainFrame();
+				frame.setLogInAccount("Admin", "Admin");
+				frame.setVisible(true);
+				this.dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, "Nhập sai mật khẩu");
+				txtPassword.requestFocus();
+			}
+		} catch (Exception e) {
+			HandleException(e);
 		}
+	}
+
+	private boolean validateInput(String tenTk, String mk) {
+		if (tenTk.equals("Nhập tên tài khoản")) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên tài khoản");
+			txtEmail.requestFocus();
+			return false;
+		}
+		if (mk.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập mật khẩu");
+			txtPassword.requestFocus();
+			return false;
+		}
+		return true;
+	}
+
+	private void HandleException(Exception exception) {
+		if (exception instanceof NullPointerException) {
+			JOptionPane.showMessageDialog(null, "Tên Tài khoản không tồn tại");
+			txtEmail.requestFocus();
+			return;
+		}
+		if (exception instanceof java.rmi.ConnectException) {
+			JOptionPane.showMessageDialog(null, "Server hiện không hoạt động");
+			return;
+		}
+		exception.printStackTrace();
 	}
 }

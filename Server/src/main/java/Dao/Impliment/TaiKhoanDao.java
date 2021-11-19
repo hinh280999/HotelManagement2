@@ -1,5 +1,7 @@
 package Dao.Impliment;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
@@ -31,8 +33,12 @@ public class TaiKhoanDao implements ITaiKhoan {
 		} catch (Exception e) {
 			tr.rollback();
 			session.close();
+			if (e instanceof NoResultException) {
+				System.out.println("Không tìm thấy tài khoản với tên: " + tenTk);
+			} else {
+				e.printStackTrace();
+			}
 
-			e.printStackTrace();
 		}
 
 		return null;

@@ -8,7 +8,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import Rmi.Interface.IChucVuService;
+import Rmi.Interface.ITaiKhoanService;
 import Rmi.Service.ChucVuService;
+import Rmi.Service.TaiKhoanService;
 
 public class Server {
 
@@ -22,13 +24,14 @@ public class Server {
 		}
 		
 		// ==== expose Service  ==========================
-		IChucVuService chucVuService = new ChucVuService();
+		//IChucVuService chucVuService = new ChucVuService();
+		ITaiKhoanService taiKhoanService = new TaiKhoanService();
 		
 		
 		// === public service  ============================================
-		LocateRegistry.createRegistry(9091);
+		LocateRegistry.createRegistry(3000);
 		Context context = new InitialContext();
-		context.bind("rmi://localhost:9091/chucVuService", chucVuService);
+		context.bind("rmi://HinhPc:3000/taiKhoanService", taiKhoanService);
 		System.out.println("Server bound to the RMIRegistry");
 	}
 
