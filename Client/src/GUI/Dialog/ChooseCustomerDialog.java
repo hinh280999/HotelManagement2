@@ -33,6 +33,7 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 	private PageList<KhachHangDTO> lstKH;
 	private KhachHangService khachHangService;
 	private JLabel lblPageNumb;
+	private int currentPage, maxPage;
 
 	public ChooseCustomerDialog() {
 		setModal(true);
@@ -116,16 +117,50 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		}
 		if (o.equals(btnPrev)) {
 			// get previous page
-			System.out.println("Prev Clicked");
+			LoadPrevPage();
 		}
 		if (o.equals(btnNext)) {
 			// get next page
-			System.out.println("Next Clicked");
+			LoadNextPage();
+
 		}
 		if (o.equals(btnSearch)) {
 			// list customer by name, page 1
-			System.out.println("Search Clicked");
 			SearchKhachHang();
+		}
+	}
+
+	private void LoadPrevPage() {
+		String name = txtTenKH.getText().toString();
+		currentPage--;
+		if (currentPage < 1) {
+			currentPage = 1;
+			return;
+		}
+
+		int PrevPageNumb = lstKH.getCurrentPage() - 1;
+		try {
+			lstKH = khachHangService.searchListKhachHang(name, PrevPageNumb);
+			loadDsKhachHang(lstKH);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void LoadNextPage() {
+		String name = txtTenKH.getText().toString();
+		currentPage++;
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+			return;
+		}
+
+		int nextPageNumb = lstKH.getCurrentPage() + 1;
+		try {
+			lstKH = khachHangService.searchListKhachHang(name, nextPageNumb);
+			loadDsKhachHang(lstKH);
+		} catch (RemoteException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -151,13 +186,23 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 			model.addRow(o);
 		}
 		tbDsKH.setModel(model);
-		System.out.println(pageListModel.getMaxPage());
-		if (pageListModel.getMaxPage() == 1) {
+
+		currentPage = pageListModel.getCurrentPage();
+		maxPage = pageListModel.getMaxPage();
+
+		showPageNumber();
+
+	}
+
+	private void showPageNumber() {
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+		}
+		if (maxPage == 1) {
 			lblPageNumb.setText("1");
 		} else {
-			lblPageNumb.setText(pageListModel.getCurrentPage() + "/" + pageListModel.getMaxPage());
+			lblPageNumb.setText(currentPage + "/" + maxPage);
 		}
-
 	}
 
 }

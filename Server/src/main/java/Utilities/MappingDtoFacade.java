@@ -1,7 +1,5 @@
 package Utilities;
 
-import java.util.Date;
-
 import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;

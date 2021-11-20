@@ -1,6 +1,5 @@
 package Dao.Impliment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Transaction;
@@ -15,7 +14,6 @@ import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Utilities.HibernateUtil;
 import Utilities.KhachHangUtil;
-import Utilities.MappingDtoFacade;
 
 public class KhachHangDao implements IKhachHangDao {
 	private OgmSessionFactory sessionFactory;

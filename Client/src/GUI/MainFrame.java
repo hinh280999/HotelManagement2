@@ -6,10 +6,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +23,6 @@ public class MainFrame extends JFrame {
 	private String password;
 	private boolean permission;
 	private JPanel contentPane, panelMain;
-	private List<JPanel> listMenuPanel;
 	private JLabel titleLabel, lblIconTitle;
 	private final JSeparator separator = new JSeparator();
 
@@ -61,7 +57,7 @@ public class MainFrame extends JFrame {
 		panelSideBar.setLayout(null);
 
 		JLabel lblUsername = new JLabel();
-		lblUsername.setText("Hello: " +username);
+		lblUsername.setText("Hello: " + username);
 		lblUsername.setBackground(Color.WHITE);
 		lblUsername.setForeground(SystemColor.text);
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,29 +138,12 @@ public class MainFrame extends JFrame {
 		panelContainer.add(pTitle);
 
 		// =====================================
-		listMenuPanel = new ArrayList<JPanel>();
 	}
 
 	public void setLogInAccount(String username, String password, boolean permission) {
 		this.username = username;
 		this.password = password;
 		this.permission = permission;
-	}
-
-	private void setCorlor(JPanel panel) {
-		panel.setBackground(Color.decode("#fafafa"));
-		panel.setForeground(Color.WHITE);
-	}
-
-	private void resetCorlor(JPanel panel) {
-
-		for (JPanel jPanel : listMenuPanel) {
-			if (jPanel.equals(panel)) {
-				continue;
-			}
-			jPanel.setBackground(Color.BLACK);
-			jPanel.setForeground(Color.WHITE);
-		}
 	}
 
 	private void setMainPanel(JPanel panel, String text, ImageIcon icon) {
