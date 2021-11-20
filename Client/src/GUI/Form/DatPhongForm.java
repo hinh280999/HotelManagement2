@@ -1,9 +1,20 @@
-package GUI;
+package GUI.Form;
 
 import javax.swing.JPanel;
+
+import GUI.Dialog.ChooseCustomerDialog;
+import Rmi.DTO.KhachHangDTO;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DatPhongForm extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -22,6 +33,16 @@ public class DatPhongForm extends JPanel{
 		JLabel lblNewLabel = new JLabel("Th\u00F4ng tin kh\u00E1ch h\u00E0ng");
 		lblNewLabel.setBounds(10, 10, 123, 24);
 		pKhachHang.add(lblNewLabel);
+		
+		JButton btnNewButton = new JButton("Ch\u1ECDn kh\u00E1ch h\u00E0ng");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				SampleOpenDialog();
+			}
+		});
+		btnNewButton.setBounds(10, 53, 409, 24);
+		pKhachHang.add(btnNewButton);
 		
 		JPanel pThoiGian = new JPanel();
 		pThoiGian.setBackground(Color.WHITE);
@@ -63,5 +84,24 @@ public class DatPhongForm extends JPanel{
 		lblNewLabel_4.setBounds(10, 10, 141, 13);
 		pControll.add(lblNewLabel_4);
 		
+	}
+
+	private void SampleOpenDialog() {
+		ChooseCustomerDialog dialog = new ChooseCustomerDialog();
+		
+		dialog.setVisible(true);
+	
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				KhachHangDTO kh = new KhachHangDTO();
+				kh = dialog.getSelectdCustomer();
+				setCustomerInfo(kh);
+			}
+		});
+	}
+
+	private void setCustomerInfo(KhachHangDTO kh) {
+		JOptionPane.showMessageDialog(null, kh.toString());
 	}
 }
