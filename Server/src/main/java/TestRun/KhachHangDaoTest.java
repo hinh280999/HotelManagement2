@@ -4,6 +4,7 @@ import Dao.Impliment.KhachHangDao;
 import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
 import Model.PageList;
+import Rmi.DTO.KhachHangDTO;
 
 public class KhachHangDaoTest {
 
@@ -12,19 +13,19 @@ public class KhachHangDaoTest {
 		IKhachHangDao Dao = new KhachHangDao();
 		
 		
-//		PageList<KhachHang> page = Dao.searchListKhachhang("Phan",1);
+//		PageList<KhachHangDTO> page = Dao.searchListKhachhang("",1);
 //		System.out.println(page.toString());
-//		for (KhachHang kh : page.getListData()) {
+//		for (KhachHangDTO kh : page.getListData()) {
 //			System.out.println(kh.toString());
 //		}
 		
-		KhachHang tKhachHang = new KhachHang("Phan Trong HInh", "Samplemail@gmail.com", "0981986242", "Tp HCM", "123123");
-		
-		if (Dao.add(tKhachHang)) {
-			System.out.println("Add Complete");
-		} else {
-			System.out.println("Add fail");
-		}
+//		KhachHang tKhachHang = new KhachHang("Phan Trong HInh", "Samplemail@gmail.com", "0981986242", "Tp HCM", "123123");
+//		
+//		if (Dao.add(tKhachHang)) {
+//			System.out.println("Add Complete");
+//		} else {
+//			System.out.println("Add fail");
+//		}
 		
 //		KhachHang khInfo = null;
 //		try {

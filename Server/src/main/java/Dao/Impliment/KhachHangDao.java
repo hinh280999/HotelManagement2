@@ -1,5 +1,6 @@
 package Dao.Impliment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Transaction;
@@ -11,8 +12,10 @@ import Constant.Page;
 import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
 import Model.PageList;
+import Rmi.DTO.KhachHangDTO;
 import Utilities.HibernateUtil;
 import Utilities.KhachHangUtil;
+import Utilities.MappingDtoFacade;
 
 public class KhachHangDao implements IKhachHangDao {
 	private OgmSessionFactory sessionFactory;
@@ -131,36 +134,39 @@ public class KhachHangDao implements IKhachHangDao {
 	}
 
 	@Override
-	public PageList<KhachHang> searchListKhachhang(String tenKh, int pageNumb) {
+	public PageList<KhachHangDTO> searchListKhachhang(String tenKh, int pageNumb) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 
-		String mongoAggregate = "db.khachhangs.aggregate([{ '$match': { '$text': { '$search': '" + tenKh + "' }}}])";
-
+		String mongoAggregate;
+		if (tenKh.length() > 0) {
+			mongoAggregate = "db.khachhangs.aggregate([{ '$match': { '$text': { '$search': '" + tenKh + "' }}}])";
+		} else {
+			mongoAggregate = "db.khachhangs.find({})";
+		}
+		
 		try {
-			NativeQuery<?> javaQuery = session.createNativeQuery(mongoAggregate);
+			NativeQuery<KhachHang> javaQuery = session.createNativeQuery(mongoAggregate, KhachHang.class);
 			int totalRow = javaQuery.getResultList().size();
 
-			List<?> khachHangs_Paged = javaQuery.setFirstResult(Page.LIMITROW_ONPAGE * (pageNumb - 1))
+			List<KhachHang> khachHangs_Paged = javaQuery.setFirstResult(Page.LIMITROW_ONPAGE * (pageNumb - 1))
 					.setMaxResults(Page.LIMITROW_ONPAGE).getResultList();
 
-			PageList<KhachHang> pageList = new PageList<>();
+			PageList<KhachHangDTO> pageList = new PageList<>();
 			int maxPage = (int) Math.ceil(totalRow / Page.LIMITROW_ONPAGE);
-			pageList.setListData(KhachHangUtil.convertToListKhachHang(khachHangs_Paged));
+			pageList.setListData(KhachHangUtil.convertListDTO(khachHangs_Paged));
 			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
 			pageList.setCurrentPage(pageNumb);
 
 			tr.commit();
-			session.close();
 
 			return pageList;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 
 		return null;
 	}
+
 }

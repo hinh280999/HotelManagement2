@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Entity.KhachHang;
+import Rmi.DTO.KhachHangDTO;
 
 public class KhachHangUtil {
 
@@ -24,5 +25,14 @@ public class KhachHangUtil {
 		}
 
 		return returnList;
+	}
+
+	public static List<KhachHangDTO> convertListDTO(List<KhachHang> lstKH) {
+		List<KhachHangDTO> lstDTO = new ArrayList<KhachHangDTO>();
+		for (KhachHang khachHang : lstKH) {
+			KhachHangDTO khDTO = MappingDtoFacade.mapToKhachHangDTO(khachHang);
+			lstDTO.add(khDTO);
+		}
+		return lstDTO;
 	}
 }
