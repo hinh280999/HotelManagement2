@@ -153,7 +153,9 @@ public class KhachHangDao implements IKhachHangDao {
 					.setMaxResults(Page.LIMITROW_ONPAGE).getResultList();
 
 			PageList<KhachHangDTO> pageList = new PageList<>();
-			int maxPage = (int) Math.ceil(totalRow / Page.LIMITROW_ONPAGE);
+			
+			int maxPage = totalRow/Page.LIMITROW_ONPAGE + (totalRow % Page.LIMITROW_ONPAGE > 0 ? 1 : 0);
+			
 			pageList.setListData(KhachHangUtil.convertListDTO(khachHangs_Paged));
 			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
 			pageList.setCurrentPage(pageNumb);

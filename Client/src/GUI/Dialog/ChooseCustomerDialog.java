@@ -9,9 +9,18 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import Dao.KhachHangService;
+import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 
 public class ChooseCustomerDialog extends JDialog implements ActionListener {
@@ -20,7 +29,10 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 	private JTable tbDsKH;
 	private JTextField txtTenKH;
 	private JButton btnPrev, btnNext, btnSearch, btnOK;
-	private KhachHangDTO khDTO = new KhachHangDTO();
+	private KhachHangDTO selectedKh = new KhachHangDTO();
+	private PageList<KhachHangDTO> lstKH;
+	private KhachHangService khachHangService;
+	private JLabel lblPageNumb;
 
 	public ChooseCustomerDialog() {
 		setModal(true);
@@ -32,8 +44,8 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		JPanel pDsKH = new JPanel();
 		pDsKH.setBackground(Color.WHITE);
 		pDsKH.setBounds(10, 10, 766, 450);
-		getContentPane().add(pDsKH);
 		pDsKH.setLayout(null);
+		getContentPane().add(pDsKH);
 
 		JScrollPane scpDsKh = new JScrollPane();
 		scpDsKh.setBounds(10, 65, 746, 342);
@@ -42,13 +54,21 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		tbDsKH = new JTable();
 		scpDsKh.setViewportView(tbDsKH);
 
+		tbDsKH.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tbDsKH.getSelectedRow();
+				selectedKh = lstKH.getListData().get(selectedRow);
+			}
+		});
+
 		btnPrev = new JButton("<");
 		btnPrev.setBounds(10, 420, 85, 20);
 		pDsKH.add(btnPrev);
 
-		JLabel lblNewLabel = new JLabel("pageNumb");
-		lblNewLabel.setBounds(100, 420, 45, 20);
-		pDsKH.add(lblNewLabel);
+		lblPageNumb = new JLabel("pageNumb");
+		lblPageNumb.setBounds(100, 420, 45, 20);
+		pDsKH.add(lblPageNumb);
 
 		btnNext = new JButton(">");
 		btnNext.setBounds(150, 420, 85, 20);
@@ -72,13 +92,26 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		btnNext.addActionListener(this);
 		btnSearch.addActionListener(this);
 		btnOK.addActionListener(this);
+		// =======///
+
+		// === Load data ====
+		try {
+			khachHangService = new KhachHangService();
+			lstKH = khachHangService.searchListKhachHang("", 1);
+			loadDsKhachHang(lstKH);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnOK)) {
-			setSelectedCustomer();
 			this.dispose();
 		}
 		if (o.equals(btnPrev)) {
@@ -92,16 +125,39 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		if (o.equals(btnSearch)) {
 			// list customer by name, page 1
 			System.out.println("Search Clicked");
+			SearchKhachHang();
 		}
 	}
 
-	private void setSelectedCustomer() {
-		System.out.println("Click OK");
+	private void SearchKhachHang() {
+		String name = txtTenKH.getText().toString();
+		try {
+			lstKH = khachHangService.searchListKhachHang(name, 1);
+			loadDsKhachHang(lstKH);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public KhachHangDTO getSelectdCustomer() {
-		KhachHangDTO kh = new KhachHangDTO("Ten", "Mail", "Sdt", "diachi", "cmnd");
-		kh.setMaKH(1);
-		return kh;
+		return selectedKh;
 	}
+
+	private void loadDsKhachHang(PageList<KhachHangDTO> pageListModel) {
+		String[] tieude = { "Tên", "Số CMT", "SĐT", "Email", "Địa Chỉ" };
+		DefaultTableModel model = new DefaultTableModel(tieude, 0);
+		for (KhachHangDTO KH : pageListModel.getListData()) {
+			Object[] o = { KH.getTen(), KH.getSoCMND(), KH.getSdt(), KH.getEmail(), KH.getDiaChi() };
+			model.addRow(o);
+		}
+		tbDsKH.setModel(model);
+		System.out.println(pageListModel.getMaxPage());
+		if (pageListModel.getMaxPage() == 1) {
+			lblPageNumb.setText("1");
+		} else {
+			lblPageNumb.setText(pageListModel.getCurrentPage() + "/" + pageListModel.getMaxPage());
+		}
+
+	}
+
 }

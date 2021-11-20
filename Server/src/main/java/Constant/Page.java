@@ -1,5 +1,5 @@
 package Constant;
 
 public class Page {
-	public static final int LIMITROW_ONPAGE = 10;
+	public static final int LIMITROW_ONPAGE = 5;
 }

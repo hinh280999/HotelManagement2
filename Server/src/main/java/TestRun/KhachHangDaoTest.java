@@ -13,11 +13,11 @@ public class KhachHangDaoTest {
 		IKhachHangDao Dao = new KhachHangDao();
 		
 		
-//		PageList<KhachHangDTO> page = Dao.searchListKhachhang("",1);
-//		System.out.println(page.toString());
-//		for (KhachHangDTO kh : page.getListData()) {
-//			System.out.println(kh.toString());
-//		}
+		PageList<KhachHangDTO> page = Dao.searchListKhachhang("",1);
+		System.out.println(page.toString());
+		for (KhachHangDTO kh : page.getListData()) {
+			System.out.println(kh.toString());
+		}
 		
 //		KhachHang tKhachHang = new KhachHang("Phan Trong HInh", "Samplemail@gmail.com", "0981986242", "Tp HCM", "123123");
 //		

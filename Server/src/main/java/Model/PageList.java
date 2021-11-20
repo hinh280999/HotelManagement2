@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PageList<T> {
+public class PageList<T> implements Serializable{
 	private List<T> listData;
 	private int currentPage;
 	private int maxPage;

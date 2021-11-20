@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Dao.Impliment.KhachHangDao;
 import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
+import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.Interface.IKhachHangService;
 import Utilities.MappingDtoFacade;
@@ -15,7 +16,7 @@ public class KhachHangService extends UnicastRemoteObject implements IKhachHangS
 	private static final long serialVersionUID = 1L;
 	private IKhachHangDao khachHangDao;
 
-	protected KhachHangService() throws RemoteException {
+	public KhachHangService() throws RemoteException {
 		super();
 		khachHangDao = new KhachHangDao();
 	}
@@ -50,6 +51,12 @@ public class KhachHangService extends UnicastRemoteObject implements IKhachHangS
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 		// TODO Auto-generated method stub
 		return khachHangDao.delete(objectId);
+	}
+
+	@Override
+	public PageList<KhachHangDTO> searchListKhachhang(String tenKh, int pageNumb) throws RemoteException {
+
+		return khachHangDao.searchListKhachhang(tenKh, pageNumb);
 	}
 
 }
