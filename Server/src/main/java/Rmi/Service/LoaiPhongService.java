@@ -2,6 +2,7 @@ package Rmi.Service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import Dao.Impliment.LoaiPhongDao;
 import Dao.Interface.ILoaiPhongDao;
@@ -45,6 +46,12 @@ public class LoaiPhongService extends UnicastRemoteObject implements ILoaiPhongS
 	@Override
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 		return loaiPhongDao.delete(objectId);
+	}
+
+	@Override
+	public List<LoaiPhongDTO> getAllLoaiPhong() throws RemoteException {
+		List<LoaiPhong> lstLoaiPhong = loaiPhongDao.getAll();
+		return MappingDtoFacade.mapToListLoaiPhongDTO(lstLoaiPhong);
 	}
 
 }

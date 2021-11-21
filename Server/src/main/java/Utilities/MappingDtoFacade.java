@@ -1,5 +1,8 @@
 package Utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
@@ -179,5 +182,14 @@ public class MappingDtoFacade {
 
 	public static TaiKhoanDTO mapToTaiKhoanDTO(TaiKhoan taiKhoan) {
 		return new TaiKhoanDTO(taiKhoan.getTenTK(), taiKhoan.getMatKhau(), taiKhoan.isAdmin());
+	}
+
+	public static List<LoaiPhongDTO> mapToListLoaiPhongDTO(List<LoaiPhong> lstLoaiPhong) {
+		List<LoaiPhongDTO> rvlst = new ArrayList<LoaiPhongDTO>();
+		for (LoaiPhong loaiPhong : lstLoaiPhong) {
+			LoaiPhongDTO tempDTO = mapToLoaiPhongDTO(loaiPhong);
+			rvlst.add(tempDTO);
+		}
+		return rvlst;
 	}
 }
