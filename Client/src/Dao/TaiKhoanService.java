@@ -10,8 +10,9 @@ import Rmi.Interface.ITaiKhoanService;
 
 public class TaiKhoanService {
 	private ITaiKhoanService tkService;
+	private static TaiKhoanService instance = null;
 
-	public TaiKhoanService() throws MalformedURLException, RemoteException, NotBoundException {
+	private TaiKhoanService() throws MalformedURLException, RemoteException, NotBoundException {
 		SecurityManager manager = System.getSecurityManager();
 		if (manager == null) {
 			System.setProperty("java.security.policy", "rmi/policy.policy");
@@ -26,6 +27,17 @@ public class TaiKhoanService {
 		if (rv != null)
 			return rv;
 		return null;
+	}
+
+	public synchronized static TaiKhoanService getInstance() {
+		if (instance == null) {
+			try {
+				instance = new TaiKhoanService();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return instance;
 	}
 
 }

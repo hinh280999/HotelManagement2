@@ -97,14 +97,10 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 
 		// === Load data ====
 		try {
-			khachHangService = new KhachHangService();
+			khachHangService = KhachHangService.getInstance();
 			lstKH = khachHangService.searchListKhachHang("", 1);
 			loadDsKhachHang(lstKH);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
 	}

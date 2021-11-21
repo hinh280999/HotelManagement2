@@ -11,8 +11,9 @@ import Rmi.Interface.IKhachHangService;
 
 public class KhachHangService {
 	private IKhachHangService khachHangService;
+	private static KhachHangService instance = null;
 
-	public KhachHangService() throws MalformedURLException, RemoteException, NotBoundException {
+	private KhachHangService() throws MalformedURLException, RemoteException, NotBoundException {
 		SecurityManager manager = System.getSecurityManager();
 		if (manager == null) {
 			System.setProperty("java.security.policy", "rmi/policy.policy");
@@ -24,6 +25,17 @@ public class KhachHangService {
 
 	public PageList<KhachHangDTO> searchListKhachHang(String tenKh, int page) throws RemoteException {
 		return khachHangService.searchListKhachhang(tenKh, page);
+	}
+
+	public synchronized static KhachHangService getInstance() {
+		if (instance == null) {
+			try {
+				instance = new KhachHangService();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return instance;
 	}
 
 }

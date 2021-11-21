@@ -201,7 +201,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		if (validateInput(tenTk, mk) == false)
 			return;
 		try {
-			taiKhoanService = new TaiKhoanService();
+			taiKhoanService = TaiKhoanService.getInstance();
 			TaiKhoanDTO rvTk = taiKhoanService.getTaiKhoanByName(tenTk);
 			if (rvTk.getMatKhau().equals(mk)) {
 				MainFrame frame = new MainFrame();
