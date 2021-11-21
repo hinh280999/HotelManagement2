@@ -49,6 +49,7 @@ public class LoaiPhongService extends UnicastRemoteObject implements ILoaiPhongS
 	}
 
 	@Override
+	@Override
 	public List<LoaiPhongDTO> getAllLoaiPhong() throws RemoteException {
 		List<LoaiPhong> lstLoaiPhong = loaiPhongDao.getAll();
 		return MappingDtoFacade.mapToListLoaiPhongDTO(lstLoaiPhong);
