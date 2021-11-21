@@ -35,4 +35,15 @@ public class LoaiPhongDao {
 		return rvLst;
 	}
 
+	public synchronized static LoaiPhongDao getInstance() {
+		if (instance == null) {
+			try {
+				instance = new LoaiPhongDao();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return instance;
+	}
+
 }

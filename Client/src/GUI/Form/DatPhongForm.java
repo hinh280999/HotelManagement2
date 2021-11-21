@@ -4,28 +4,38 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.toedter.calendar.JDateChooser;
 
+import Dao.LoaiPhongDao;
 import GUI.Dialog.ChooseCustomerDialog;
 import Rmi.DTO.KhachHangDTO;
+import Rmi.DTO.LoaiPhongDTO;
+
 import javax.swing.JComboBox;
 
 public class DatPhongForm extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private KhachHangDTO selectedKH = new KhachHangDTO();
-	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblEmailKH, lblDiaChiKH;
+	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblEmailKH, lblDiaChiKH, lblDonGia;
 	private JDateChooser ngayDen, ngayKetThuc;
 	private JButton btnDatPhong, btnXoaTrang;
+	private JComboBox<String> cbxLoaiPhong;
+	private List<LoaiPhongDTO> lstLoaiPhong;
+	private LoaiPhongDTO selectedLoaiPhong;
 
 	public DatPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -152,16 +162,29 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_2.setBounds(10, 44, 150, 30);
 		pPhong.add(lblNewLabel_5_2_2);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(170, 45, 230, 30);
-		pPhong.add(comboBox);
+		cbxLoaiPhong = new JComboBox<String>();
+		cbxLoaiPhong.setBounds(170, 45, 230, 30);
+		cbxLoaiPhong.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				int selectedIndex = cbxLoaiPhong.getSelectedIndex();
+				if (selectedIndex != 0) {
+					selectedLoaiPhong = lstLoaiPhong.get(selectedIndex - 1);
+					lblDonGia.setText(selectedLoaiPhong.getDonGia() + " (VND)");
+				}else {
+					lblDonGia.setText("............................");
+				}
+
+			}
+		});
+		pPhong.add(cbxLoaiPhong);
 
 		JLabel lblNewLabel_5_2_2_1 = new JLabel("Đơn Giá: ");
 		lblNewLabel_5_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_2_1.setBounds(10, 84, 150, 30);
 		pPhong.add(lblNewLabel_5_2_2_1);
 
-		JLabel lblDonGia = new JLabel("............................");
+		lblDonGia = new JLabel("............................");
 		lblDonGia.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDonGia.setBounds(170, 85, 230, 30);
 		pPhong.add(lblDonGia);
@@ -283,6 +306,9 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		btnDatPhong.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
 
+		// === LoadData ========================
+		loadLoaiPhong();
+
 	}
 
 	@Override
@@ -319,6 +345,19 @@ public class DatPhongForm extends JPanel implements ActionListener {
 			lblEmailKH.setText(kh.getEmail());
 			lblDiaChiKH.setText(kh.getDiaChi());
 		}
+	}
+
+	private void loadLoaiPhong() {
+		DefaultComboBoxModel<String> dcm = new DefaultComboBoxModel<String>();
+		dcm.addElement(" -- Chọn loại phòng --");
+
+		lstLoaiPhong = LoaiPhongDao.getInstance().getAllLoaiPhong();
+		for (LoaiPhongDTO loaiPhongDTO : lstLoaiPhong) {
+			dcm.addElement(loaiPhongDTO.getTenLP());
+		}
+
+		cbxLoaiPhong.setModel(dcm);
+
 	}
 
 }
