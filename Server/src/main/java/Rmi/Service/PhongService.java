@@ -49,7 +49,15 @@ public class PhongService extends UnicastRemoteObject implements IPhongService {
 
 	@Override
 	public PhongDTO getPhongTrongByLoaiPhongId(int loaiPhongId) throws RemoteException {
-		return MappingDtoFacade.mapToPhongDTO(phongDao.getPhongTrongByLoaiPhongId(loaiPhongId));
+		try {
+			Phong phongTrong = phongDao.getPhongTrongByLoaiPhongId(loaiPhongId);
+			return MappingDtoFacade.mapToPhongDTO(phongTrong);
+		} catch (Exception e) {
+			if (e instanceof NullPointerException) {
+				System.out.println("Không có Phòng trống với loại phòng: " + loaiPhongId + " (Service)");
+			}
+		}
+		return null;
 	}
 
 }

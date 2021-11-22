@@ -2,6 +2,8 @@ package Dao.Impliment;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
@@ -148,7 +150,12 @@ public class PhongDao implements IPhongDao {
 			return phong;
 		} catch (Exception e) {
 			tr.rollback();
-			e.printStackTrace();
+			if (e instanceof NoResultException) {
+				System.out.println("Không có phòng trống với loại phòng id: " + loaiPhongId);
+			} else {
+				e.printStackTrace();
+			}
+
 		}
 
 		return null;

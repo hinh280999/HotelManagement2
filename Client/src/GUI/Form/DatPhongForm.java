@@ -148,7 +148,8 @@ public class DatPhongForm extends JPanel implements ActionListener {
 
 		ngayKetThuc = new JDateChooser();
 		ngayKetThuc.setDateFormatString("dd-MM-yyyy");
-		ngayKetThuc.setMinSelectableDate(new Date());
+		Date nextDay = new Date(ngayDen.getDate().getTime() + 86400000);
+		ngayKetThuc.setMinSelectableDate(nextDay);
 		ngayKetThuc.setBounds(170, 83, 230, 30);
 		pThoiGian.add(ngayKetThuc);
 
@@ -332,12 +333,18 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		}
 	}
 
-	private void timPhongTrong() {	
+	private void timPhongTrong() {
 		if (selectedLoaiPhong == null) {
 			JOptionPane.showMessageDialog(null, "Hãy chọn loại phòng muốn đặt trước ^.^");
 			return;
 		}
 		selectedPhong = PhongDao.getInstance().getPhongTrong(selectedLoaiPhong.getMaLP());
+		if (selectedPhong == null) {
+			JOptionPane.showMessageDialog(null,
+					"Hiện không còn phòng trống cho loại phòng: " + selectedLoaiPhong.getTenLP());
+			lblTenPhong.setText("............................");
+			return;
+		}
 		lblTenPhong.setText(selectedPhong.getTen());
 	}
 
