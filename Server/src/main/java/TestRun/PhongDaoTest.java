@@ -57,7 +57,7 @@ public class PhongDaoTest {
 //		DaoTTP.delete(tTTP.getMaTTP());
 //		LPDao.delete(newLP.getMaLP());
 
-//		Phong phongtrong = Dao.getPhongTrong();
+//		Phong phongtrong = Dao.getPhongTrongByLoaiPhongId(11);
 //		System.out.println(phongtrong.toString());
 	}
 

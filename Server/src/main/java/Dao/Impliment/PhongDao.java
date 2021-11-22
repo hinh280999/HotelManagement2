@@ -8,6 +8,7 @@ import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IPhongDao;
 import Entity.Phong;
+import Entity.TinhTrangPhong;
 import Utilities.HibernateUtil;
 
 public class PhongDao implements IPhongDao {
@@ -128,15 +129,19 @@ public class PhongDao implements IPhongDao {
 	}
 
 	@Override
-	public Phong getPhongTrong() {
+	public Phong getPhongTrongByLoaiPhongId(int loaiPhongId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		String query = "db.phongs.aggregate([{'$lookup': {'from': 'tinhtrangphongs', 'localField': 'maTTP', 'foreignField': '_id', 'as': 'tinhtrangphong'}},"
-				+ "{'$unwind' :'$tinhtrangphong'}," + "{'$match':{'tinhtrangphong.tenTTP' : 'Trống'}},"
-				+ "{'$project' : {'tinhtrangphong' : 0}}," + "{'$limit' : 1}])";
-		System.out.println(query);
+//		String query = "db.phongs.aggregate([{'$lookup': {'from': 'tinhtrangphongs', 'localField': 'maTTP', 'foreignField': '_id', 'as': 'tinhtrangphong'}},"
+//				+ "{'$unwind' :'$tinhtrangphong'}," + "{'$match':{'tinhtrangphong.tenTTP' : 'Trống'}},"
+//				+ "{'$project' : {'tinhtrangphong' : 0}}," + "{'$limit' : 1}])";
+		String queryTTP = "db.tinhtrangphongs.find({tenTTP : 'Trống'})";
 		try {
-			Phong phong = session.createNativeQuery(query, Phong.class).getSingleResult();
+			TinhTrangPhong ttp = session.createNativeQuery(queryTTP, TinhTrangPhong.class).getSingleResult();
+
+			String queryPhong = "db.phongs.find({'$and':[{'maTTP' : " + ttp.getMaTTP() + "},{'maLP' : " + loaiPhongId
+					+ "}]})";
+			Phong phong = session.createNativeQuery(queryPhong, Phong.class).getSingleResult();
 
 			tr.commit();
 
