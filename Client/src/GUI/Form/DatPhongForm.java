@@ -16,26 +16,32 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.toedter.calendar.JDateChooser;
 
 import Dao.LoaiPhongDao;
+import Dao.PhongDao;
 import GUI.Dialog.ChooseCustomerDialog;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.PhongDTO;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 
 public class DatPhongForm extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private KhachHangDTO selectedKH = new KhachHangDTO();
 	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblEmailKH, lblDiaChiKH, lblDonGia;
+	private JLabel lblTenPhong;
 	private JDateChooser ngayDen, ngayKetThuc;
-	private JButton btnDatPhong, btnXoaTrang;
+	private JButton btnDatPhong, btnXoaTrang, btnTimPhongTrong;
 	private JComboBox<String> cbxLoaiPhong;
 	private List<LoaiPhongDTO> lstLoaiPhong;
 	private LoaiPhongDTO selectedLoaiPhong;
+	private PhongDTO selectedPhong;
 
 	public DatPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -171,7 +177,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 				if (selectedIndex != 0) {
 					selectedLoaiPhong = lstLoaiPhong.get(selectedIndex - 1);
 					lblDonGia.setText(selectedLoaiPhong.getDonGia() + " (VND)");
-				}else {
+				} else {
 					lblDonGia.setText("............................");
 				}
 
@@ -194,14 +200,14 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_2_1_1.setBounds(10, 124, 150, 30);
 		pPhong.add(lblNewLabel_5_2_2_1_1);
 
-		JLabel lblTenPhong = new JLabel("............................");
+		lblTenPhong = new JLabel("............................");
 		lblTenPhong.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTenPhong.setBounds(170, 125, 118, 30);
 		pPhong.add(lblTenPhong);
 
-		JButton btnNewButton_1 = new JButton("Tìm Phòng");
-		btnNewButton_1.setBounds(300, 125, 100, 30);
-		pPhong.add(btnNewButton_1);
+		btnTimPhongTrong = new JButton("Tìm Phòng Trống");
+		btnTimPhongTrong.setBounds(300, 125, 130, 30);
+		pPhong.add(btnTimPhongTrong);
 
 		JPanel pThongTin = new JPanel();
 		pThongTin.setBackground(Color.WHITE);
@@ -305,6 +311,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		// == Action ===========================
 		btnDatPhong.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
+		btnTimPhongTrong.addActionListener(this);
 
 		// === LoadData ========================
 		loadLoaiPhong();
@@ -320,6 +327,18 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		if (o.equals(btnXoaTrang)) {
 			System.out.println("Click xóa trắng");
 		}
+		if (o.equals(btnTimPhongTrong)) {
+			timPhongTrong();
+		}
+	}
+
+	private void timPhongTrong() {	
+		if (selectedLoaiPhong == null) {
+			JOptionPane.showMessageDialog(null, "Hãy chọn loại phòng muốn đặt trước ^.^");
+			return;
+		}
+		selectedPhong = PhongDao.getInstance().getPhongTrong(selectedLoaiPhong.getMaLP());
+		lblTenPhong.setText(selectedPhong.getTen());
 	}
 
 	private void SampleOpenDialog() {
