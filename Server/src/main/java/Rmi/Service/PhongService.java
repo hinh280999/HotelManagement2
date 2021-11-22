@@ -47,4 +47,9 @@ public class PhongService extends UnicastRemoteObject implements IPhongService {
 		return phongDao.delete(objectId);
 	}
 
+	@Override
+	public PhongDTO getPhongTrong() throws RemoteException {
+		return MappingDtoFacade.mapToPhongDTO(phongDao.getPhongTrong());
+	}
+
 }

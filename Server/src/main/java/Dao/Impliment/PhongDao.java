@@ -47,8 +47,7 @@ public class PhongDao implements IPhongDao {
 		Transaction tr = session.beginTransaction();
 		String query = "db.Phongs.find({})";
 		try {
-			List<Phong> list = session.createNativeQuery(query, Phong.class)
-					.getResultList();
+			List<Phong> list = session.createNativeQuery(query, Phong.class).getResultList();
 			tr.commit();
 			session.close();
 
@@ -109,7 +108,7 @@ public class PhongDao implements IPhongDao {
 	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		
+
 		Phong deleteObj = new Phong();
 		deleteObj.setMaP(deleteObjectId);
 		try {
@@ -126,6 +125,28 @@ public class PhongDao implements IPhongDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Phong getPhongTrong() {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String query = "db.phongs.aggregate([{'$lookup': {'from': 'tinhtrangphongs', 'localField': 'maTTP', 'foreignField': '_id', 'as': 'tinhtrangphong'}},"
+				+ "{'$unwind' :'$tinhtrangphong'}," + "{'$match':{'tinhtrangphong.tenTTP' : 'Trống'}},"
+				+ "{'$project' : {'tinhtrangphong' : 0}}," + "{'$limit' : 1}])";
+		System.out.println(query);
+		try {
+			Phong phong = session.createNativeQuery(query, Phong.class).getSingleResult();
+
+			tr.commit();
+
+			return phong;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 //	@Override

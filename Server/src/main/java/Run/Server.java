@@ -7,13 +7,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import Rmi.Interface.IChucVuService;
 import Rmi.Interface.IKhachHangService;
 import Rmi.Interface.ILoaiPhongService;
+import Rmi.Interface.IPhongService;
 import Rmi.Interface.ITaiKhoanService;
-import Rmi.Service.ChucVuService;
 import Rmi.Service.KhachHangService;
 import Rmi.Service.LoaiPhongService;
+import Rmi.Service.PhongService;
 import Rmi.Service.TaiKhoanService;
 
 public class Server {
@@ -32,6 +32,7 @@ public class Server {
 		ITaiKhoanService taiKhoanService = new TaiKhoanService();
 		IKhachHangService khachHangService = new KhachHangService();
 		ILoaiPhongService loaiPhongService = new LoaiPhongService();
+		IPhongService phongService = new PhongService();
 
 		// === public service ============================================
 		LocateRegistry.createRegistry(3000);
@@ -39,7 +40,8 @@ public class Server {
 		context.bind("rmi://HinhPc:3000/taiKhoanService", taiKhoanService);
 		context.bind("rmi://HinhPc:3000/khachHangService", khachHangService);
 		context.bind("rmi://HinhPc:3000/loaiPhongService", loaiPhongService);
-		System.out.println("Server bound to the RMIRegistry");
+		context.bind("rmi://HinhPc:3000/phongService", phongService);
+		System.out.println("Server is running at Port: 3000 (^__^)!");
 	}
 
 }
