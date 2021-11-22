@@ -48,8 +48,8 @@ public class PhongService extends UnicastRemoteObject implements IPhongService {
 	}
 
 	@Override
-	public PhongDTO getPhongTrong() throws RemoteException {
-		return MappingDtoFacade.mapToPhongDTO(phongDao.getPhongTrong());
+	public PhongDTO getPhongTrongByLoaiPhongId(int loaiPhongId) throws RemoteException {
+		return MappingDtoFacade.mapToPhongDTO(phongDao.getPhongTrongByLoaiPhongId(loaiPhongId));
 	}
 
 }

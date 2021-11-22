@@ -5,5 +5,5 @@ import java.rmi.RemoteException;
 import Rmi.DTO.PhongDTO;
 
 public interface IPhongService extends IBaseService<PhongDTO> {
-	PhongDTO getPhongTrong() throws RemoteException;
+	PhongDTO getPhongTrongByLoaiPhongId(int loaiPhongId) throws RemoteException;
 }

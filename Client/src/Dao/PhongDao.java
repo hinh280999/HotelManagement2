@@ -25,7 +25,7 @@ public class PhongDao {
 
 	public PhongDTO getPhongTrong(int maLP) {
 		try {
-			PhongDTO rvPhong = phongService.getPhongTrong();
+			PhongDTO rvPhong = phongService.getPhongTrongByLoaiPhongId(maLP);
 			return rvPhong;
 		} catch (RemoteException e) {
 			e.printStackTrace();
