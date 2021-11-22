@@ -9,6 +9,8 @@ import Dao.Interface.ITinhTrangPhongDao;
 import Entity.LoaiPhong;
 import Entity.Phong;
 import Entity.TinhTrangPhong;
+import Model.PageList;
+import Rmi.DTO.PhongDTO;
 
 public class PhongDaoTest {
 
@@ -59,6 +61,11 @@ public class PhongDaoTest {
 
 //		Phong phongtrong = Dao.getPhongTrongByLoaiPhongId(11);
 //		System.out.println(phongtrong.toString());
+		
+//		PageList<PhongDTO> lst = Dao.getListPhongByPage(1, 2,"P2809");
+//		for (PhongDTO string : lst.getListData()) {
+//			System.out.println(string.toString());
+//		}
 	}
 
 }

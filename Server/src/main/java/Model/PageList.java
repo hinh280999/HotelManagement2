@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PageList<T> implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private List<T> listData;
 	private int currentPage;
 	private int maxPage;

@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Dao.Impliment.PhongDao;
 import Dao.Interface.IPhongDao;
 import Entity.Phong;
+import Model.PageList;
 import Rmi.DTO.PhongDTO;
 import Rmi.Interface.IPhongService;
 import Utilities.MappingDtoFacade;
@@ -52,10 +53,22 @@ public class PhongService extends UnicastRemoteObject implements IPhongService {
 		try {
 			Phong phongTrong = phongDao.getPhongTrongByLoaiPhongId(loaiPhongId);
 			return MappingDtoFacade.mapToPhongDTO(phongTrong);
+
 		} catch (Exception e) {
 			if (e instanceof NullPointerException) {
 				System.out.println("Không có Phòng trống với loại phòng: " + loaiPhongId + " (Service)");
 			}
+		}
+		return null;
+	}
+
+	@Override
+	public PageList<PhongDTO> getListPhongByPage(int pageNumb, int maxRow, String roomName) throws RemoteException {
+		try {
+			PageList<PhongDTO> lstDTO = phongDao.getListPhongByPage(pageNumb, maxRow, roomName);
+			return lstDTO;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

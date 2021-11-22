@@ -5,6 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import Model.PageList;
 import Rmi.DTO.PhongDTO;
 import Rmi.Interface.IPhongService;
 
@@ -31,6 +32,12 @@ public class PhongDao {
 			e.printStackTrace();
 		}
 		return null;
+
+	}
+
+	public PageList<PhongDTO> getListPhongPaged(int pageNumb, int maxRow, String name) throws RemoteException {
+
+		return phongService.getListPhongByPage(pageNumb, maxRow, name);
 
 	}
 

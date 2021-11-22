@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import CustomControll.PanelMenu;
 import GUI.Form.DatPhongForm;
+import GUI.Form.QuanLyPhongForm;
 
 public class MainFrame extends JFrame {
 	private Color colorEnter = Color.WHITE;
@@ -64,7 +65,7 @@ public class MainFrame extends JFrame {
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblUsername.setBounds(0, 10, 250, 83);
 		panelSideBar.add(lblUsername);
-
+			
 		ImageIcon pDieuKhienIcon = new ImageIcon(new ImageIcon("icon/monitor.png").getImage());
 		PanelMenu pDieuKhien = new PanelMenu("Bảng điều khiển", pDieuKhienIcon);
 		pDieuKhien.setBounds(0, 103, 250, 40);
@@ -116,6 +117,17 @@ public class MainFrame extends JFrame {
 		LbQuanLy.setFont(new Font("Tahoma", Font.BOLD, 16));
 		LbQuanLy.setBounds(0, 390, 250, 30);
 		panelSideBar.add(LbQuanLy);
+		
+		ImageIcon pQLPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlPhong.png").getImage());
+		PanelMenu pQLPhong = new PanelMenu("Quản lý phòng", pQLPhongIcon);
+		pQLPhong.setBounds(0, 430, 250, 40);
+		pQLPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new QuanLyPhongForm(), "Quản Lý Phòng", pQLPhongIcon);
+			}
+		});
+		panelSideBar.add(pQLPhong);
 
 		panelMain = new JPanel();
 		panelMain.setBounds(250, 40, 1186, 818);

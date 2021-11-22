@@ -65,9 +65,7 @@ public class Phong {
 
 	@Override
 	public String toString() {
-		return "Phong [maP=" + maP + ", ten=" + ten + ", maLP=" + maLP.getTenLP() + ", maTTP=" + maTTP.getTenTTP() + "]";
+		return "Phong [maP=" + maP + ", ten=" + ten + ", maLP=" + maLP + ", maTTP=" + maTTP + "]";
 	}
-	
-	
 
 }

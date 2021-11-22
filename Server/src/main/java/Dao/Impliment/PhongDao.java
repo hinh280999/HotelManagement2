@@ -1,5 +1,6 @@
 package Dao.Impliment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -7,11 +8,19 @@ import javax.persistence.NoResultException;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
+import org.hibernate.query.NativeQuery;
 
+import Constant.Page;
 import Dao.Interface.IPhongDao;
+import Entity.KhachHang;
 import Entity.Phong;
 import Entity.TinhTrangPhong;
+import Model.PageList;
+import Rmi.DTO.KhachHangDTO;
+import Rmi.DTO.PhongDTO;
 import Utilities.HibernateUtil;
+import Utilities.KhachHangUtil;
+import Utilities.MappingDtoFacade;
 
 public class PhongDao implements IPhongDao {
 	private OgmSessionFactory sessionFactory;
@@ -161,6 +170,49 @@ public class PhongDao implements IPhongDao {
 		return null;
 	}
 
+	// 11/5 = 2.2 Math round()  3
+	// tong cong co 11 dong / 5 dong tren 1 trang / 3 trang / trang 1 co 5 dong trang 2 5 trong trang 1
+	// trang bat tau tu  1 - 5, trang 6 -10, trang3 11
+	// skip(5)  limit (5)
+	// == trang 1:  ======================================
+	@Override
+	public PageList<PhongDTO> getListPhongByPage(int pageNumb, int maxRow, String roomName) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+
+		String mongoAggregate;
+		if (roomName.length() > 0) {
+			mongoAggregate = "db.phongs.aggregate([{ '$match': { '$text': { '$search': '" + roomName + "' }}}])";
+		} else {
+			mongoAggregate = "db.phongs.find({})";
+		}
+		
+		try {
+			NativeQuery<Phong> javaQuery = session.createNativeQuery(mongoAggregate, Phong.class);
+			int totalRow = javaQuery.getResultList().size();
+			
+			List<Phong> Phongs_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1))
+					.setMaxResults(maxRow).getResultList();
+
+			PageList<PhongDTO> pageList = new PageList<>();
+			
+			int maxPage = totalRow/maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+			
+			pageList.setListData(convertToListPhongDTO(Phongs_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 //	@Override
 //	public List<Phong> getListByPage(int pageNumb) {
 //		OgmSession session = sessionFactory.getCurrentSession();
@@ -184,5 +236,15 @@ public class PhongDao implements IPhongDao {
 //
 //		return null;
 //	}
+	
+	private List<PhongDTO> convertToListPhongDTO (List<Phong> lstPhong){
+		List<PhongDTO> lstDTO = new ArrayList<PhongDTO>();
+		for (Phong phongEntity : lstPhong) {
+			PhongDTO phongDTO = MappingDtoFacade.mapToPhongDTO(phongEntity);
+			lstDTO.add(phongDTO);
+		}
+		return lstDTO;
+		
+	}
 
 }
