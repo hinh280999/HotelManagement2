@@ -1,16 +1,7 @@
 package TestRun;
 
-import Dao.Impliment.LoaiPhongDao;
 import Dao.Impliment.PhongDao;
-import Dao.Impliment.TinhTrangPhongDao;
-import Dao.Interface.ILoaiPhongDao;
 import Dao.Interface.IPhongDao;
-import Dao.Interface.ITinhTrangPhongDao;
-import Entity.LoaiPhong;
-import Entity.Phong;
-import Entity.TinhTrangPhong;
-import Model.PageList;
-import Rmi.DTO.PhongDTO;
 
 public class PhongDaoTest {
 
@@ -18,23 +9,23 @@ public class PhongDaoTest {
 		IPhongDao Dao = new PhongDao();
 
 //		ITinhTrangPhongDao DaoTTP = new TinhTrangPhongDao();
-//		TinhTrangPhong tTTP = new TinhTrangPhong("Đã thuê");
+//		TinhTrangPhong tTTP = new TinhTrangPhong("Đã thuê3");
 //		DaoTTP.add(tTTP);
-//
+////
 //		ILoaiPhongDao LPDao = new LoaiPhongDao();
 //		LoaiPhong newLP = new LoaiPhong("Vip2", 100000.0);
 //		LPDao.add(newLP);
-//
-//		Phong tPhong = new Phong("P2803");
+////
+//		Phong tPhong = new Phong("P2803Moi");
 //		tPhong.setMaTTP(tTTP);
 //		tPhong.setMaLP(newLP);
-//
-//		if (Dao.add(tPhong)) {
+////
+//		if (Dao.addPhong2(tPhong)) {
 //			System.out.println("Add Phong Complete");
 //		} else {
 //			System.out.println("Add Phong Fail");
 //		}
-
+//
 //		Phong pInfo = null;
 //		try {
 //			pInfo = Dao.get(tPhong.getMaP());
@@ -49,19 +40,19 @@ public class PhongDaoTest {
 //		} else {
 //			System.out.println("update Phong Fail");
 //		}
-//
+////
 //		if (Dao.delete(pInfo.getMaP())) {
 //			System.out.println("delete Phong Complete");
 //		} else {
 //			System.out.println("delete Phong Fail");
 //		}
-//		
+////		
 //		DaoTTP.delete(tTTP.getMaTTP());
 //		LPDao.delete(newLP.getMaLP());
 
 //		Phong phongtrong = Dao.getPhongTrongByLoaiPhongId(11);
 //		System.out.println(phongtrong.toString());
-		
+
 //		PageList<PhongDTO> lst = Dao.getListPhongByPage(1, 2,"P2809");
 //		for (PhongDTO string : lst.getListData()) {
 //			System.out.println(string.toString());

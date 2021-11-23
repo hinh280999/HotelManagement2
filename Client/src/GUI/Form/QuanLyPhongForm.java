@@ -8,14 +8,17 @@ import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import CustomControll.ColorButton2;
 import Dao.PhongDao;
 import Model.PageList;
 import Rmi.DTO.PhongDTO;
+import javax.swing.JTextField;
 
 public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private PhongDao phongDao = null;
@@ -25,6 +28,9 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private PageList<PhongDTO> lstPhong;
 	private int currentPage, maxPage;
 	private static int maxRow = 2;
+	private ColorButton2 btnThemPhong, btnSuaPhong, btnXoaPhong;
+	private JTextField txtSearchText;
+	private JButton btnSearch;
 
 	public QuanLyPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -35,6 +41,34 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		pSearch.setBackground(Color.WHITE);
 		pSearch.setBounds(10, 10, 1160, 120);
 		add(pSearch);
+		pSearch.setLayout(null);
+
+		btnThemPhong = new ColorButton2(Color.decode("#34e039"), Color.decode("#38f53e"), Color.decode("#32cf37"),
+				Color.decode("#34e039"));
+		btnThemPhong.setText("Thêm Phòng");
+		btnThemPhong.setBounds(10, 80, 100, 30);
+		pSearch.add(btnThemPhong);
+
+		btnSuaPhong = new ColorButton2(Color.decode("#f0f03a"), Color.decode("#fafa3c"), Color.decode("#e0e034"),
+				Color.decode("#f0f03a"));
+		btnSuaPhong.setBounds(120, 80, 150, 30);
+		btnSuaPhong.setText("Sửa Thông Tin Phòng");
+		pSearch.add(btnSuaPhong);
+
+		btnXoaPhong = new ColorButton2(Color.decode("#ed3752"), Color.decode("#ff425e"), Color.decode("#e63c55"),
+				Color.decode("#ed3752"));
+		btnXoaPhong.setBounds(280, 80, 150, 30);
+		btnXoaPhong.setText("Xóa Phòng");
+		pSearch.add(btnXoaPhong);
+
+		txtSearchText = new JTextField();
+		txtSearchText.setBounds(10, 10, 310, 30);
+		pSearch.add(txtSearchText);
+		txtSearchText.setColumns(10);
+
+		btnSearch = new JButton("Tìm Kiếm");
+		btnSearch.setBounds(330, 10, 110, 30);
+		pSearch.add(btnSearch);
 
 		JPanel pTable = new JPanel();
 		pTable.setBackground(Color.WHITE);
@@ -59,16 +93,20 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		pTable.add(btnPrev);
 
 		lblPage = new JLabel("paging");
-		lblPage.setBounds(479, 593, 45, 13);
+		lblPage.setBounds(450, 593, 45, 13);
 		pTable.add(lblPage);
 
 		btnNext = new JButton(">");
-		btnNext.setBounds(578, 589, 85, 21);
+		btnNext.setBounds(500, 589, 85, 21);
 		pTable.add(btnNext);
 
 		// == action ============
 		btnPrev.addActionListener(this);
 		btnNext.addActionListener(this);
+		btnThemPhong.addActionListener(this);
+		btnSuaPhong.addActionListener(this);
+		btnXoaPhong.addActionListener(this);
+		btnSearch.addActionListener(this);
 
 		// == load ds phong ====
 		try {
@@ -86,7 +124,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 
 		for (PhongDTO phong : lstPhong.getListData()) {
-			Object[] o = { phong.getTen(), phong.getTen(), phong.getTinhTrangPhong_id(), phong.getLoaiPhong_id() };
+			Object[] o = { phong.getMaP(), phong.getTen(), phong.getTinhTrangPhong_id(), phong.getLoaiPhong_id() };
 			model.addRow(o);
 		}
 		tblDsPhong.setModel(model);
@@ -113,14 +151,41 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnPrev)) {
-			System.out.println("Prev Clicked");
 			LoadPrevPage();
 		}
 		if (o.equals(btnNext)) {
-			System.out.println("Next Clicked");
 			loadNextPage();
 		}
+		if (o.equals(btnThemPhong)) {
+			System.out.println("Them clicked");
+		}
+		if (o.equals(btnXoaPhong)) {
+			System.out.println("Xoa Clicked");
+		}
+		if (o.equals(btnSuaPhong)) {
+			System.out.println("Sua Clicked");
+		}
+		if (o.equals(btnSearch)) {
+			System.out.println("Search Clicked");
+			SearchDsPhong();
+		}
 
+	}
+
+	private void SearchDsPhong() {
+		String nameSearch = txtSearchText.getText().toString();
+		if (nameSearch.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên phòng cần tìm");
+			txtSearchText.requestFocus();
+			return;
+		}
+
+		try {
+			lstPhong = phongDao.getListPhongPaged(1, maxRow, nameSearch);
+			LoadDsPhong(lstPhong);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void loadNextPage() {
@@ -133,7 +198,8 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 
 		int nextPageNumb = lstPhong.getCurrentPage() + 1;
 		try {
-			lstPhong = phongDao.getListPhongPaged(nextPageNumb, maxRow, "");
+			String nameSearch = txtSearchText.getText().toString();
+			lstPhong = phongDao.getListPhongPaged(nextPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsPhong(lstPhong);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -150,7 +216,8 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 
 		int PrevPageNumb = lstPhong.getCurrentPage() - 1;
 		try {
-			lstPhong = phongDao.getListPhongPaged(PrevPageNumb, maxRow, "");
+			String nameSearch = txtSearchText.getText().toString();
+			lstPhong = phongDao.getListPhongPaged(PrevPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsPhong(lstPhong);
 		} catch (RemoteException e) {
 			e.printStackTrace();

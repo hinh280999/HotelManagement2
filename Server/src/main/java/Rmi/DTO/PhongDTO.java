@@ -3,9 +3,6 @@ package Rmi.DTO;
 import java.io.Serializable;
 
 public class PhongDTO implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int maP;
 	private String ten;

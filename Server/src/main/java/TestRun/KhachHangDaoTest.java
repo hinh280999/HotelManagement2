@@ -2,7 +2,6 @@ package TestRun;
 
 import Dao.Impliment.KhachHangDao;
 import Dao.Interface.IKhachHangDao;
-import Entity.KhachHang;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 

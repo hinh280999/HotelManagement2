@@ -8,25 +8,22 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 
-public class ColorButton extends JButton {
-	private static final long serialVersionUID = 1L;
-	
+public class ColorButton2 extends JButton {
 	private boolean over;
 	private Color color, colorOver, colorClick, borderColor;
 	private int radius = 0;
 
-	public ColorButton() {
+	public ColorButton2(Color colorBg, Color colorOver, Color colorClick, Color colorBorder) {
 		super();
-		//setColor(new Color(255, 107, 120));
-		setColor(Color.decode("#3a71fc"));
-		colorOver = new Color(255, 125, 136);
-		colorClick = new Color(217, 67, 80);
-		borderColor = new Color(237, 59, 74);
+		// setColor(new Color(255, 107, 120));
+		setColor(colorBg);
+		this.colorOver = colorOver;
+		this.colorClick = colorClick;
+		this.borderColor = colorBorder;
 		setBorder(null);
 		setContentAreaFilled(false);
 		setBorderPainted(false);
 
-		// Add event mouse
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent me) {
@@ -116,5 +113,4 @@ public class ColorButton extends JButton {
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}
-
 }

@@ -148,6 +148,16 @@ public class MappingDtoFacade {
 		return rv;
 	}
 
+	public static List<PhongDTO> convertToListPhongDTO(List<Phong> lstPhong) {
+		List<PhongDTO> lstDTO = new ArrayList<PhongDTO>();
+		for (Phong phongEntity : lstPhong) {
+			PhongDTO phongDTO = mapToPhongDTO(phongEntity);
+			lstDTO.add(phongDTO);
+		}
+		return lstDTO;
+
+	}
+
 	public static PhongDTO mapToPhongDTO(Phong phong) {
 		PhongDTO rvDto = new PhongDTO(phong.getTen(), phong.getMaLP().getMaLP(), phong.getMaTTP().getMaTTP());
 		rvDto.setMaP(phong.getMaP());
