@@ -1,8 +1,9 @@
 package Rmi.DTO;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class LoaiPhongDTO implements Serializable{
+public class LoaiPhongDTO implements Serializable {
 	/**
 	 * 
 	 */
@@ -53,6 +54,23 @@ public class LoaiPhongDTO implements Serializable{
 	@Override
 	public String toString() {
 		return "LoaiPhongDTO [maLP=" + maLP + ", tenLP=" + tenLP + ", donGia=" + donGia + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maLP);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LoaiPhongDTO other = (LoaiPhongDTO) obj;
+		return maLP == other.maLP;
 	}
 
 }

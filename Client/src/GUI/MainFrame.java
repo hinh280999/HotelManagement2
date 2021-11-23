@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import CustomControll.PanelMenu;
 import GUI.Form.DatPhongForm;
+import GUI.Form.QuanLyKhachHangForm;
 import GUI.Form.QuanLyPhongForm;
 
 public class MainFrame extends JFrame {
@@ -65,7 +66,7 @@ public class MainFrame extends JFrame {
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblUsername.setBounds(0, 10, 250, 83);
 		panelSideBar.add(lblUsername);
-			
+
 		ImageIcon pDieuKhienIcon = new ImageIcon(new ImageIcon("icon/monitor.png").getImage());
 		PanelMenu pDieuKhien = new PanelMenu("Bảng điều khiển", pDieuKhienIcon);
 		pDieuKhien.setBounds(0, 103, 250, 40);
@@ -117,7 +118,7 @@ public class MainFrame extends JFrame {
 		LbQuanLy.setFont(new Font("Tahoma", Font.BOLD, 16));
 		LbQuanLy.setBounds(0, 390, 250, 30);
 		panelSideBar.add(LbQuanLy);
-		
+
 		ImageIcon pQLPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlPhong.png").getImage());
 		PanelMenu pQLPhong = new PanelMenu("Quản lý phòng", pQLPhongIcon);
 		pQLPhong.setBounds(0, 430, 250, 40);
@@ -128,6 +129,17 @@ public class MainFrame extends JFrame {
 			}
 		});
 		panelSideBar.add(pQLPhong);
+
+		ImageIcon pQLKhachIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
+		PanelMenu pQLKhach = new PanelMenu("Quản Khách Hàng", pQLKhachIcon);
+		pQLKhach.setBounds(0, 470, 250, 40);
+		pQLKhach.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new QuanLyKhachHangForm(), "Quản Khách Hàng", pQLKhachIcon);
+			}
+		});
+		panelSideBar.add(pQLKhach);
 
 		panelMain = new JPanel();
 		panelMain.setBounds(250, 40, 1186, 818);

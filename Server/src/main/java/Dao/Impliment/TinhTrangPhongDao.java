@@ -50,16 +50,12 @@ public class TinhTrangPhongDao implements ITinhTrangPhongDao {
 		try {
 			List<TinhTrangPhong> list = session.createNativeQuery(query, TinhTrangPhong.class).getResultList();
 			tr.commit();
-			session.close();
 
 			return list;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
@@ -109,7 +105,7 @@ public class TinhTrangPhongDao implements ITinhTrangPhongDao {
 	public boolean delete(int deleteObjectId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		
+
 		TinhTrangPhong deleteObj = new TinhTrangPhong(deleteObjectId);
 		try {
 			session.delete(deleteObj);

@@ -378,6 +378,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		dcm.addElement(" -- Chọn loại phòng --");
 
 		lstLoaiPhong = LoaiPhongDao.getInstance().getAllLoaiPhong();
+		// cai nay se ko phai try catch nua
 		for (LoaiPhongDTO loaiPhongDTO : lstLoaiPhong) {
 			dcm.addElement(loaiPhongDTO.getTenLP());
 		}

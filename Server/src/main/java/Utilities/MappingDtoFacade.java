@@ -197,9 +197,16 @@ public class MappingDtoFacade {
 	public static List<LoaiPhongDTO> mapToListLoaiPhongDTO(List<LoaiPhong> lstLoaiPhong) {
 		List<LoaiPhongDTO> rvlst = new ArrayList<LoaiPhongDTO>();
 		for (LoaiPhong loaiPhong : lstLoaiPhong) {
-			LoaiPhongDTO tempDTO = mapToLoaiPhongDTO(loaiPhong);
-			rvlst.add(tempDTO);
+			rvlst.add(mapToLoaiPhongDTO(loaiPhong));
 		}
 		return rvlst;
+	}
+
+	public static List<TinhTrangPhongDTO> mapToListTtpDTO(List<TinhTrangPhong> lstTTP) {
+		List<TinhTrangPhongDTO> rvList = new ArrayList<TinhTrangPhongDTO>();
+		for (TinhTrangPhong tinhTrangPhong : lstTTP) {
+			rvList.add(mapToTinhTrangPhongDto(tinhTrangPhong));
+		}
+		return rvList;
 	}
 }

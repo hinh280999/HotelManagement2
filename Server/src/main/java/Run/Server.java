@@ -11,10 +11,12 @@ import Rmi.Interface.IKhachHangService;
 import Rmi.Interface.ILoaiPhongService;
 import Rmi.Interface.IPhongService;
 import Rmi.Interface.ITaiKhoanService;
+import Rmi.Interface.ITinhTrangPhongService;
 import Rmi.Service.KhachHangService;
 import Rmi.Service.LoaiPhongService;
 import Rmi.Service.PhongService;
 import Rmi.Service.TaiKhoanService;
+import Rmi.Service.TinhTrangPhongService;
 
 public class Server {
 
@@ -32,6 +34,7 @@ public class Server {
 		ITaiKhoanService taiKhoanService = new TaiKhoanService();
 		IKhachHangService khachHangService = new KhachHangService();
 		ILoaiPhongService loaiPhongService = new LoaiPhongService();
+		ITinhTrangPhongService tinhTrangPhongService = new TinhTrangPhongService();
 		IPhongService phongService = new PhongService();
 
 		// === public service ============================================
@@ -41,6 +44,7 @@ public class Server {
 		context.bind("rmi://HinhPc:3000/khachHangService", khachHangService);
 		context.bind("rmi://HinhPc:3000/loaiPhongService", loaiPhongService);
 		context.bind("rmi://HinhPc:3000/phongService", phongService);
+		context.bind("rmi://HinhPc:3000/tinhTrangPhongService", tinhTrangPhongService);
 		System.out.println("Server is running at Port: 3000 (^__^)!");
 	}
 

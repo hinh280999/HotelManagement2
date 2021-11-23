@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,14 +17,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import CustomControll.ColorButton2;
+import Dao.LoaiPhongDao;
 import Dao.PhongDao;
+import Dao.TinhTrangPhongDao;
 import GUI.Dialog.AddPhongDialog;
+import GUI.Dialog.UpdatePhongDialog;
 import Model.PageList;
+import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.PhongDTO;
-import javax.swing.JTextField;
+import Rmi.DTO.TinhTrangPhongDTO;
 
 public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private PhongDao phongDao = null;
@@ -34,6 +42,10 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private ColorButton2 btnThemPhong, btnSuaPhong, btnXoaPhong;
 	private JTextField txtSearchText;
 	private JButton btnSearch;
+	private PhongDTO selectedPhong = null;
+	private List<TinhTrangPhongDTO> lstTTP;
+	private List<LoaiPhongDTO> lstLP;
+	private String trangthaiSelected;
 
 	public QuanLyPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -84,6 +96,14 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		pTable.add(scrollPane);
 
 		tblDsPhong = new JTable();
+		tblDsPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tblDsPhong.getSelectedRow();
+				trangthaiSelected = tblDsPhong.getValueAt(selectedRow, 2).toString();
+				selectedPhong = lstPhong.getListData().get(selectedRow);
+			}
+		});
 		scrollPane.setViewportView(tblDsPhong);
 
 		JLabel lblNewLabel = new JLabel("Danh sách phòng");
@@ -126,8 +146,22 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		String[] tieude = { "Mã Phòng", "Tên Phòng", "Trạng Thái", "Loại Phòng" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 
+		try {
+			lstTTP = TinhTrangPhongDao.getInstance().getService().getAll();
+			lstLP = LoaiPhongDao.getInstance().getAllLoaiPhong();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Có lỗi gì đó xảy ra vui lòng dừng ứng dụng lại");
+		}
+
 		for (PhongDTO phong : lstPhong.getListData()) {
-			Object[] o = { phong.getMaP(), phong.getTen(), phong.getTinhTrangPhong_id(), phong.getLoaiPhong_id() };
+			TinhTrangPhongDTO ttp = new TinhTrangPhongDTO(phong.getTinhTrangPhong_id());
+			TinhTrangPhongDTO temp = lstTTP.get(lstTTP.indexOf(ttp));
+
+			LoaiPhongDTO lp = new LoaiPhongDTO(phong.getLoaiPhong_id());
+			LoaiPhongDTO tempLP = lstLP.get(lstLP.indexOf(lp));
+
+			Object[] o = { phong.getMaP(), phong.getTen(), temp.getTenTTP(), tempLP.getTenLP() };
 			model.addRow(o);
 		}
 		tblDsPhong.setModel(model);
@@ -136,7 +170,6 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		maxPage = lstPhong.getMaxPage();
 
 		showPageNumber();
-
 	}
 
 	private void showPageNumber() {
@@ -160,35 +193,74 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 			loadNextPage();
 		}
 		if (o.equals(btnThemPhong)) {
-			System.out.println("Them clicked");
 			OpenAddPhongDialog();
 		}
 		if (o.equals(btnXoaPhong)) {
-			System.out.println("Xoa Clicked");
+			DeleteSelectedPhong();
 		}
 		if (o.equals(btnSuaPhong)) {
-			System.out.println("Sua Clicked");
+			OpenUpdatePhongDialog();
 		}
 		if (o.equals(btnSearch)) {
-			System.out.println("Search Clicked");
 			SearchDsPhong();
 		}
 
 	}
 
-	private void OpenAddPhongDialog() {
-		AddPhongDialog dialog= new AddPhongDialog();
+	private void DeleteSelectedPhong() {
+		if (selectedPhong == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn phòng nào cả");
+			return;
+		}
+		if (trangthaiSelected.equals("Trống")) {
+			DeletePhong();
+			ReloadDsPhong();
+			selectedPhong = null;
+		} else {
+			JOptionPane.showMessageDialog(null, "Chỉ cho phép sửa phòng có trạng thái 'Trống'");
+			return;
+		}
+	}
+
+	private void DeletePhong() {
+		boolean deleteResult = PhongDao.getInstance().DeletePhong(selectedPhong.getMaP());
+		if (deleteResult) {
+			JOptionPane.showMessageDialog(null, "Đã xóa phòng : " + selectedPhong.getTen());
+		}
+	}
+
+	private void OpenUpdatePhongDialog() {
+		if (selectedPhong == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn phòng nào cả");
+			return;
+		}
+		if (trangthaiSelected.equals("Trống")) {
+			OpenUpdateDialog();
+		} else {
+			JOptionPane.showMessageDialog(null, "Chỉ cho phép sửa phòng có trạng thái 'Trống'");
+			return;
+		}
+
+	}
+
+	private void OpenUpdateDialog() {
+		UpdatePhongDialog dialog = new UpdatePhongDialog(selectedPhong);
 		dialog.setVisible(true);
 		dialog.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				try {
-					lstPhong = phongDao.getListPhongPaged(1, maxRow, "");
-					LoadDsPhong(lstPhong);
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
-				
+				ReloadDsPhong();
+			}
+		});
+	}
+
+	private void OpenAddPhongDialog() {
+		AddPhongDialog dialog = new AddPhongDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ReloadDsPhong();
 			}
 		});
 	}
@@ -210,7 +282,6 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	}
 
 	private void loadNextPage() {
-		// String searchName = txtTenKH.getText().toString();
 		currentPage++;
 		if (currentPage > maxPage) {
 			currentPage = maxPage;
@@ -222,13 +293,13 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 			String nameSearch = txtSearchText.getText().toString();
 			lstPhong = phongDao.getListPhongPaged(nextPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsPhong(lstPhong);
+			selectedPhong = null;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void LoadPrevPage() {
-		// String name = txtTenKH.getText().toString();
 		currentPage--;
 		if (currentPage < 1) {
 			currentPage = 1;
@@ -240,8 +311,18 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 			String nameSearch = txtSearchText.getText().toString();
 			lstPhong = phongDao.getListPhongPaged(PrevPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsPhong(lstPhong);
+			selectedPhong = null;
 		} catch (RemoteException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void ReloadDsPhong() {
+		try {
+			lstPhong = phongDao.getListPhongPaged(1, maxRow, "");
+			LoadDsPhong(lstPhong);
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
 		}
 	}
 }

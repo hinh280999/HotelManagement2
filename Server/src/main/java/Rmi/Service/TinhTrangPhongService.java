@@ -2,6 +2,7 @@ package Rmi.Service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import Dao.Impliment.TinhTrangPhongDao;
 import Dao.Interface.ITinhTrangPhongDao;
@@ -45,6 +46,13 @@ public class TinhTrangPhongService extends UnicastRemoteObject implements ITinhT
 	@Override
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 		return ttpDao.delete(objectId);
+	}
+
+	@Override
+	public List<TinhTrangPhongDTO> getAll() throws RemoteException {
+		List<TinhTrangPhong> lstTTP = ttpDao.getAll();
+		List<TinhTrangPhongDTO> lstDTO = MappingDtoFacade.mapToListTtpDTO(lstTTP);
+		return lstDTO;
 	}
 
 }

@@ -41,6 +41,24 @@ public class PhongDao {
 
 	}
 
+	public boolean DeletePhong(int phongId) {
+		try {
+			return phongService.deleteObjectById(phongId);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean UpdatePhong(PhongDTO updateObj) {
+		try {
+			return phongService.updateObject(updateObj);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public synchronized static PhongDao getInstance() {
 		if (instance == null) {
 			try {
