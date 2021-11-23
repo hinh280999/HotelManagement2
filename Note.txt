@@ -16,3 +16,5 @@
 5. Coding 
  .. có sẵn khung, hiểu nghiệp vụ, thực thi lại
 github : https://github.com/hinh280999/HotelManagement2.git
+
+TEST
