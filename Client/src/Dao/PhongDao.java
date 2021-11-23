@@ -51,4 +51,8 @@ public class PhongDao {
 		}
 		return instance;
 	}
+
+	public IPhongService getService() {
+		return phongService;
+	}
 }

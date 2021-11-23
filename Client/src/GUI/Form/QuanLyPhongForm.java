@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import CustomControll.ColorButton2;
 import Dao.PhongDao;
+import GUI.Dialog.AddPhongDialog;
 import Model.PageList;
 import Rmi.DTO.PhongDTO;
 import javax.swing.JTextField;
@@ -27,7 +30,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private JLabel lblPage;
 	private PageList<PhongDTO> lstPhong;
 	private int currentPage, maxPage;
-	private static int maxRow = 2;
+	private static int maxRow = 3;
 	private ColorButton2 btnThemPhong, btnSuaPhong, btnXoaPhong;
 	private JTextField txtSearchText;
 	private JButton btnSearch;
@@ -158,6 +161,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		}
 		if (o.equals(btnThemPhong)) {
 			System.out.println("Them clicked");
+			OpenAddPhongDialog();
 		}
 		if (o.equals(btnXoaPhong)) {
 			System.out.println("Xoa Clicked");
@@ -170,6 +174,23 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 			SearchDsPhong();
 		}
 
+	}
+
+	private void OpenAddPhongDialog() {
+		AddPhongDialog dialog= new AddPhongDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				try {
+					lstPhong = phongDao.getListPhongPaged(1, maxRow, "");
+					LoadDsPhong(lstPhong);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 	}
 
 	private void SearchDsPhong() {

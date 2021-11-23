@@ -73,7 +73,13 @@ public class PhongDao implements IPhongDao {
 	public boolean add(Phong addObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+
+		String queryTTP = "db.tinhtrangphongs.find({tenTTP : 'Trống'})";
+
 		try {
+			TinhTrangPhong ttp = session.createNativeQuery(queryTTP, TinhTrangPhong.class).getSingleResult();
+			addObject.setMaTTP(ttp);
+			
 			session.save(addObject);
 
 			tr.commit();
@@ -94,6 +100,7 @@ public class PhongDao implements IPhongDao {
 	public boolean update(Phong updateObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
+
 		try {
 			session.saveOrUpdate(updateObject);
 
