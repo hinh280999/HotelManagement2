@@ -59,4 +59,16 @@ public class KhachHangService extends UnicastRemoteObject implements IKhachHangS
 		return khachHangDao.searchListKhachhang(tenKh, pageNumb);
 	}
 
+	@Override
+	public PageList<KhachHangDTO> getListKhachHangByPage(int pageNumb, int maxRow, String customerName)
+			throws RemoteException {
+		try {
+			PageList<KhachHangDTO> lstDTO = khachHangDao.getListKhachHangByPage(pageNumb, maxRow, customerName);
+			return lstDTO;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
