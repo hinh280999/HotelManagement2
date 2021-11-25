@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Dao.Impliment.NhanVienDao;
 import Dao.Interface.INhanVien;
 import Entity.NhanVien;
+import Model.PageList;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.Interface.INhanVienService;
 import Utilities.MappingDtoFacade;
@@ -45,6 +46,23 @@ public class NhanVienService extends UnicastRemoteObject implements INhanVienSer
 	@Override
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 		return nhanVienDao.delete(objectId);
+	}
+	
+	@Override
+	public PageList<NhanVienDTO> searchListNhanVien(String tenNv, int pageNumb) throws RemoteException {
+		return nhanVienDao.searchListNhanVien(tenNv, pageNumb);
+	}
+
+	@Override
+	public PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName)
+			throws RemoteException {
+		try {
+			PageList<NhanVienDTO> lstDTO = nhanVienDao.getListNhanVienByPage(pageNumb, maxRow, employeeName);
+			return lstDTO;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
