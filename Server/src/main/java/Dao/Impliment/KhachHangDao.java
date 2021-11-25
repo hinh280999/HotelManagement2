@@ -14,6 +14,7 @@ import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Utilities.HibernateUtil;
 import Utilities.KhachHangUtil;
+import Utilities.MappingDtoFacade;
 
 public class KhachHangDao implements IKhachHangDao {
 	private OgmSessionFactory sessionFactory;
@@ -142,7 +143,7 @@ public class KhachHangDao implements IKhachHangDao {
 		} else {
 			mongoAggregate = "db.khachhangs.find({})";
 		}
-		
+
 		try {
 			NativeQuery<KhachHang> javaQuery = session.createNativeQuery(mongoAggregate, KhachHang.class);
 			int totalRow = javaQuery.getResultList().size();
@@ -151,9 +152,9 @@ public class KhachHangDao implements IKhachHangDao {
 					.setMaxResults(Page.LIMITROW_ONPAGE).getResultList();
 
 			PageList<KhachHangDTO> pageList = new PageList<>();
-			
-			int maxPage = totalRow/Page.LIMITROW_ONPAGE + (totalRow % Page.LIMITROW_ONPAGE > 0 ? 1 : 0);
-			
+
+			int maxPage = totalRow / Page.LIMITROW_ONPAGE + (totalRow % Page.LIMITROW_ONPAGE > 0 ? 1 : 0);
+
 			pageList.setListData(KhachHangUtil.convertListDTO(khachHangs_Paged));
 			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
 			pageList.setCurrentPage(pageNumb);
@@ -166,6 +167,43 @@ public class KhachHangDao implements IKhachHangDao {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+	
+	@Override
+	public PageList<KhachHangDTO> getListKhachHangByPage(int pageNumb, int maxRow, String customerName) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+
+		String mongoAggregate;
+		if (customerName.length() > 0) {
+			mongoAggregate = "db.khachhangs.aggregate([{ '$match': { '$text': { '$search': '" + customerName + "' }}}])";
+		} else {
+			mongoAggregate = "db.khachhangs.find({})";
+		}
+
+		try {
+			NativeQuery<KhachHang> javaQuery = session.createNativeQuery(mongoAggregate, KhachHang.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<KhachHang> KhachHangs_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
+					.getResultList();
+
+			PageList<KhachHangDTO> pageList = new PageList<>();
+
+			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+
+			pageList.setListData(MappingDtoFacade.convertToListKhachHangDTO(KhachHangs_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
 		return null;
 	}
 
