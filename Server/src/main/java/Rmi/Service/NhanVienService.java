@@ -47,11 +47,6 @@ public class NhanVienService extends UnicastRemoteObject implements INhanVienSer
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 		return nhanVienDao.delete(objectId);
 	}
-	
-	@Override
-	public PageList<NhanVienDTO> searchListNhanVien(String tenNv, int pageNumb) throws RemoteException {
-		return nhanVienDao.searchListNhanVien(tenNv, pageNumb);
-	}
 
 	@Override
 	public PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName)
