@@ -209,4 +209,24 @@ public class MappingDtoFacade {
 		}
 		return rvList;
 	}
+
+	public static List<KhachHangDTO> convertToListKhachHangDTO(List<KhachHang> lstKhachHang) {
+		List<KhachHangDTO> lstDTO = new ArrayList<KhachHangDTO>();
+		for (KhachHang khachHangEntity : lstKhachHang) {
+			KhachHangDTO khachHangDTO = mapToKhachHangDTO(khachHangEntity);
+			lstDTO.add(khachHangDTO);
+		}
+		return lstDTO;
+
+	}
+
+	public static List<NhanVienDTO> convertToListNhanVienDTO(List<NhanVien> lstNhanVien) {
+		List<NhanVienDTO> lstDTO = new ArrayList<NhanVienDTO>();
+		for (NhanVien nhanVienEntity : lstNhanVien) {
+			NhanVienDTO nhanVienDTO = mapToNhanVienDTO(nhanVienEntity);
+			lstDTO.add(nhanVienDTO);
+		}
+		return lstDTO;
+
+	}
 }
