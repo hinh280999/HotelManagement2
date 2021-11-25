@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import CustomControll.PanelMenu;
 import GUI.Form.DatPhongForm;
 import GUI.Form.QuanLyKhachHangForm;
+import GUI.Form.QuanLyNhanVienForm;
 import GUI.Form.QuanLyPhongForm;
 
 public class MainFrame extends JFrame {
@@ -140,6 +141,17 @@ public class MainFrame extends JFrame {
 			}
 		});
 		panelSideBar.add(pQLKhach);
+		
+		ImageIcon pQLNhanVienIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
+		PanelMenu pQLNhanVien = new PanelMenu("Quản lý nhân viên", pQLNhanVienIcon);
+		pQLNhanVien.setBounds(0, 510, 250, 40);
+		pQLNhanVien.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new QuanLyNhanVienForm(), "Quản Lý Nhân Viên", pQLNhanVienIcon);
+			}
+		});
+		panelSideBar.add(pQLNhanVien);
 
 		panelMain = new JPanel();
 		panelMain.setBounds(250, 40, 1186, 818);

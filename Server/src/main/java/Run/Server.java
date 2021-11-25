@@ -9,11 +9,13 @@ import javax.naming.NamingException;
 
 import Rmi.Interface.IKhachHangService;
 import Rmi.Interface.ILoaiPhongService;
+import Rmi.Interface.INhanVienService;
 import Rmi.Interface.IPhongService;
 import Rmi.Interface.ITaiKhoanService;
 import Rmi.Interface.ITinhTrangPhongService;
 import Rmi.Service.KhachHangService;
 import Rmi.Service.LoaiPhongService;
+import Rmi.Service.NhanVienService;
 import Rmi.Service.PhongService;
 import Rmi.Service.TaiKhoanService;
 import Rmi.Service.TinhTrangPhongService;
@@ -36,6 +38,7 @@ public class Server {
 		ILoaiPhongService loaiPhongService = new LoaiPhongService();
 		ITinhTrangPhongService tinhTrangPhongService = new TinhTrangPhongService();
 		IPhongService phongService = new PhongService();
+		INhanVienService nhanVienService = new NhanVienService();
 
 		// === public service ============================================
 		LocateRegistry.createRegistry(3000);
@@ -45,6 +48,7 @@ public class Server {
 		context.bind("rmi://localhost:3000/loaiPhongService", loaiPhongService);
 		context.bind("rmi://localhost:3000/phongService", phongService);
 		context.bind("rmi://localhost:3000/tinhTrangPhongService", tinhTrangPhongService);
+		context.bind("rmi://localhost:3000/nhanVienService", nhanVienService);
 		System.out.println("Server is running at Port: 3000 (^__^)!");
 	}
 
