@@ -23,8 +23,9 @@ public class KhachHangService {
 				.lookup(RmiConstant.ServerPath + ":" + RmiConstant.ServerPort + "/khachHangService");
 	}
 
-	public PageList<KhachHangDTO> searchListKhachHang(String tenKh, int page) throws RemoteException {
-		return khachHangService.searchListKhachhang(tenKh, page);
+	public PageList<KhachHangDTO> getListKhachHangByPage(int pageNumb, int maxRow, String customerName)
+			throws RemoteException {
+		return khachHangService.getListKhachHangByPage(pageNumb, maxRow, customerName);
 	}
 
 	public synchronized static KhachHangService getInstance() {

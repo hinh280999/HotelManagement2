@@ -31,6 +31,7 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 	private KhachHangService khachHangService;
 	private JLabel lblPageNumb;
 	private int currentPage, maxPage;
+	private static int maxRow = 10;
 
 	public ChooseCustomerDialog() {
 		setModal(true);
@@ -95,7 +96,8 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		// === Load data ====
 		try {
 			khachHangService = KhachHangService.getInstance();
-			lstKH = khachHangService.searchListKhachHang("", 1);
+//			lstKH = khachHangService.searchListKhachHang("", 1);
+			lstKH = khachHangService.getListKhachHangByPage(1, maxRow, "");
 			loadDsKhachHang(lstKH);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -132,8 +134,9 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 		}
 
 		int PrevPageNumb = lstKH.getCurrentPage() - 1;
+
 		try {
-			lstKH = khachHangService.searchListKhachHang(name, PrevPageNumb);
+			lstKH = khachHangService.getListKhachHangByPage(PrevPageNumb, maxRow, name);
 			loadDsKhachHang(lstKH);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -150,7 +153,7 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 
 		int nextPageNumb = lstKH.getCurrentPage() + 1;
 		try {
-			lstKH = khachHangService.searchListKhachHang(name, nextPageNumb);
+			lstKH = khachHangService.getListKhachHangByPage(nextPageNumb,maxRow,name);		
 			loadDsKhachHang(lstKH);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -160,7 +163,7 @@ public class ChooseCustomerDialog extends JDialog implements ActionListener {
 	private void SearchKhachHang() {
 		String name = txtTenKH.getText().toString();
 		try {
-			lstKH = khachHangService.searchListKhachHang(name, 1);
+			lstKH = khachHangService.getListKhachHangByPage(1,maxRow,name);
 			loadDsKhachHang(lstKH);
 		} catch (RemoteException e) {
 			e.printStackTrace();
