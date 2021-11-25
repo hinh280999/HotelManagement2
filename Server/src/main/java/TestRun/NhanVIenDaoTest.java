@@ -13,11 +13,11 @@ public class NhanVIenDaoTest {
 		INhanVien nvDao = new NhanVienDao();
 		IChucVu cvDao = new ChucVuDao();
 
-		ChucVu sampleCV = new ChucVu("SampleChucVu", 1.0);
+		ChucVu sampleCV = new ChucVu("Ăn Hại2", 1.0);
 		cvDao.add(sampleCV);
 
-		TaiKhoan tkNV = new TaiKhoan("hinh123123", "123123", true);
-		NhanVien nv = new NhanVien("Phan Trong Hinh", "abc@gmail.com", "male", "123123");
+		TaiKhoan tkNV = new TaiKhoan("hung123123", "123123", true);
+		NhanVien nv = new NhanVien("Than Trong Hung", "abc@gmail.com", "male", "123123");
 		nv.setChucVu(sampleCV);
 		nv.setTaiKhoan(tkNV);
 

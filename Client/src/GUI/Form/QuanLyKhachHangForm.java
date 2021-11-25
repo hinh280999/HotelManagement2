@@ -35,7 +35,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 	private JButton btnNext;
 	private PageList<KhachHangDTO> lstKhachHang;
 	private int currentPage, maxPage;
-	private static int maxRow = 2;
+	private static int maxRow = 15;
 	private KhachHangService khachHangService = null;
 
 	public QuanLyKhachHangForm() {
@@ -120,7 +120,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		btnSuaKhachHang.addActionListener(this);
 		btnXoaKhachHang.addActionListener(this);
 		btnSearch.addActionListener(this);
-		
+
 		// == load ds khach hang ====
 		try {
 			khachHangService = KhachHangService.getInstance();
@@ -136,7 +136,8 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 
 		for (KhachHangDTO khachhang : lstKhachHang.getListData()) {
-			Object[] o = { khachhang.getMaKH(), khachhang.getTen(), khachhang.getEmail(), khachhang.getSdt(), khachhang.getDiaChi(), khachhang.getSoCMND() };
+			Object[] o = { khachhang.getMaKH(), khachhang.getTen(), khachhang.getEmail(), khachhang.getSdt(),
+					khachhang.getDiaChi(), khachhang.getSoCMND() };
 			model.addRow(o);
 		}
 		tblDsKhachHang.setModel(model);
@@ -145,7 +146,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		maxPage = lstKhachHang.getMaxPage();
 
 		showPageNumber();
-		
+
 	}
 
 	private void showPageNumber() {
@@ -166,7 +167,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			LoadPrevPage();
 		}
 		if (o.equals(btnNext)) {
-			LoadNextPage(); 
+			LoadNextPage();
 		}
 		if (o.equals(btnThemKhachHang)) {
 			System.out.println("Them clicked");
@@ -179,7 +180,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		}
 		if (o.equals(btnSearch)) {
 			System.out.println("Search Clicked");
-			SearchDsKhachHang(); 
+			SearchDsKhachHang();
 		}
 	}
 
@@ -209,7 +210,8 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		int nextPageNumb = lstKhachHang.getCurrentPage() + 1;
 		try {
 			String nameSearch = txtSearchText.getText().toString();
-			lstKhachHang = khachHangService.getListKhachHangByPage(nextPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+			lstKhachHang = khachHangService.getListKhachHangByPage(nextPageNumb, maxRow,
+					nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsKhachHang(lstKhachHang);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -226,7 +228,8 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		int PrevPageNumb = lstKhachHang.getCurrentPage() - 1;
 		try {
 			String nameSearch = txtSearchText.getText().toString();
-			lstKhachHang = khachHangService.getListKhachHangByPage(PrevPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+			lstKhachHang = khachHangService.getListKhachHangByPage(PrevPageNumb, maxRow,
+					nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsKhachHang(lstKhachHang);
 		} catch (RemoteException e) {
 			e.printStackTrace();

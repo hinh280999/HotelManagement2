@@ -21,7 +21,7 @@ public class SampleRun {
 		// su dung service nao
 		// IChucVuService chucVuService = (IChucVuService)
 		// Naming.lookup("rmi://localhost:9091/chucVuService");
-		IPhongService phongService = (IPhongService) Naming.lookup("rmi://HinhPc:3000/phongService");
+		IPhongService phongService = (IPhongService) Naming.lookup("rmi://localhost:3000/phongService");
 
 //		if (chucVuService.addChucVu(Dto)) System.out.println("Add From Client success");
 //		else System.out.println("Add from client fail");
