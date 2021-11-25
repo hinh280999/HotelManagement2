@@ -5,10 +5,16 @@ import java.util.List;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
+import org.hibernate.query.NativeQuery;
 
+import Constant.Page;
 import Dao.Interface.INhanVien;
 import Entity.NhanVien;
+import Model.PageList;
+import Rmi.DTO.NhanVienDTO;
 import Utilities.HibernateUtil;
+import Utilities.MappingDtoFacade;
+import Utilities.NhanVienUtil;
 
 public class NhanVienDao implements INhanVien {
 	private OgmSessionFactory sessionFactory;
@@ -125,4 +131,78 @@ public class NhanVienDao implements INhanVien {
 		return false;
 	}
 
+	@Override
+	public PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+
+		String mongoAggregate;
+		if (employeeName.length() > 0) {
+			mongoAggregate = "db.nhanviens.aggregate([{ '$match': { '$text': { '$search': '" + employeeName + "' }}}])";
+		} else {
+			mongoAggregate = "db.nhanviens.find({})";
+		}
+
+		try {
+			NativeQuery<NhanVien> javaQuery = session.createNativeQuery(mongoAggregate, NhanVien.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<NhanVien> NhanViens_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
+					.getResultList();
+
+			PageList<NhanVienDTO> pageList = new PageList<>();
+
+			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+
+			pageList.setListData(MappingDtoFacade.convertToListNhanVienDTO(NhanViens_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public PageList<NhanVienDTO> searchListNhanVien(String tenNv, int pageNumb) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+
+		String mongoAggregate;
+		if (tenNv.length() > 0) {
+			mongoAggregate = "db.nhanviens.aggregate([{ '$match': { '$text': { '$search': '" + tenNv + "' }}}])";
+		} else {
+			mongoAggregate = "db.nhanviens.find({})";
+		}
+		
+		try {
+			NativeQuery<NhanVien> javaQuery = session.createNativeQuery(mongoAggregate, NhanVien.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<NhanVien> nhanViens_Paged = javaQuery.setFirstResult(Page.LIMITROW_ONPAGE * (pageNumb - 1))
+					.setMaxResults(Page.LIMITROW_ONPAGE).getResultList();
+
+			PageList<NhanVienDTO> pageList = new PageList<>();
+			
+			int maxPage = totalRow/Page.LIMITROW_ONPAGE + (totalRow % Page.LIMITROW_ONPAGE > 0 ? 1 : 0);
+			
+			pageList.setListData(NhanVienUtil.convertListDTO(nhanViens_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }
