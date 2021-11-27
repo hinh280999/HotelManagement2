@@ -64,7 +64,7 @@ public class MappingDtoFacade {
 
 		TaiKhoan tk = new TaiKhoan(objectDTO.getTaiKhoan().getTenTK(), objectDTO.getTaiKhoan().getMatKhau(),
 				objectDTO.getTaiKhoan().isAdmin());
-		
+
 		rv.setTaiKhoan(tk);
 		return rv;
 	}
@@ -75,7 +75,7 @@ public class MappingDtoFacade {
 
 		TaiKhoanDTO tkDto = new TaiKhoanDTO(nhanVien.getTaiKhoan().getTenTK(), nhanVien.getTaiKhoan().getMatKhau(),
 				nhanVien.getTaiKhoan().isAdmin());
-		
+
 		rvDto.setTaiKhoan(tkDto);
 		return rvDto;
 	}
@@ -210,5 +210,14 @@ public class MappingDtoFacade {
 		}
 		return lstDTO;
 
+	}
+
+	public static List<DichVuDTO> convertToListDichVuDTO(List<DichVu> dichVus_Paged) {
+		List<DichVuDTO> lstDTO = new ArrayList<DichVuDTO>();
+		for (DichVu dichvu : dichVus_Paged) {
+			DichVuDTO DTO = mapToDichVuDTO(dichvu);
+			lstDTO.add(DTO);
+		}
+		return lstDTO;
 	}
 }

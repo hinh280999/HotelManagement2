@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Dao.Impliment.DichVuDao;
 import Dao.Interface.IDichVuDao;
 import Entity.DichVu;
+import Model.PageList;
 import Rmi.DTO.DichVuDTO;
 import Rmi.Interface.IDichVuService;
 import Utilities.MappingDtoFacade;
@@ -49,6 +50,12 @@ public class DichVuService extends UnicastRemoteObject implements IDichVuService
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 
 		return dichVuDao.delete(objectId);
+	}
+
+	@Override
+	public PageList<DichVuDTO> getListDichVuByPage(int pageNumb, int maxRow, String DichVuName) throws RemoteException {
+
+		return dichVuDao.getListDichVuByPage(pageNumb, maxRow, DichVuName);
 	}
 
 }

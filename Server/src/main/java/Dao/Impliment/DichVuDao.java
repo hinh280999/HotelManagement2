@@ -5,10 +5,16 @@ import java.util.List;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import Dao.Interface.IDichVuDao;
 import Entity.DichVu;
+import Entity.KhachHang;
+import Model.PageList;
+import Rmi.DTO.DichVuDTO;
+import Rmi.DTO.KhachHangDTO;
 import Utilities.HibernateUtil;
+import Utilities.MappingDtoFacade;
 
 public class DichVuDao implements IDichVuDao {
 	private OgmSessionFactory sessionFactory;
@@ -122,6 +128,43 @@ public class DichVuDao implements IDichVuDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public PageList<DichVuDTO> getListDichVuByPage(int pageNumb, int maxRow, String DichVuName) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+
+		String mongoAggregate;
+		if (DichVuName.length() > 0) {
+			mongoAggregate = "db.dichvus.aggregate([{ '$match': { '$text': { '$search': '" + DichVuName + "' }}}])";
+		} else {
+			mongoAggregate = "db.dichvus.find({})";
+		}
+
+		try {
+			NativeQuery<DichVu> javaQuery = session.createNativeQuery(mongoAggregate, DichVu.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<DichVu> DichVus_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
+					.getResultList();
+
+			PageList<DichVuDTO> pageList = new PageList<>();
+
+			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+
+			pageList.setListData(MappingDtoFacade.convertToListDichVuDTO(DichVus_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 //	@Override
