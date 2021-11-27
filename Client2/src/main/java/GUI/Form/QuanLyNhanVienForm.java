@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import CustomControll.ColorButton2;
+import GUI.Dialog.AddNhanVienDialog;
 import ClientService.*;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
@@ -159,6 +162,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 		}
 		if (o.equals(btnThemNhanVien)) {
 			System.out.println("Them clicked");
+			OpenAddNhanVienDialog();
 		}
 		if (o.equals(btnXoaNhanVien)) {
 			System.out.println("Xoa Clicked");
@@ -170,6 +174,18 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 			System.out.println("Search Clicked");
 			SearchDsNhanVien(); 
 		}
+	}
+
+	private void OpenAddNhanVienDialog() {
+		AddNhanVienDialog dialog = new AddNhanVienDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				//ReloadDsDichVu();
+			}
+		});
+		
 	}
 
 	private void SearchDsNhanVien() {
