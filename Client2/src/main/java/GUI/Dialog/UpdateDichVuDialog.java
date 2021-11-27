@@ -35,7 +35,7 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Thêm Dịch Vụ");
+		JLabel lblNewLabel = new JLabel("Sửa Dịch Vụ");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setBounds(10, 0, 157, 60);
