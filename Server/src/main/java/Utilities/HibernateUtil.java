@@ -8,7 +8,6 @@ import org.hibernate.ogm.boot.OgmSessionFactoryBuilder;
 import org.hibernate.ogm.cfg.OgmProperties;
 import org.hibernate.service.ServiceRegistry;
 
-import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
@@ -28,7 +27,6 @@ public class HibernateUtil {
 				.configure().build();
 
 		Metadata metadata = new MetadataSources(serviceRegistry)
-				.addAnnotatedClass(ChucVu.class)
 				.addAnnotatedClass(DichVu.class)
 				.addAnnotatedClass(KhachHang.class)
 				.addAnnotatedClass(LoaiPhong.class)

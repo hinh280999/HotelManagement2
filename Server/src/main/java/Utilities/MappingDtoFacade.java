@@ -3,7 +3,6 @@ package Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
@@ -13,7 +12,6 @@ import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TaiKhoan;
 import Entity.TinhTrangPhong;
-import Rmi.DTO.ChucVuDTO;
 import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
@@ -25,17 +23,6 @@ import Rmi.DTO.TaiKhoanDTO;
 import Rmi.DTO.TinhTrangPhongDTO;
 
 public class MappingDtoFacade {
-
-	public static ChucVu mapToChucVu(ChucVuDTO mapObject) {
-		ChucVu returnVL = new ChucVu();
-		returnVL.setLuong(mapObject.getLuong());
-		returnVL.setTenCV(mapObject.getTenCV());
-		return returnVL;
-	}
-
-	public static ChucVuDTO mapToChucVuDTO(ChucVu chucvu) {
-		return new ChucVuDTO(chucvu.getMaCV(), chucvu.getTenCV(), chucvu.getLuong());
-	}
 
 	public static DichVu mapToDichVu(DichVuDTO mapObject) {
 		DichVu returnVL = new DichVu();
@@ -75,13 +62,9 @@ public class MappingDtoFacade {
 		NhanVien rv = new Entity.NhanVien(objectDTO.getTen(), objectDTO.getEmail(), objectDTO.getGioiTinh(),
 				objectDTO.getSdt());
 
-		ChucVu cv = new ChucVu();
-		cv.setMaCV(objectDTO.getChucVu_id());
-
 		TaiKhoan tk = new TaiKhoan(objectDTO.getTaiKhoan().getTenTK(), objectDTO.getTaiKhoan().getMatKhau(),
 				objectDTO.getTaiKhoan().isAdmin());
-
-		rv.setChucVu(cv);
+		
 		rv.setTaiKhoan(tk);
 		return rv;
 	}
@@ -92,8 +75,7 @@ public class MappingDtoFacade {
 
 		TaiKhoanDTO tkDto = new TaiKhoanDTO(nhanVien.getTaiKhoan().getTenTK(), nhanVien.getTaiKhoan().getMatKhau(),
 				nhanVien.getTaiKhoan().isAdmin());
-
-		rvDto.setChucVu_id(nhanVien.getChucVu().getMaCV());
+		
 		rvDto.setTaiKhoan(tkDto);
 		return rvDto;
 	}

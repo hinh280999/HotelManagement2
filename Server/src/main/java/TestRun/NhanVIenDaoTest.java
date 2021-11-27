@@ -1,24 +1,21 @@
 package TestRun;
 
-import Dao.Impliment.ChucVuDao;
 import Dao.Impliment.NhanVienDao;
-import Dao.Interface.IChucVu;
 import Dao.Interface.INhanVien;
-import Entity.ChucVu;
 import Entity.NhanVien;
 import Entity.TaiKhoan;
 
 public class NhanVIenDaoTest {
 	public static void main(String[] args) {
 		INhanVien nvDao = new NhanVienDao();
-		IChucVu cvDao = new ChucVuDao();
+//		IChucVu cvDao = new ChucVuDao();
 
-		ChucVu sampleCV = new ChucVu("Ăn Hại2", 1.0);
-		cvDao.add(sampleCV);
+//		ChucVu sampleCV = new ChucVu("Ăn Hại2", 1.0);
+//		cvDao.add(sampleCV);
 
-		TaiKhoan tkNV = new TaiKhoan("hung123123", "123123", true);
-		NhanVien nv = new NhanVien("Than Trong Hung", "abc@gmail.com", "male", "123123");
-		nv.setChucVu(sampleCV);
+		TaiKhoan tkNV = new TaiKhoan("hinh123", "123123", true);
+		NhanVien nv = new NhanVien("Phan Trong Hinh", "abc@gmail.com", "male", "123123");
+		//nv.setChucVu(sampleCV);
 		nv.setTaiKhoan(tkNV);
 
 		if (nvDao.add(nv))

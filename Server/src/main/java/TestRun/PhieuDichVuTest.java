@@ -2,7 +2,6 @@ package TestRun;
 
 import java.util.Date;
 
-import Dao.Impliment.ChucVuDao;
 import Dao.Impliment.DichVuDao;
 import Dao.Impliment.KhachHangDao;
 import Dao.Impliment.LoaiPhongDao;
@@ -11,7 +10,6 @@ import Dao.Impliment.PhieuDichVuDao;
 import Dao.Impliment.PhieuThueDao;
 import Dao.Impliment.PhongDao;
 import Dao.Impliment.TinhTrangPhongDao;
-import Dao.Interface.IChucVu;
 import Dao.Interface.IDichVuDao;
 import Dao.Interface.IKhachHangDao;
 import Dao.Interface.ILoaiPhongDao;
@@ -20,7 +18,6 @@ import Dao.Interface.IPhieuDichVu;
 import Dao.Interface.IPhieuThue;
 import Dao.Interface.IPhongDao;
 import Dao.Interface.ITinhTrangPhongDao;
-import Entity.ChucVu;
 import Entity.DichVu;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
@@ -42,8 +39,6 @@ public class PhieuDichVuTest {
 		INhanVien nvDao = new NhanVienDao();
 		IPhongDao phongDao = new PhongDao();
 
-		IChucVu cvDao = new ChucVuDao();
-
 		ITinhTrangPhongDao DaoTTP = new TinhTrangPhongDao();
 		ILoaiPhongDao LPDao = new LoaiPhongDao();
 
@@ -59,12 +54,12 @@ public class PhieuDichVuTest {
 		// da co Sample Phong
 		phongDao.add(samplePhong);
 
-		ChucVu sampleCV = new ChucVu("SampleChucVu", 1.0);
-		cvDao.add(sampleCV);
+//		ChucVu sampleCV = new ChucVu("SampleChucVu", 1.0);
+//		cvDao.add(sampleCV);
 
 		TaiKhoan tkNV = new TaiKhoan("hinh123123", "123123", true);
 		NhanVien tempNV = new NhanVien("Phan Trong Hinh", "abc@gmail.com", "male", "123123");
-		tempNV.setChucVu(sampleCV);
+		//tempNV.setChucVu(sampleCV);
 		tempNV.setTaiKhoan(tkNV);
 
 		// da co SampleNhanVien
@@ -137,7 +132,7 @@ public class PhieuDichVuTest {
 
 		phongDao.delete(samplePhong.getMaP());
 		nvDao.delete(tempNV.getMaNV());
-		cvDao.delete(sampleCV.getMaCV());
+		//cvDao.delete(sampleCV.getMaCV());
 	}
 
 }

@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 
 @Entity(name = "phieudichvus")
 public class PhieuDichVu {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int maPDV;
@@ -85,7 +84,5 @@ public class PhieuDichVu {
 		return "PhieuDichVu [maPDV=" + maPDV + ", soLuong=" + soLuong + ", ngayLap=" + ngayLap + ", daThanhToan="
 				+ daThanhToan + ", phieuThue=" + phieuThue.getTrangThai() + ", dichVu=" + dichVu.getTenDv() + "]";
 	}
-	
-	
 
 }

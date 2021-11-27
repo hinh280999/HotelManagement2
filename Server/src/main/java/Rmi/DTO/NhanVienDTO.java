@@ -3,10 +3,6 @@ package Rmi.DTO;
 import java.io.Serializable;
 
 public class NhanVienDTO implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int maNV;
 	private String ten;
@@ -14,7 +10,6 @@ public class NhanVienDTO implements Serializable {
 	private String gioiTinh;
 	private String sdt;
 
-	private int chucVu_id;
 	private TaiKhoanDTO taiKhoan;
 
 	public NhanVienDTO() {
@@ -80,14 +75,6 @@ public class NhanVienDTO implements Serializable {
 
 	public void setTaiKhoan(TaiKhoanDTO taiKhoan) {
 		this.taiKhoan = taiKhoan;
-	}
-
-	public int getChucVu_id() {
-		return chucVu_id;
-	}
-
-	public void setChucVu_id(int chucVu_id) {
-		this.chucVu_id = chucVu_id;
 	}
 
 }

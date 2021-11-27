@@ -21,10 +21,6 @@ public class NhanVien {
 	@Embedded
 	private TaiKhoan taiKhoan;
 
-	@ManyToOne
-	@JoinColumn(name = "maCV")
-	private ChucVu chucVu;
-
 	public int getMaNV() {
 		return maNV;
 	}
@@ -71,14 +67,6 @@ public class NhanVien {
 
 	public void setTaiKhoan(TaiKhoan taiKhoan) {
 		this.taiKhoan = taiKhoan;
-	}
-
-	public ChucVu getChucVu() {
-		return chucVu;
-	}
-
-	public void setChucVu(ChucVu chucVu) {
-		this.chucVu = chucVu;
 	}
 
 	public NhanVien() {
