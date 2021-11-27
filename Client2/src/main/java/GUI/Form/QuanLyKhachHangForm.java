@@ -58,7 +58,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		btnSuaKhachHang = new ColorButton2(Color.decode("#f0f03a"), Color.decode("#fafa3c"), Color.decode("#e0e034"),
 				Color.decode("#f0f03a"));
 		btnSuaKhachHang.setBounds(120, 80, 150, 30);
-		btnSuaKhachHang.setText("Sửa Thông Khách Hàng");
+		btnSuaKhachHang.setText("Sửa Khách Hàng");
 		pSearch.add(btnSuaKhachHang);
 
 		btnXoaKhachHang = new ColorButton2(Color.decode("#ed3752"), Color.decode("#ff425e"), Color.decode("#e63c55"),

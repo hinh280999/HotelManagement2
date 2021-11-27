@@ -55,20 +55,20 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 
 		btnThemDichVu = new ColorButton2(Color.decode("#34e039"), Color.decode("#38f53e"), Color.decode("#32cf37"),
 				Color.decode("#34e039"));
-		btnThemDichVu.setText("Thêm Khách Hàng");
+		btnThemDichVu.setText("Thêm Dịch Vụ");
 		btnThemDichVu.setBounds(10, 80, 100, 30);
 		pSearch.add(btnThemDichVu);
 
 		btnSuaDichVu = new ColorButton2(Color.decode("#f0f03a"), Color.decode("#fafa3c"), Color.decode("#e0e034"),
 				Color.decode("#f0f03a"));
 		btnSuaDichVu.setBounds(120, 80, 150, 30);
-		btnSuaDichVu.setText("Sửa Thông Khách Hàng");
+		btnSuaDichVu.setText("Sửa Dịch Vụ");
 		pSearch.add(btnSuaDichVu);
 
 		btnXoaDichVu = new ColorButton2(Color.decode("#ed3752"), Color.decode("#ff425e"), Color.decode("#e63c55"),
 				Color.decode("#ed3752"));
 		btnXoaDichVu.setBounds(280, 80, 150, 30);
-		btnXoaDichVu.setText("Xóa Khách Hàng");
+		btnXoaDichVu.setText("Xóa Dịch Vụ");
 		pSearch.add(btnXoaDichVu);
 
 		txtSearchText = new JTextField();
