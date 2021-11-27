@@ -5,6 +5,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import javax.swing.JOptionPane;
+
 import Model.PageList;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.Interface.INhanVienService;
@@ -22,8 +24,9 @@ public class NhanVienService {
 		nhanVienService = (INhanVienService) Naming
 				.lookup(RmiConstant.ServerPath + ":" + RmiConstant.ServerPort + "/nhanVienService");
 	}
-	
-	public PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName) throws RemoteException{
+
+	public PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName)
+			throws RemoteException {
 		return nhanVienService.getListNhanVienByPage(pageNumb, maxRow, employeeName);
 	}
 
@@ -36,6 +39,20 @@ public class NhanVienService {
 			}
 		}
 		return instance;
+	}
+
+	public boolean addNhanVien(NhanVienDTO addObj) {
+		try {
+			return nhanVienService.addObject(addObj);
+		} catch (Exception e) {
+			if (e instanceof javax.persistence.PersistenceException) {
+				JOptionPane.showMessageDialog(null, "Tên tài khoản đã tồn tại, vui lòng chọn tài khoản khác!");
+			} else {
+				e.printStackTrace();
+			}
+
+		}
+		return false;
 	}
 
 }

@@ -2,10 +2,13 @@ package Dao.Impliment;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 import org.hibernate.query.NativeQuery;
+
+import com.mongodb.MongoBulkWriteException;
 
 import Constant.Page;
 import Dao.Interface.INhanVien;
@@ -76,16 +79,17 @@ public class NhanVienDao implements INhanVien {
 			session.save(addObject);
 
 			tr.commit();
-			session.close();
 
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
+			if (e instanceof javax.persistence.PersistenceException) {
+				System.out.println("Fail because Same Account Name");
+			} else {
+				e.printStackTrace();
+			}
 
-			e.printStackTrace();
 		}
-
 		return false;
 	}
 
@@ -179,7 +183,7 @@ public class NhanVienDao implements INhanVien {
 		} else {
 			mongoAggregate = "db.nhanviens.find({})";
 		}
-		
+
 		try {
 			NativeQuery<NhanVien> javaQuery = session.createNativeQuery(mongoAggregate, NhanVien.class);
 			int totalRow = javaQuery.getResultList().size();
@@ -188,9 +192,9 @@ public class NhanVienDao implements INhanVien {
 					.setMaxResults(Page.LIMITROW_ONPAGE).getResultList();
 
 			PageList<NhanVienDTO> pageList = new PageList<>();
-			
-			int maxPage = totalRow/Page.LIMITROW_ONPAGE + (totalRow % Page.LIMITROW_ONPAGE > 0 ? 1 : 0);
-			
+
+			int maxPage = totalRow / Page.LIMITROW_ONPAGE + (totalRow % Page.LIMITROW_ONPAGE > 0 ? 1 : 0);
+
 			pageList.setListData(NhanVienUtil.convertListDTO(nhanViens_Paged));
 			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
 			pageList.setCurrentPage(pageNumb);
