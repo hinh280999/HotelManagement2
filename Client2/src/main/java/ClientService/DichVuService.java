@@ -24,7 +24,6 @@ public class DichVuService {
 		dichVuService = (IDichVuService) Naming
 				.lookup(RmiConstant.ServerPath + ":" + RmiConstant.ServerPort + "/dichVuService");
 	}
-	
 
 	public synchronized static DichVuService getInstance() {
 		if (instance == null) {
@@ -37,7 +36,6 @@ public class DichVuService {
 		return instance;
 	}
 
-
 	public PageList<DichVuDTO> getListDichVuByPage(int pageNumb, int maxRow, String dichVuName) {
 		PageList<DichVuDTO> lst = new PageList<>();
 		try {
@@ -47,10 +45,9 @@ public class DichVuService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-
 
 	public boolean AddDichVu(DichVuDTO addObj) {
 		// TODO Auto-generated method stub
@@ -61,5 +58,36 @@ public class DichVuService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public boolean isDeleteAble(int maDV) {
+		try {
+			return dichVuService.isDeleteAble(maDV);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteDichVuById(int maDv) {
+		try {
+			return dichVuService.deleteObjectById(maDv);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean UpdateDichVu(DichVuDTO updateObj) {
+		try {
+			return dichVuService.updateObject(updateObj);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 }

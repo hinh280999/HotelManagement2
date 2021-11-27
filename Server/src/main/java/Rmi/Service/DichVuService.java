@@ -58,4 +58,10 @@ public class DichVuService extends UnicastRemoteObject implements IDichVuService
 		return dichVuDao.getListDichVuByPage(pageNumb, maxRow, DichVuName);
 	}
 
+	@Override
+	public boolean isDeleteAble(int maDV) throws RemoteException {
+		// TODO Auto-generated method stub
+		return dichVuDao.isDeleteAble(maDV);
+	}
+
 }

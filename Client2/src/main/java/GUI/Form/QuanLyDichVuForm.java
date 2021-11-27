@@ -23,6 +23,7 @@ import ClientService.DichVuService;
 import CustomControll.ColorButton2;
 import GUI.Dialog.AddDichVuDialog;
 import GUI.Dialog.AddPhongDialog;
+import GUI.Dialog.UpdateDichVuDialog;
 import Model.PageList;
 import Rmi.DTO.DichVuDTO;
 
@@ -41,6 +42,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	private int currentPage, maxPage;
 	private static int maxRow = 2;
 	private DichVuService dichVuService = null;
+	private DichVuDTO selectedDichVu;
 
 	public QuanLyDichVuForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -95,7 +97,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int selectedRow = tblDsDichVu.getSelectedRow();
-//				selectedPhong = lstPhong.getListData().get(selectedRow);
+				selectedDichVu = lstDichVu.getListData().get(selectedRow);
 			}
 		});
 		scrollPane.setViewportView(tblDsDichVu);
@@ -169,18 +171,57 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 			LoadNextPage();
 		}
 		if (o.equals(btnThemDichVu)) {
-			System.out.println("Them clicked");
 			OpenAddDichVuDialog();
 		}
 		if (o.equals(btnXoaDichVu)) {
-			System.out.println("Xoa Clicked");
+			XoaDichVu();
 		}
 		if (o.equals(btnSuaDichVu)) {
 			System.out.println("Sua Clicked");
+			OpenUpdateDichVuDialog();
 		}
 		if (o.equals(btnSearch)) {
 			SearchDsDichVu();
 		}
+	}
+
+	private void OpenUpdateDichVuDialog() {
+		if (selectedDichVu == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn dịch vụ nào cả");
+			return;
+		}
+		if (!DichVuService.getInstance().isDeleteAble(selectedDichVu.getMaDv())) {
+			JOptionPane.showMessageDialog(null, "Dịch vụ đang có người sử dụng");
+			return;
+		}
+
+		UpdateDichVuDialog dialog = new UpdateDichVuDialog(selectedDichVu);
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ReloadDsDichVu();
+			}
+		});
+	}
+
+	private void XoaDichVu() {
+		if (selectedDichVu == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn dịch vụ nào cả");
+			return;
+		}
+		if (!DichVuService.getInstance().isDeleteAble(selectedDichVu.getMaDv())) {
+			JOptionPane.showMessageDialog(null, "Dịch vụ đang có người sử dụng");
+			return;
+		}
+		if (DichVuService.getInstance().deleteDichVuById(selectedDichVu.getMaDv())) {
+			JOptionPane.showMessageDialog(null, "Đã xóa dịch vụ : " + selectedDichVu.getTenDv());
+		} else {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa dịch vụ : " + selectedDichVu.getTenDv());
+		}
+		selectedDichVu = null;
+		ReloadDsDichVu();
+		return;
 	}
 
 	private void OpenAddDichVuDialog() {

@@ -7,4 +7,6 @@ import Rmi.DTO.DichVuDTO;
 
 public interface IDichVuService extends IBaseService<DichVuDTO> {
 	PageList<DichVuDTO> getListDichVuByPage(int pageNumb, int maxRow, String DichVuName) throws RemoteException;
+
+	boolean isDeleteAble(int maDV) throws RemoteException;
 }

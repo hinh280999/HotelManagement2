@@ -42,6 +42,8 @@ public class DichVuDaoTest {
 //		for (DichVuDTO string : page.getListData()) {
 //			System.out.println(string.toString());
 //		}
+//		boolean i = Dao.isDeleteAble(0);
+//		System.out.println(i);
 
 	}
 }

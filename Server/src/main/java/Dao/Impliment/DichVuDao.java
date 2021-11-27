@@ -10,6 +10,7 @@ import org.hibernate.query.NativeQuery;
 import Dao.Interface.IDichVuDao;
 import Entity.DichVu;
 import Entity.KhachHang;
+import Entity.PhieuDichVu;
 import Model.PageList;
 import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.KhachHangDTO;
@@ -165,6 +166,28 @@ public class DichVuDao implements IDichVuDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isDeleteAble(int maDV) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+			String query = "db.phieudichvus.find({maDV: "+maDV+"})";
+			int row = session.createNativeQuery(query, PhieuDichVu.class).getResultList().size();
+
+			tr.commit();
+			session.close();
+
+			return row > 0 ? false : true;
+		} catch (Exception e) {
+			tr.rollback();
+			session.close();
+
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 //	@Override

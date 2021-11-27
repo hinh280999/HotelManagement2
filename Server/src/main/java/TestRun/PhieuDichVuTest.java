@@ -57,7 +57,7 @@ public class PhieuDichVuTest {
 //		ChucVu sampleCV = new ChucVu("SampleChucVu", 1.0);
 //		cvDao.add(sampleCV);
 
-		TaiKhoan tkNV = new TaiKhoan("hinh123123", "123123", true);
+		TaiKhoan tkNV = new TaiKhoan("hinh99", "123123", true);
 		NhanVien tempNV = new NhanVien("Phan Trong Hinh", "abc@gmail.com", "male", "123123");
 		//tempNV.setChucVu(sampleCV);
 		tempNV.setTaiKhoan(tkNV);
@@ -103,35 +103,35 @@ public class PhieuDichVuTest {
 		else
 			System.out.println("add fail");
 
-		PhieuDichVu temp = null;
-
-		try {
-			temp = pdvDao.get(pdvSample.getMaPDV());
-			System.out.println(temp.toString());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		temp.setDaThanhToan(true);
-		if (pdvDao.update(temp))
-			System.out.println("update success");
-		else
-			System.out.println("update fail");
-
-		if (pdvDao.delete(temp.getMaPDV()))
-			System.out.println("delete success");
-		else
-			System.out.println("delete fail");
-
-		// ==== Delete All Sample Object (Khach Hang, Nhan Vien, Phong, .....) ==== //
-		ptDao.delete(samplePT.getMaPT());
-		DaoTTP.delete(tTTP.getMaTTP());
-		LPDao.delete(newLP.getMaLP());
-		khDao.delete(tKhachHang.getMaKH());
-
-		phongDao.delete(samplePhong.getMaP());
-		nvDao.delete(tempNV.getMaNV());
+//		PhieuDichVu temp = null;
+//
+//		try {
+//			temp = pdvDao.get(pdvSample.getMaPDV());
+//			System.out.println(temp.toString());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		temp.setDaThanhToan(true);
+//		if (pdvDao.update(temp))
+//			System.out.println("update success");
+//		else
+//			System.out.println("update fail");
+//
+//		if (pdvDao.delete(temp.getMaPDV()))
+//			System.out.println("delete success");
+//		else
+//			System.out.println("delete fail");
+//
+//		// ==== Delete All Sample Object (Khach Hang, Nhan Vien, Phong, .....) ==== //
+//		ptDao.delete(samplePT.getMaPT());
+//		DaoTTP.delete(tTTP.getMaTTP());
+//		LPDao.delete(newLP.getMaLP());
+//		khDao.delete(tKhachHang.getMaKH());
+//
+//		phongDao.delete(samplePhong.getMaP());
+//		nvDao.delete(tempNV.getMaNV());
 		//cvDao.delete(sampleCV.getMaCV());
 	}
 
