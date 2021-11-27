@@ -17,13 +17,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import ClientService.KhachHangService;
+import ClientService.DichVuService;
 import CustomControll.ColorButton2;
 import Model.PageList;
 import Rmi.DTO.DichVuDTO;
-import Rmi.DTO.KhachHangDTO;
 
 public class QuanLyDichVuForm extends JPanel implements ActionListener {
+	private static final long serialVersionUID = 1L;
 	private ColorButton2 btnThemDichVu;
 	private ColorButton2 btnSuaDichVu;
 	private ColorButton2 btnXoaDichVu;
@@ -33,10 +33,10 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	private JButton btnPrev;
 	private JLabel lblPage;
 	private JButton btnNext;
-	private PageList<KhachHangDTO> lstKhachHang;
+	private PageList<DichVuDTO> lstDichVu;
 	private int currentPage, maxPage;
 	private static int maxRow = 2;
-	private KhachHangService khachHangService = null;
+	private DichVuService dichVuService = null;
 
 	public QuanLyDichVuForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -121,29 +121,24 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		btnXoaDichVu.addActionListener(this);
 		btnSearch.addActionListener(this);
 
-		// == load ds khach hang ====
-//		try {
-//			khachHangService = KhachHangService.getInstance();
-//			lstKhachHang = khachHangService.getListKhachHangByPage(1, maxRow, "");
-//			LoadDsDichVu(lstKhachHang);
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
+		// == load DS =====
+		dichVuService = dichVuService.getInstance();
+		lstDichVu = dichVuService.getListDichVuByPage(1, maxRow, "");
+		LoadDsDichVu(lstDichVu);
 	}
 
 	private void LoadDsDichVu(PageList<DichVuDTO> lstDichVu) {
-		String[] tieude = { "Mã Khách Hàng", "Tên Khách Hàng", "Email", "SĐT", "Địa Chỉ", "Số CMND" };
+		String[] tieude = { "Mã Dịch Vụ", "Tên Dịch Vụ", "Đơn Giá" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 
-		for (KhachHangDTO khachhang : lstKhachHang.getListData()) {
-			Object[] o = { khachhang.getMaKH(), khachhang.getTen(), khachhang.getEmail(), khachhang.getSdt(),
-					khachhang.getDiaChi(), khachhang.getSoCMND() };
+		for (DichVuDTO dichvu : lstDichVu.getListData()) {
+			Object[] o = { dichvu.getMaDv(), dichvu.getTenDv(), dichvu.getDonGia() };
 			model.addRow(o);
 		}
 		tblDsDichVu.setModel(model);
 
-		currentPage = lstKhachHang.getCurrentPage();
-		maxPage = lstKhachHang.getMaxPage();
+		currentPage = lstDichVu.getCurrentPage();
+		maxPage = lstDichVu.getMaxPage();
 
 		showPageNumber();
 
@@ -184,55 +179,41 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	}
 
 	private void SearchDsDichVu() {
-//		String nameSearch = txtSearchText.getText().toString();
-//		if (nameSearch.length() <= 0) {
-//			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên khách hàng cần tìm");
-//			txtSearchText.requestFocus();
-//			return;
-//		}
-//
-//		try {
-//			lstKhachHang = khachHangService.getListKhachHangByPage(1, maxRow, nameSearch);
-//			LoadDsKhachHang(lstKhachHang);
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
+		String nameSearch = txtSearchText.getText().toString();
+		if (nameSearch.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên khách hàng cần tìm");
+			txtSearchText.requestFocus();
+			return;
+		}
+
+		lstDichVu = dichVuService.getListDichVuByPage(currentPage, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+		LoadDsDichVu(lstDichVu);
 	}
 
 	private void LoadNextPage() {
-//		currentPage++;
-//		if (currentPage > maxPage) {
-//			currentPage = maxPage;
-//			return;
-//		}
-//
-//		int nextPageNumb = lstKhachHang.getCurrentPage() + 1;
-//		try {
-//			String nameSearch = txtSearchText.getText().toString();
-//			lstKhachHang = khachHangService.getListKhachHangByPage(nextPageNumb, maxRow,
-//					nameSearch.length() > 0 ? nameSearch : "");
-//			LoadDsKhachHang(lstKhachHang);
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
+		currentPage++;
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+			return;
+		}
+
+		int nextPageNumb = lstDichVu.getCurrentPage() + 1;
+		String nameSearch = txtSearchText.getText().toString();
+		lstDichVu = dichVuService.getListDichVuByPage(nextPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+		LoadDsDichVu(lstDichVu);
 	}
 
 	private void LoadPrevPage() {
-//		currentPage--;
-//		if (currentPage < 1) {
-//			currentPage = 1;
-//			return;
-//		}
-//
-//		int PrevPageNumb = lstKhachHang.getCurrentPage() - 1;
-//		try {
-//			String nameSearch = txtSearchText.getText().toString();
-//			lstKhachHang = khachHangService.getListKhachHangByPage(PrevPageNumb, maxRow,
-//					nameSearch.length() > 0 ? nameSearch : "");
-//			LoadDsKhachHang(lstKhachHang);
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
+		currentPage--;
+		if (currentPage < 1) {
+			currentPage = 1;
+			return;
+		}
+
+		int PrevPageNumb = lstDichVu.getCurrentPage() - 1;
+		String nameSearch = txtSearchText.getText().toString();
+		lstDichVu = dichVuService.getListDichVuByPage(PrevPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+		LoadDsDichVu(lstDichVu);
 	}
 
 }
