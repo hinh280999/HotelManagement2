@@ -50,4 +50,16 @@ public class DichVuService {
 		
 		return null;
 	}
+
+
+	public boolean AddDichVu(DichVuDTO addObj) {
+		// TODO Auto-generated method stub
+		try {
+			return dichVuService.addObject(addObj);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

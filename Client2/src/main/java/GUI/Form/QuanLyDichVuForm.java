@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -19,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 
 import ClientService.DichVuService;
 import CustomControll.ColorButton2;
+import GUI.Dialog.AddDichVuDialog;
+import GUI.Dialog.AddPhongDialog;
 import Model.PageList;
 import Rmi.DTO.DichVuDTO;
 
@@ -166,6 +170,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		}
 		if (o.equals(btnThemDichVu)) {
 			System.out.println("Them clicked");
+			OpenAddDichVuDialog();
 		}
 		if (o.equals(btnXoaDichVu)) {
 			System.out.println("Xoa Clicked");
@@ -176,6 +181,23 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		if (o.equals(btnSearch)) {
 			SearchDsDichVu();
 		}
+	}
+
+	private void OpenAddDichVuDialog() {
+		AddDichVuDialog dialog = new AddDichVuDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ReloadDsDichVu();
+			}
+		});
+
+	}
+
+	private void ReloadDsDichVu() {
+		lstDichVu = dichVuService.getListDichVuByPage(1, maxRow, "");
+		LoadDsDichVu(lstDichVu);
 	}
 
 	private void SearchDsDichVu() {
