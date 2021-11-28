@@ -171,11 +171,15 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 			this.dispose();
 		}
 		if (o.equals(btnSua)) {
-			SuaNhanVien();
+				SuaNhanVien();
 		}
 	}
 
 	private void SuaNhanVien() {
+		System.out.println("SuaNhanVien");
+		if (!check_data()) {
+			return;
+		}
 		String name = txtName.getText().toString();
 		String gender = comboBox.getSelectedItem().toString();
 		String phone = txtPhone.getText().toString();
@@ -185,9 +189,6 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 		String accountPass = txtAccountPass.getText().toString();
 		
 		boolean isAdmin = rdQuanLy.isSelected();
-
-		if (!validateInPut(name, gender, phone, mail, accountName, accountPass))
-			return;
 
 		NhanVienDTO UpdateObj = new NhanVienDTO(name, mail, gender, phone);
 		TaiKhoanDTO tkDTO = new TaiKhoanDTO(accountName, accountPass, isAdmin);
@@ -202,39 +203,81 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 		JOptionPane.showMessageDialog(null, "Đã cập nhật thành công nhân viên : " + name);
 		this.dispose();
 	}
+//
 
-	private boolean validateInPut(String name, String gender, String phone, String mail, String accountName,
-			String accountPass) {
-		if (name.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên");
-			txtName.requestFocus();
+	private boolean check_data() {
+
+		String maCheck = txtName.getText().trim();
+		String mess = "";
+
+		if (!(maCheck.length() > 0 && maCheck.matches(
+				"^([ẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴA-Z]{1}[ắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵa-z]*\\s)+([ẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴA-Z]{1}[ắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵa-z]*)$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập tên nhân viên.";
+			} else {
+				mess = "Tên nhân viên có chữ hoa ở đầu mỗi từ, cách nhau bởi đấu cách. \nVD: Nguyễn Văn A";
+			}
+			getMess(txtName, mess);
 			return false;
 		}
-		if (gender.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa chọn giới tính");
-			comboBox.requestFocus();
+		//
+
+		maCheck = txtPhone.getText().trim();
+		if (!(maCheck.length() > 0 && maCheck.matches("^0[0-9]{9}$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập số điện thoại của nhân viên.";
+			} else if (maCheck.length() != 10) {
+				mess = "Số điện thoại có 10 số và bắt đầu bằng số 0.";
+			}
+			getMess(txtPhone, mess);
 			return false;
 		}
-		if (phone.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập số điện thoại ");
-			txtPhone.requestFocus();
+
+		//
+		maCheck = txtMail.getText().trim();
+		if (!(maCheck.matches("^[A-Za-z0-9._]+@[A-Za-z0-9.]+\\.[a-z]{2,4}$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập Email của nhân viên";
+			} else {
+				mess = "Email phải đúng theo định dạng (VD: Abc@gmail.com)";
+				getMess(txtMail, mess);
+			}
 			return false;
 		}
-		if (mail.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập Email");
-			txtMail.requestFocus();
+		//
+
+		maCheck = txtAccountName.getText().trim();
+		if (!(maCheck.matches("^[A-Za-z0-9_]{4,}$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập tài khoản.";
+			} else {
+				mess = "Tài khoản phải trên 4 ký tự và không có ký tự đặc biệt. ";
+			}
+			getMess(txtAccountName, mess);
 			return false;
 		}
-		if (accountName.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập Tài khoản cho nhân viên");
-			txtAccountName.requestFocus();
+		//
+		maCheck = txtAccountPass.getText().trim();
+		if (!(maCheck.length() > 0 && maCheck
+				.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-_+=@$!%*#?&])[A-Za-z\\d-_+=@$!%*#?&]{6,20}$"))) {
+			if (maCheck.length() <= 0) {
+				mess = "Hãy nhập mật khẩu.";
+			} else {
+				mess = "Mật khẩu phải trên 6 ký tự trong dó có một chữ số, một chữ cái thường, một chữ hoa và một ký tự đặc biệt";
+			}
+			getMess(txtAccountPass, mess);
 			return false;
 		}
-		if (accountPass.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập mật khẩu của tài khoản");
-			txtAccountPass.requestFocus();
-			return false;
-		}
+
+		//
+
 		return true;
 	}
+
+	private void getMess(JTextField txt, String mess) {
+		JOptionPane.showMessageDialog(this, mess);
+		txt.selectAll();
+		txt.requestFocus();
+	}
+
 }
