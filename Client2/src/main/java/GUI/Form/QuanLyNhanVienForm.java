@@ -24,7 +24,7 @@ import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.NhanVienDTO;
 
-public class QuanLyNhanVienForm extends JPanel implements ActionListener{
+public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 	private ColorButton2 btnThemNhanVien;
 	private ColorButton2 btnSuaNhanVien;
 	private ColorButton2 btnXoaNhanVien;
@@ -38,11 +38,12 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 	private int currentPage, maxPage;
 	private static int maxRow = 2;
 	private NhanVienService nhanVienService = null;
+
 	public QuanLyNhanVienForm() {
 		setBackground(Color.decode("#d4d5d6"));
 		setBounds(0, 0, 1180, 820);
 		setLayout(null);
-		
+
 		JPanel pSearch = new JPanel();
 		pSearch.setBackground(Color.WHITE);
 		pSearch.setBounds(10, 10, 1160, 120);
@@ -113,7 +114,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 		btnSuaNhanVien.addActionListener(this);
 		btnXoaNhanVien.addActionListener(this);
 		btnSearch.addActionListener(this);
-		
+
 		// == load ds nhan vien ====
 		try {
 			nhanVienService = NhanVienService.getInstance();
@@ -123,13 +124,14 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void LoadDsNhanVien(PageList<NhanVienDTO> lstNhanVien2) {
 		String[] tieude = { "Mã Nhân Viên", "Tên Nhân Viên", "Giới Tính", "Email", "Số Điện Thoại" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 
 		for (NhanVienDTO nhanvien : lstNhanVien.getListData()) {
-			Object[] o = { nhanvien.getMaNV(), nhanvien.getTen(), nhanvien.getGioiTinh(), nhanvien.getEmail(), nhanvien.getSdt() };
+			Object[] o = { nhanvien.getMaNV(), nhanvien.getTen(), nhanvien.getGioiTinh(), nhanvien.getEmail(),
+					nhanvien.getSdt() };
 			model.addRow(o);
 		}
 		tblDsNhanVien.setModel(model);
@@ -139,7 +141,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 
 		showPageNumber();
 	}
-	
+
 	private void showPageNumber() {
 		if (currentPage > maxPage) {
 			currentPage = maxPage;
@@ -158,7 +160,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 			LoadPrevPage();
 		}
 		if (o.equals(btnNext)) {
-			LoadNextPage(); 
+			LoadNextPage();
 		}
 		if (o.equals(btnThemNhanVien)) {
 			System.out.println("Them clicked");
@@ -172,7 +174,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 		}
 		if (o.equals(btnSearch)) {
 			System.out.println("Search Clicked");
-			SearchDsNhanVien(); 
+			SearchDsNhanVien();
 		}
 	}
 
@@ -182,10 +184,10 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 		dialog.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				//ReloadDsDichVu();
+				reloadDsNhanVien();
 			}
 		});
-		
+
 	}
 
 	private void SearchDsNhanVien() {
@@ -212,7 +214,8 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 		int nextPageNumb = lstNhanVien.getCurrentPage() + 1;
 		try {
 			String nameSearch = txtSearchText.getText().toString();
-			lstNhanVien = nhanVienService.getListNhanVienByPage(nextPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+			lstNhanVien = nhanVienService.getListNhanVienByPage(nextPageNumb, maxRow,
+					nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsNhanVien(lstNhanVien);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -228,9 +231,20 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener{
 		int PrevPageNumb = lstNhanVien.getCurrentPage() - 1;
 		try {
 			String nameSearch = txtSearchText.getText().toString();
-			lstNhanVien = nhanVienService.getListNhanVienByPage(PrevPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+			lstNhanVien = nhanVienService.getListNhanVienByPage(PrevPageNumb, maxRow,
+					nameSearch.length() > 0 ? nameSearch : "");
 			LoadDsNhanVien(lstNhanVien);
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void reloadDsNhanVien() {
+		try {
+			lstNhanVien = nhanVienService.getListNhanVienByPage(1, maxRow, "");
+			LoadDsNhanVien(lstNhanVien);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
