@@ -77,6 +77,7 @@ public class MappingDtoFacade {
 				nhanVien.getTaiKhoan().isAdmin());
 
 		rvDto.setTaiKhoan(tkDto);
+		rvDto.setMaNV(nhanVien.getMaNV());
 		return rvDto;
 	}
 
