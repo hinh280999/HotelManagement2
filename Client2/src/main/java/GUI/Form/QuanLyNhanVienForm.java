@@ -212,11 +212,18 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Nhân viên hiện đang hoạt động");
 			return;
 		}
-		if (NhanVienService.getInstance().deleteNhanVienById(selectedNhanVien.getMaNV())) {
-			JOptionPane.showMessageDialog(null, "Đã xóa nhân viên : " + selectedNhanVien.getTen());
-		} else {
-			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa nhân viên : " + selectedNhanVien.getTen());
+		if (JOptionPane.showConfirmDialog(this,
+				"Bạn có muốn xóa khách hàng " + selectedNhanVien.getTen() + " có số điện thoại là: "
+						+ selectedNhanVien.getSdt() + " không?",
+				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+			if (NhanVienService.getInstance().deleteNhanVienById(selectedNhanVien.getMaNV())) {
+				JOptionPane.showMessageDialog(null, "Đã xóa nhân viên : " + selectedNhanVien.getTen());
+			} else {
+				JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa nhân viên : " + selectedNhanVien.getTen());
+			}
+
 		}
+
 		reloadDsNhanVien();
 		return;
 
