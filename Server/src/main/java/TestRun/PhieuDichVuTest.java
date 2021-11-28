@@ -86,7 +86,7 @@ public class PhieuDichVuTest {
 		IPhieuDichVu pdvDao = new PhieuDichVuDao();
 		IDichVuDao dvDao = new DichVuDao();
 
-		DichVu tDichVu = new DichVu("Coca-cola", 10000.0);
+		DichVu tDichVu = new DichVu("Coca-cola", 10000.0,"Chai");
 		dvDao.add(tDichVu);
 
 		DichVu tempDv = new DichVu(tDichVu.getMaDv());
