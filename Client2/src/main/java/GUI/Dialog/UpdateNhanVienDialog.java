@@ -171,7 +171,7 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 			this.dispose();
 		}
 		if (o.equals(btnSua)) {
-				SuaNhanVien();
+			SuaNhanVien();
 		}
 	}
 
@@ -187,7 +187,7 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 
 		String accountName = txtAccountName.getText().toString();
 		String accountPass = txtAccountPass.getText().toString();
-		
+
 		boolean isAdmin = rdQuanLy.isSelected();
 
 		NhanVienDTO UpdateObj = new NhanVienDTO(name, mail, gender, phone);
@@ -240,8 +240,8 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 				mess = "Hãy nhập Email của nhân viên";
 			} else {
 				mess = "Email phải đúng theo định dạng (VD: Abc@gmail.com)";
-				getMess(txtMail, mess);
 			}
+			getMess(txtMail, mess);
 			return false;
 		}
 		//
@@ -268,8 +268,6 @@ public class UpdateNhanVienDialog extends JDialog implements ActionListener {
 			getMess(txtAccountPass, mess);
 			return false;
 		}
-
-		//
 
 		return true;
 	}
