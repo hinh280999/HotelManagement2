@@ -123,14 +123,16 @@ public class AddKhachHangDialog extends JDialog implements ActionListener {
 	}
 
 	private void ThemKhachHang() {
+		
+		if (!check_data()) {
+			return;
+		}
 		String name = txtName.getText().toString();
 		String soCMT = txtCMT.getText().toString();
 		String phone = txtSDT.getText().toString();
 		String mail = txtMail.getText().toString();
 		String diachi = txtDiaChi.getText().toString();
 
-		if (!validateInPut(name, soCMT, phone, mail, diachi))
-			return;
 
 		KhachHangDTO addObj = new KhachHangDTO(name, mail, phone, diachi, soCMT);
 		if (!KhachHangService.getInstance().addKhachHang(addObj)) {
@@ -140,6 +142,11 @@ public class AddKhachHangDialog extends JDialog implements ActionListener {
 
 		JOptionPane.showMessageDialog(null, "Thêm thành công khách hàng: " + addObj.getTen());
 		this.dispose();
+	}
+
+	private boolean check_data() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	private boolean validateInPut(String name, String soCMT, String phone, String mail, String diaChi) {

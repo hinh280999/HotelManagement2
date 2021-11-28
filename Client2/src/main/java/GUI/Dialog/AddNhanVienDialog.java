@@ -198,8 +198,8 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 				mess = "Hãy nhập Email của nhân viên";
 			} else {
 				mess = "Email phải đúng theo định dạng (VD: Abc@gmail.com)";
-				getMess(txtMail, mess);
 			}
+			getMess(txtMail, mess);
 			return false;
 		}
 		//
