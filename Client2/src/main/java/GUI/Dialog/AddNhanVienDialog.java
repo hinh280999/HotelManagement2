@@ -2,15 +2,23 @@ package GUI.Dialog;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import javax.swing.JTextField;
+
+import ClientService.NhanVienService;
+import Rmi.DTO.NhanVienDTO;
+import Rmi.DTO.TaiKhoanDTO;
+
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
@@ -20,7 +28,7 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 	private JTextField txtPhone;
 	private JTextField txtMail;
 	private JTextField txtAccountName;
-	private JTextField txtAccountPass;
+	private JPasswordField txtAccountPass;
 	private JButton btnThem;
 	private JButton btnHuy;
 	private JRadioButton rdQuanLy;
@@ -105,7 +113,7 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 		lblNewLabel_1_1_1_1_1_1.setBounds(10, 210, 134, 30);
 		panel_1.add(lblNewLabel_1_1_1_1_1_1);
 
-		txtAccountPass = new JTextField();
+		txtAccountPass = new JPasswordField();
 		txtAccountPass.setColumns(10);
 		txtAccountPass.setBounds(166, 201, 380, 30);
 		panel_1.add(txtAccountPass);
@@ -126,6 +134,7 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 		ButtonGroup bgroup = new ButtonGroup();
 		bgroup.add(rdNhanVien);
 		bgroup.add(rdQuanLy);
+		rdNhanVien.setSelected(true);
 
 		btnThem = new JButton("Thêm");
 		btnThem.setBounds(460, 290, 85, 30);
@@ -143,7 +152,72 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if (o.equals(btnHuy)) {
+			this.dispose();
+		}
+		if (o.equals(btnThem)) {
+			ThemNhanVien();
+		}
+	}
 
+	private void ThemNhanVien() {
+		String name = txtName.getText().toString();
+		String gender = comboBox.getSelectedItem().toString();
+		String phone = txtPhone.getText().toString();
+		String mail = txtMail.getText().toString();
+
+		String accountName = txtAccountName.getText().toString();
+		String accountPass = txtAccountPass.getText().toString();
+		boolean isAdmin = rdQuanLy.isSelected();
+
+		if (!validateInPut(name, gender, phone, mail, accountName, accountPass))
+			return;
+
+		NhanVienDTO addObj = new NhanVienDTO(name, mail, gender, phone);
+		TaiKhoanDTO tkDTO = new TaiKhoanDTO(accountName, accountPass, isAdmin);
+		addObj.setTaiKhoan(tkDTO);
+		if (!NhanVienService.getInstance().addNhanVien(addObj)) {
+			JOptionPane.showMessageDialog(null, "Tên tài khoản đã được sử dụng bởi nhân viên khác");
+			txtAccountName.requestFocus();
+			return;
+		}
+		JOptionPane.showMessageDialog(null, "Đã thêm thành công nhân viên : " + name);
+		this.dispose();
+	}
+
+	private boolean validateInPut(String name, String gender, String phone, String mail, String accountName,
+			String accountPass) {
+		if (name.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên");
+			txtName.requestFocus();
+			return false;
+		}
+		if (gender.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn giới tính");
+			comboBox.requestFocus();
+			return false;
+		}
+		if (phone.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập số điện thoại ");
+			txtPhone.requestFocus();
+			return false;
+		}
+		if (mail.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập Email");
+			txtMail.requestFocus();
+			return false;
+		}
+		if (accountName.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập Tài khoản cho nhân viên");
+			txtAccountName.requestFocus();
+			return false;
+		}
+		if (accountPass.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập mật khẩu của tài khoản");
+			txtAccountPass.requestFocus();
+			return false;
+		}
+		return true;
 	}
 }
