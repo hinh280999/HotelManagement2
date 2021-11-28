@@ -179,7 +179,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		if (o.equals(btnSua)) {
 		}
 		if (o.equals(btnSearch)) {
-			//
+			SearchDsLoaiPhong();
 		}
 
 	}
@@ -210,5 +210,18 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(PrevPageNumb, maxRow,
 				nameSearch.length() > 0 ? nameSearch : "");
 		LoadDsLoaiPhong(lstLoaiPhong);
+	}
+
+	private void SearchDsLoaiPhong() {
+		String nameSearch = txtSearchText.getText().toString();
+		if (nameSearch.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên phòng cần tìm");
+			txtSearchText.requestFocus();
+			return;
+		}
+
+		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(1, maxRow, nameSearch);
+		LoadDsLoaiPhong(lstLoaiPhong);
+		selectedLoaiPhong = null;
 	}
 }

@@ -163,6 +163,9 @@ public class LoaiPhongDao implements ILoaiPhongDao {
 			return pageList;
 		} catch (Exception e) {
 			tr.rollback();
+			if (e instanceof com.mongodb.MongoCommandException) {
+				System.out.println("Add query: db.loaiphongs.createIndex({'tenLP':'text'})");
+			}
 			e.printStackTrace();
 		}
 		return null;

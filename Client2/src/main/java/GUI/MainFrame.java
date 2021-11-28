@@ -169,7 +169,7 @@ public class MainFrame extends JFrame {
 		ImageIcon pQLLoaiPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlDV.png").getImage());
 		PanelMenu pQLLoaiPhong = new PanelMenu("Quản lý Loại Phòng", pQLLoaiPhongIcon);
 		pQLLoaiPhong.setBounds(0, 590, 250, 40);
-		pQLDichVu.addMouseListener(new MouseAdapter() {
+		pQLLoaiPhong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setMainPanel(new QuanLyLoaiPhongForm(), "Quản lý Loại Phòng", pQLDichVuIcon);
