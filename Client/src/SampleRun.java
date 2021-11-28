@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 
 import Rmi.DTO.ChucVuDTO;
 import Rmi.DTO.PhongDTO;
-import Rmi.Interface.IChucVuService;
 import Rmi.Interface.IPhongService;
 
 public class SampleRun {

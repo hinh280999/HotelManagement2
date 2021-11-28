@@ -10,13 +10,13 @@ public class DichVuDaoTest {
 	public static void main(String[] args) {
 		IDichVuDao Dao = new DichVuDao();
 //
-//		DichVu tDichVu = new DichVu("Phof Capas Ba", 10000.0);
-//
-//		if (Dao.add(tDichVu)) {
-//			System.out.println("Add DV Complete");
-//		} else {
-//			System.out.println("Add DV Fail");
-//		}
+		DichVu tDichVu = new DichVu("Phof Capas Ba", 10000.0);
+
+		if (Dao.add(tDichVu)) {
+			System.out.println("Add DV Complete");
+		} else {
+			System.out.println("Add DV Fail");
+		}
 
 //		DichVu dvInfo = null;
 //		try {
