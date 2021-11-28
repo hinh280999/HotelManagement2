@@ -55,10 +55,19 @@ public class LoaiPhongService {
 		}
 		return null;
 	}
-	
+
 	public boolean addLoaiPhong(LoaiPhongDTO addObj) {
 		try {
 			return loaiPhongService.addObject(addObj);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean updateLoaiPhong(LoaiPhongDTO updateObj) {
+		try {
+			return loaiPhongService.updateObject(updateObj);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

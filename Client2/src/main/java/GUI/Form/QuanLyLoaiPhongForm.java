@@ -25,6 +25,7 @@ import ClientService.TinhTrangPhongService;
 import CustomControll.ColorButton2;
 import GUI.Dialog.AddLoaiPhongDialog;
 import GUI.Dialog.AddPhongDialog;
+import GUI.Dialog.UpdateLoaiPhongDialog;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
@@ -181,6 +182,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 			//
 		}
 		if (o.equals(btnSua)) {
+			OpenUpdateLoaiPhongDialog();
 		}
 		if (o.equals(btnSearch)) {
 			SearchDsLoaiPhong();
@@ -190,6 +192,22 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 
 	private void OpenAddLoaiPhongDialog() {
 		AddLoaiPhongDialog dialog = new AddLoaiPhongDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ReloadDsLoaiPhong();
+			}
+		});
+	}
+
+	private void OpenUpdateLoaiPhongDialog() {
+		if (selectedLoaiPhong == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn loại phòng nào cả");
+			return;
+		}
+
+		UpdateLoaiPhongDialog dialog = new UpdateLoaiPhongDialog(selectedLoaiPhong);
 		dialog.setVisible(true);
 		dialog.addWindowListener(new WindowAdapter() {
 			@Override
