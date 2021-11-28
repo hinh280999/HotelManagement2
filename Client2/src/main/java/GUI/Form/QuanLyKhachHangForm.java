@@ -199,11 +199,17 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 					"Khách hàng hiện đang sử dụng khách sạn: " + selectedKhachHang.getTen());
 			return;
 		}
-		if (KhachHangService.getInstance().deleteKhachHangById(selectedKhachHang.getMaKH())) {
-			JOptionPane.showMessageDialog(null, "Đã xóa khách hàng : " + selectedKhachHang.getTen());
-		} else {
-			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa khách hàng : " + selectedKhachHang.getTen());
+		if (JOptionPane.showConfirmDialog(
+				this, "Bạn có muốn xóa khách hàng " + selectedKhachHang.getTen() + " có số điện thoại là: "
+						+ selectedKhachHang.getSdt() + " không?",
+				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+			if (KhachHangService.getInstance().deleteKhachHangById(selectedKhachHang.getMaKH())) {
+				JOptionPane.showMessageDialog(null, "Đã xóa khách hàng : " + selectedKhachHang.getTen());
+			} else {
+				JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa khách hàng : " + selectedKhachHang.getTen());
+			}
 		}
+		
 		reloadDsKhachHang();
 		return;
 
