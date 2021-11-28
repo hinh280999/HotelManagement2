@@ -213,7 +213,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			return;
 		}
 		if (JOptionPane.showConfirmDialog(this,
-				"Bạn có muốn xóa khách hàng " + selectedNhanVien.getTen() + " có số điện thoại là: "
+				"Bạn có muốn xóa nhân viên " + selectedNhanVien.getTen() + " có số điện thoại là: "
 						+ selectedNhanVien.getSdt() + " không?",
 				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
 			if (NhanVienService.getInstance().deleteNhanVienById(selectedNhanVien.getMaNV())) {
