@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import Model.PageList;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.Interface.ILoaiPhongService;
 
@@ -44,6 +45,15 @@ public class LoaiPhongService {
 			}
 		}
 		return instance;
+	}
+
+	public PageList<LoaiPhongDTO> getListLoaiPhongByPage(int pageNumb, int maxRow, String key) {
+		try {
+			return loaiPhongService.getListLoaiPhongByPage(pageNumb, maxRow, key);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

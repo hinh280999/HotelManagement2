@@ -6,18 +6,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import ClientService.LoaiPhongService;
+import ClientService.NhanVienService;
+import ClientService.TinhTrangPhongService;
 import CustomControll.ColorButton2;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.PhongDTO;
+import Rmi.DTO.TinhTrangPhongDTO;
 
 public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 
@@ -26,14 +34,14 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 	private ColorButton2 btnXoa;
 	private JTextField txtSearchText;
 	private JButton btnSearch;
-	private JTable tblDsKhachHang;
+	private JTable tblDsLoaiPhong;
 	private JButton btnPrev;
 	private JLabel lblPage;
 	private JButton btnNext;
 	private PageList<LoaiPhongDTO> lstLoaiPhong;
 	private LoaiPhongDTO selectedLoaiPhong = null;
 	private int currentPage, maxPage;
-	private static int maxRow = 15;
+	private static int maxRow = 2;
 
 	public QuanLyLoaiPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -83,14 +91,16 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		scrollPane.setBounds(10, 60, 1140, 508);
 		pTable.add(scrollPane);
 
-		tblDsKhachHang = new JTable();
-		tblDsKhachHang.addMouseListener(new MouseAdapter() {
+		tblDsLoaiPhong = new JTable();
+		tblDsLoaiPhong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int selectedRow = tblDsKhachHang.getSelectedRow();
-				//selectedKhachHang = lstLoaiPhong.getListData().get(selectedRow);
-		}});
-		scrollPane.setViewportView(tblDsKhachHang);
+				int selectedRow = tblDsLoaiPhong.getSelectedRow();
+				selectedLoaiPhong = lstLoaiPhong.getListData().get(selectedRow);
+			}
+		});
+		tblDsLoaiPhong.setRowHeight(tblDsLoaiPhong.getRowHeight() + 20);
+		scrollPane.setViewportView(tblDsLoaiPhong);
 
 		JLabel lblNewLabel = new JLabel("Danh Loại Phòng");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -108,19 +118,97 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		btnNext = new JButton(">");
 		btnNext.setBounds(500, 589, 85, 21);
 		pTable.add(btnNext);
-		
-		// === Add acction ====== 
+
+		// === Add acction ======
 		btnPrev.addActionListener(this);
 		btnNext.addActionListener(this);
 		btnThem.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnSearch.addActionListener(this);
+
+		// === Load Ds LOai Phong ======
+		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(1, maxRow, "");
+		LoadDsLoaiPhong(lstLoaiPhong);
+	}
+
+	private void LoadDsLoaiPhong(PageList<LoaiPhongDTO> lst) {
+		String[] tieude = { "Mã Loại Phòng", "Tên Loại Phòng", "Đơn Giá" };
+		DefaultTableModel model = new DefaultTableModel(tieude, 0);
+
+		for (LoaiPhongDTO loaiPhong : lst.getListData()) {
+
+			Object[] o = { loaiPhong.getMaLP(), loaiPhong.getTenLP(), loaiPhong.getDonGia() };
+			model.addRow(o);
+		}
+		tblDsLoaiPhong.setModel(model);
+
+		currentPage = lst.getCurrentPage();
+		maxPage = lst.getMaxPage();
+
+		showPageNumber();
+		selectedLoaiPhong = null;
+	}
+
+	private void showPageNumber() {
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+		}
+		if (maxPage == 1) {
+			lblPage.setText("1");
+		} else {
+			lblPage.setText(currentPage + "/" + maxPage);
+		}
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnPrev)) {
+			LoadPrevPage();
+		}
+		if (o.equals(btnNext)) {
+			LoadNextPage();
+		}
+		if (o.equals(btnThem)) {
+			//
+		}
+		if (o.equals(btnXoa)) {
+			//
+		}
+		if (o.equals(btnSua)) {
+		}
+		if (o.equals(btnSearch)) {
+			//
+		}
+
+	}
+
+	private void LoadNextPage() {
+		currentPage++;
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+			return;
+		}
+
+		int nextPageNumb = lstLoaiPhong.getCurrentPage() + 1;
+		String nameSearch = txtSearchText.getText().toString();
+		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(nextPageNumb, maxRow,
+				nameSearch.length() > 0 ? nameSearch : "");
+		LoadDsLoaiPhong(lstLoaiPhong);
+
+	}
+
+	private void LoadPrevPage() {
+		currentPage--;
+		if (currentPage < 1) {
+			currentPage = 1;
+			return;
+		}
+		int PrevPageNumb = lstLoaiPhong.getCurrentPage() - 1;
+		String nameSearch = txtSearchText.getText().toString();
+		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(PrevPageNumb, maxRow,
+				nameSearch.length() > 0 ? nameSearch : "");
+		LoadDsLoaiPhong(lstLoaiPhong);
 	}
 }

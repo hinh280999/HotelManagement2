@@ -3,6 +3,8 @@ package TestRun;
 import Dao.Impliment.LoaiPhongDao;
 import Dao.Interface.ILoaiPhongDao;
 import Entity.LoaiPhong;
+import Model.PageList;
+import Rmi.DTO.LoaiPhongDTO;
 
 public class LoaiPhongTest {
 
@@ -10,13 +12,13 @@ public class LoaiPhongTest {
 		// TODO Auto-generated method stub
 		ILoaiPhongDao Dao = new LoaiPhongDao();
 		
-		LoaiPhong newLP = new LoaiPhong("Vip",300000.0);
-		
-		if (Dao.add(newLP)) {
-			System.out.println("Add Complete");
-		} else {
-			System.out.println("Add fail");
-		}
+//		LoaiPhong newLP = new LoaiPhong("Vip",300000.0);
+//		
+//		if (Dao.add(newLP)) {
+//			System.out.println("Add Complete");
+//		} else {
+//			System.out.println("Add fail");
+//		}
 		
 //		LoaiPhong lpInfo = null;
 //		try {
@@ -38,6 +40,8 @@ public class LoaiPhongTest {
 //		} else {
 //			System.out.println("delete Fail");
 //		}
+//		PageList<LoaiPhongDTO> page = Dao.getListLoaiPhongByPage(1,2,"");
+//		System.out.println(page.getMaxPage());
 	}
 
 }
