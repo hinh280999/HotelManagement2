@@ -7,4 +7,6 @@ import Rmi.DTO.NhanVienDTO;
 
 public interface INhanVienService extends IBaseService<NhanVienDTO> {
 	PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName) throws RemoteException;
+
+	boolean isDeleteAble(int maNV) throws RemoteException;
 }

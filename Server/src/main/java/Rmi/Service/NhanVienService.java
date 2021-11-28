@@ -15,7 +15,7 @@ public class NhanVienService extends UnicastRemoteObject implements INhanVienSer
 	private static final long serialVersionUID = 1L;
 	private INhanVien nhanVienDao;
 
-	public NhanVienService() throws RemoteException{
+	public NhanVienService() throws RemoteException {
 		nhanVienDao = new NhanVienDao();
 	}
 
@@ -58,6 +58,11 @@ public class NhanVienService extends UnicastRemoteObject implements INhanVienSer
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isDeleteAble(int maNV) throws RemoteException {
+		return nhanVienDao.isDeleteAble(maNV);
 	}
 
 }

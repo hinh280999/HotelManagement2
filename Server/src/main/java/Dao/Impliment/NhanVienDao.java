@@ -13,6 +13,8 @@ import com.mongodb.MongoBulkWriteException;
 import Constant.Page;
 import Dao.Interface.INhanVien;
 import Entity.NhanVien;
+import Entity.PhieuDichVu;
+import Entity.PhieuThue;
 import Model.PageList;
 import Rmi.DTO.NhanVienDTO;
 import Utilities.HibernateUtil;
@@ -208,5 +210,26 @@ public class NhanVienDao implements INhanVien {
 		}
 
 		return null;
+	}
+
+	@Override
+	public boolean isDeleteAble(int maNV) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+			String query = "db.phieuthues.find({maNV: " + maNV + "})";
+
+			int row = session.createNativeQuery(query, PhieuThue.class).getResultList().size();
+
+			tr.commit();
+
+			return row > 0 ? false : true;
+		} catch (Exception e) {
+			tr.rollback();
+
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 }

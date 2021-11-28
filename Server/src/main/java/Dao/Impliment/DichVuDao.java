@@ -173,16 +173,14 @@ public class DichVuDao implements IDichVuDao {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
-			String query = "db.phieudichvus.find({maDV: "+maDV+"})";
+			String query = "db.phieudichvus.find({maDV: " + maDV + "})";
 			int row = session.createNativeQuery(query, PhieuDichVu.class).getResultList().size();
 
 			tr.commit();
-			session.close();
 
 			return row > 0 ? false : true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
 
 			e.printStackTrace();
 		}
