@@ -5,10 +5,16 @@ import java.util.List;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import Dao.Interface.ILoaiPhongDao;
+import Entity.KhachHang;
 import Entity.LoaiPhong;
+import Model.PageList;
+import Rmi.DTO.KhachHangDTO;
+import Rmi.DTO.LoaiPhongDTO;
 import Utilities.HibernateUtil;
+import Utilities.MappingDtoFacade;
 
 public class LoaiPhongDao implements ILoaiPhongDao {
 	private OgmSessionFactory sessionFactory;
@@ -123,6 +129,43 @@ public class LoaiPhongDao implements ILoaiPhongDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public PageList<LoaiPhongDTO> getListLoaiPhongByPage(int pageNumb, int maxRow, String key) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+
+		String mongoAggregate;
+		if (key.length() > 0) {
+			mongoAggregate = "db.loaiphongs.aggregate([{ '$match': { '$text': { '$search': '" + key + "' }}}])";
+		} else {
+			mongoAggregate = "db.loaiphongs.find({})";
+		}
+
+		try {
+			NativeQuery<LoaiPhong> javaQuery = session.createNativeQuery(mongoAggregate, LoaiPhong.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<LoaiPhong> loaiPhongs_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
+					.getResultList();
+
+			PageList<LoaiPhongDTO> pageList = new PageList<>();
+
+			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+
+			pageList.setListData(MappingDtoFacade.mapToListLoaiPhongDTO(loaiPhongs_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
