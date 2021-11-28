@@ -55,4 +55,23 @@ public class NhanVienService {
 		return false;
 	}
 
+	public boolean isDeleteAble(int maNV) {
+		try {
+			return nhanVienService.isDeleteAble(maNV);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteNhanVienById(int maNV) {
+		try {
+			return nhanVienService.deleteObjectById(maNV);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

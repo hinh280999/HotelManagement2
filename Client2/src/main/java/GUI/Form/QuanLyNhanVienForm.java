@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
@@ -37,6 +39,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 	private PageList<NhanVienDTO> lstNhanVien;
 	private int currentPage, maxPage;
 	private static int maxRow = 2;
+	private NhanVienDTO selectedNhanVien = null;
 	private NhanVienService nhanVienService = null;
 
 	public QuanLyNhanVienForm() {
@@ -88,6 +91,13 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		pTable.add(scrollPane);
 
 		tblDsNhanVien = new JTable();
+		tblDsNhanVien.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tblDsNhanVien.getSelectedRow();
+				selectedNhanVien = lstNhanVien.getListData().get(selectedRow);
+			}
+		});
 		scrollPane.setViewportView(tblDsNhanVien);
 
 		JLabel lblNewLabel = new JLabel("Danh sách nhân viên");
@@ -167,7 +177,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			OpenAddNhanVienDialog();
 		}
 		if (o.equals(btnXoaNhanVien)) {
-			System.out.println("Xoa Clicked");
+			XoaNhanVienSelected();
 		}
 		if (o.equals(btnSuaNhanVien)) {
 			System.out.println("Sua Clicked");
@@ -176,6 +186,26 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			System.out.println("Search Clicked");
 			SearchDsNhanVien();
 		}
+	}
+
+	private void XoaNhanVienSelected() {
+		if (selectedNhanVien == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn nhân viên nào cả");
+			return;
+		}
+		if (!NhanVienService.getInstance().isDeleteAble(selectedNhanVien.getMaNV())) {
+			JOptionPane.showMessageDialog(null, "Nhân viên hiện đang hoạt động");
+			return;
+		}
+		if (NhanVienService.getInstance().deleteNhanVienById(selectedNhanVien.getMaNV())) {
+			JOptionPane.showMessageDialog(null, "Đã xóa nhân viên : " + selectedNhanVien.getTen());
+		} else {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa nhân viên : " + selectedNhanVien.getTen());
+		}
+		selectedNhanVien = null;
+		reloadDsNhanVien();
+		return;
+
 	}
 
 	private void OpenAddNhanVienDialog() {
@@ -220,6 +250,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		selectedNhanVien = null;
 	}
 
 	private void LoadPrevPage() {
@@ -237,6 +268,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		selectedNhanVien = null;
 	}
 
 	private void reloadDsNhanVien() {
@@ -247,6 +279,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		selectedNhanVien = null;
 	}
 
 }
