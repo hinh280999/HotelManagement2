@@ -240,7 +240,8 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 
 	private void ThemNhanVien() {
 		System.out.println("btnThem");
-		if (!check_data()) return;
+		if (!check_data())
+			return;
 		String name = txtName.getText().toString();
 		String gender = comboBox.getSelectedItem().toString();
 		String phone = txtPhone.getText().toString();
@@ -253,12 +254,15 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 		NhanVienDTO addObj = new NhanVienDTO(name, mail, gender, phone);
 		TaiKhoanDTO tkDTO = new TaiKhoanDTO(accountName, accountPass, isAdmin);
 		addObj.setTaiKhoan(tkDTO);
+
 		if (!NhanVienService.getInstance().addNhanVien(addObj)) {
 			JOptionPane.showMessageDialog(null, "Tên tài khoản đã được sử dụng bởi nhân viên khác");
 			txtAccountName.requestFocus();
 			return;
 		}
+
 		JOptionPane.showMessageDialog(null, "Đã thêm thành công nhân viên : " + name);
+		
 		this.dispose();
 	}
 

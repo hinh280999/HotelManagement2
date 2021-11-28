@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
@@ -21,6 +23,8 @@ import ClientService.LoaiPhongService;
 import ClientService.NhanVienService;
 import ClientService.TinhTrangPhongService;
 import CustomControll.ColorButton2;
+import GUI.Dialog.AddLoaiPhongDialog;
+import GUI.Dialog.AddPhongDialog;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
@@ -171,7 +175,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 			LoadNextPage();
 		}
 		if (o.equals(btnThem)) {
-			//
+			OpenAddLoaiPhongDialog();
 		}
 		if (o.equals(btnXoa)) {
 			//
@@ -182,6 +186,23 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 			SearchDsLoaiPhong();
 		}
 
+	}
+
+	private void OpenAddLoaiPhongDialog() {
+		AddLoaiPhongDialog dialog = new AddLoaiPhongDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				ReloadDsLoaiPhong();
+			}
+		});
+	}
+
+	protected void ReloadDsLoaiPhong() {
+		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(1, maxRow, "");
+		LoadDsLoaiPhong(lstLoaiPhong);
+		selectedLoaiPhong = null;
 	}
 
 	private void LoadNextPage() {
