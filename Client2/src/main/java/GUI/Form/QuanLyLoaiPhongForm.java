@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import ClientService.DichVuService;
 import ClientService.LoaiPhongService;
 import ClientService.NhanVienService;
 import ClientService.TinhTrangPhongService;
@@ -179,7 +180,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 			OpenAddLoaiPhongDialog();
 		}
 		if (o.equals(btnXoa)) {
-			//
+			DeleteSelectedLoaiPhong();
 		}
 		if (o.equals(btnSua)) {
 			OpenUpdateLoaiPhongDialog();
@@ -187,6 +188,26 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		if (o.equals(btnSearch)) {
 			SearchDsLoaiPhong();
 		}
+
+	}
+
+	private void DeleteSelectedLoaiPhong() {
+		if (selectedLoaiPhong == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn loại phòng nào cả");
+			return;
+		}
+
+		if (!LoaiPhongService.getInstance().isDeleteAble(selectedLoaiPhong.getMaLP())) {
+			JOptionPane.showMessageDialog(null, "Có phòng hiện tại đang sử dụng loại phòng này");
+			return;
+		}
+		if (LoaiPhongService.getInstance().deleteLoaiPhongById(selectedLoaiPhong.getMaLP())) {
+			JOptionPane.showMessageDialog(null, "Đã xóa Loại Phòng : " + selectedLoaiPhong.getTenLP());
+		} else {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa loại phòng : " + selectedLoaiPhong.getTenLP());
+		}
+		ReloadDsLoaiPhong();
+		return;
 
 	}
 

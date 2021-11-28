@@ -60,4 +60,9 @@ public class LoaiPhongService extends UnicastRemoteObject implements ILoaiPhongS
 		return loaiPhongDao.getListLoaiPhongByPage(pageNumb, maxRow, key);
 	}
 
+	@Override
+	public boolean isDeleteAble(int maLP) throws RemoteException {
+		return loaiPhongDao.isDeleteAble(maLP);
+	}
+
 }

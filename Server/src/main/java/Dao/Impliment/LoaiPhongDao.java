@@ -10,6 +10,7 @@ import org.hibernate.query.NativeQuery;
 import Dao.Interface.ILoaiPhongDao;
 import Entity.KhachHang;
 import Entity.LoaiPhong;
+import Entity.PhieuThue;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
@@ -169,6 +170,25 @@ public class LoaiPhongDao implements ILoaiPhongDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isDeleteAble(int maLP) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+			String query = "db.phongs.find({maLP: " + maLP + "})";
+
+			int row = session.createNativeQuery(query, PhieuThue.class).getResultList().size();
+
+			tr.commit();
+
+			return row > 0 ? false : true;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

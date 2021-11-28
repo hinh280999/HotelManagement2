@@ -74,4 +74,22 @@ public class LoaiPhongService {
 		return false;
 	}
 
+	public boolean isDeleteAble(int maLP) {
+		try {
+			return loaiPhongService.isDeleteAble(maLP);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteLoaiPhongById(int maLP) {
+		try {
+			return loaiPhongService.deleteObjectById(maLP);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
