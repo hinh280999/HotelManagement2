@@ -74,4 +74,14 @@ public class NhanVienService {
 		return false;
 	}
 
+	public boolean updateNhanVien(NhanVienDTO updateObj) {
+		try {
+			return nhanVienService.updateObject(updateObj);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

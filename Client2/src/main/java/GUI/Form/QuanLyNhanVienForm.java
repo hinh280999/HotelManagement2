@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import CustomControll.ColorButton2;
 import GUI.Dialog.AddNhanVienDialog;
+import GUI.Dialog.UpdateNhanVienDialog;
 import ClientService.*;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
@@ -173,14 +174,13 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			LoadNextPage();
 		}
 		if (o.equals(btnThemNhanVien)) {
-			System.out.println("Them clicked");
 			OpenAddNhanVienDialog();
 		}
 		if (o.equals(btnXoaNhanVien)) {
-			XoaNhanVienSelected();
+			DeleteNhanVienSelected();
 		}
 		if (o.equals(btnSuaNhanVien)) {
-			System.out.println("Sua Clicked");
+			OpenUpdateNhanVienDialog();
 		}
 		if (o.equals(btnSearch)) {
 			System.out.println("Search Clicked");
@@ -188,7 +188,22 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		}
 	}
 
-	private void XoaNhanVienSelected() {
+	private void OpenUpdateNhanVienDialog() {
+		if (selectedNhanVien == null) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhân viên nào cả");
+			return;
+		}
+		UpdateNhanVienDialog dialog = new UpdateNhanVienDialog(selectedNhanVien);
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				reloadDsNhanVien();
+			}
+		});
+	}
+
+	private void DeleteNhanVienSelected() {
 		if (selectedNhanVien == null) {
 			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn nhân viên nào cả");
 			return;
@@ -202,7 +217,6 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		} else {
 			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa nhân viên : " + selectedNhanVien.getTen());
 		}
-		selectedNhanVien = null;
 		reloadDsNhanVien();
 		return;
 
@@ -217,7 +231,6 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 				reloadDsNhanVien();
 			}
 		});
-
 	}
 
 	private void SearchDsNhanVien() {
@@ -276,10 +289,8 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			lstNhanVien = nhanVienService.getListNhanVienByPage(1, maxRow, "");
 			LoadDsNhanVien(lstNhanVien);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		selectedNhanVien = null;
 	}
-
 }

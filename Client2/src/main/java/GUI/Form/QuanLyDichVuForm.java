@@ -219,7 +219,6 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		} else {
 			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa dịch vụ : " + selectedDichVu.getTenDv());
 		}
-		selectedDichVu = null;
 		ReloadDsDichVu();
 		return;
 	}
@@ -239,6 +238,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	private void ReloadDsDichVu() {
 		lstDichVu = dichVuService.getListDichVuByPage(1, maxRow, "");
 		LoadDsDichVu(lstDichVu);
+		selectedDichVu = null;
 	}
 
 	private void SearchDsDichVu() {

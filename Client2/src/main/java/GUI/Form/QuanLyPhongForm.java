@@ -168,6 +168,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		maxPage = lstPhong.getMaxPage();
 
 		showPageNumber();
+		selectedPhong = null;
 	}
 
 	private void showPageNumber() {
@@ -213,11 +214,11 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		if (trangthaiSelected.equals("Trống")) {
 			DeletePhong();
 			ReloadDsPhong();
-			selectedPhong = null;
 		} else {
 			JOptionPane.showMessageDialog(null, "Chỉ cho phép sửa phòng có trạng thái 'Trống'");
 			return;
 		}
+		selectedPhong = null;
 	}
 
 	private void DeletePhong() {
@@ -238,6 +239,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Chỉ cho phép sửa phòng có trạng thái 'Trống'");
 			return;
 		}
+		selectedPhong = null;
 
 	}
 
@@ -261,6 +263,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 				ReloadDsPhong();
 			}
 		});
+		selectedPhong = null;
 	}
 
 	private void SearchDsPhong() {
@@ -277,6 +280,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		selectedPhong = null;
 	}
 
 	private void loadNextPage() {
