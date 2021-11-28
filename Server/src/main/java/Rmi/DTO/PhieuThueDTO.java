@@ -31,11 +31,11 @@ public class PhieuThueDTO implements Serializable {
 		this.maPT = maPT;
 	}
 
-	public PhieuThueDTO(Date ngayDat, Date ngayKetThuc, Date ngayLap, int phong, int nhanVien, int khachHang) {
+	public PhieuThueDTO(Date ngayDat, Date ngayKetThuc, int phong, int nhanVien, int khachHang) {
 		super();
 		this.ngayDat = ngayDat;
 		this.ngayKetThuc = ngayKetThuc;
-		this.ngayLap = ngayLap;
+		this.ngayLap = new Date();
 		this.phong_id = phong;
 		this.nhanVien_id = nhanVien;
 		this.khachHang_id = khachHang;

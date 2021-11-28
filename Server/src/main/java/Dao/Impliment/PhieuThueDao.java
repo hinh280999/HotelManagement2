@@ -80,13 +80,9 @@ public class PhieuThueDao implements IPhieuThue {
 			session.update(phongThue);
 
 			tr.commit();
-			session.close();
-
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 
