@@ -10,4 +10,6 @@ public interface INhanVien extends IBaseDao<NhanVien>{
 	PageList<NhanVienDTO> getListNhanVienByPage(int pageNumb, int maxRow, String employeeName);
 	
 	boolean isDeleteAble(int maNV);
+	
+	NhanVien getNhanVienByTenTK(String tenTK);
 }

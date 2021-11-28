@@ -84,4 +84,13 @@ public class NhanVienService {
 		return false;
 	}
 
+	public NhanVienDTO getNhanVienByTenTK(String tenTK) {
+		try {
+			return nhanVienService.getNhanVienByTenTK(tenTK);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

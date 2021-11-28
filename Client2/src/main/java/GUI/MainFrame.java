@@ -21,6 +21,8 @@ import GUI.Form.QuanLyKhachHangForm;
 import GUI.Form.QuanLyLoaiPhongForm;
 import GUI.Form.QuanLyNhanVienForm;
 import GUI.Form.QuanLyPhongForm;
+import Rmi.DTO.NhanVienDTO;
+import Rmi.DTO.TaiKhoanDTO;
 
 public class MainFrame extends JFrame {
 	private Color colorEnter = Color.WHITE;
@@ -30,16 +32,22 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane, panelMain;
 	private JLabel titleLabel, lblIconTitle;
 	private final JSeparator separator = new JSeparator();
+	private NhanVienDTO nhanVien = null;
+	private PanelMenu pQLLoaiPhong;
+	private PanelMenu pQLNhanVien;
+	private PanelMenu pQLDichVu;
+	private PanelMenu pQLPhong;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-		MainFrame frame = new MainFrame();
+		NhanVienDTO nv = new NhanVienDTO(1);
+		TaiKhoanDTO tk = new TaiKhoanDTO("abc", "abc", true);
+		nv.setTaiKhoan(tk);
+
+		MainFrame frame = new MainFrame(nv);
 		frame.setVisible(true);
 	}
 
-	public MainFrame() {
+	public MainFrame(NhanVienDTO nv) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1440, 900);
 		setResizable(false);
@@ -49,6 +57,8 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(null);
 
 		setContentPane(contentPane);
+
+		nhanVien = nv;
 
 		JPanel panelContainer = new JPanel();
 		panelContainer.setBounds(0, 0, 1436, 854);
@@ -89,7 +99,7 @@ public class MainFrame extends JFrame {
 		pDatPhong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setMainPanel(new DatPhongForm(), "Đặt Phòng", pDatPhongIcon);
+				setMainPanel(new DatPhongForm(nhanVien), "Đặt Phòng", pDatPhongIcon);
 			}
 		});
 		pDatPhong.setBounds(0, 190, 250, 40);
@@ -122,20 +132,9 @@ public class MainFrame extends JFrame {
 		LbQuanLy.setBounds(0, 390, 250, 30);
 		panelSideBar.add(LbQuanLy);
 
-		ImageIcon pQLPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlPhong.png").getImage());
-		PanelMenu pQLPhong = new PanelMenu("Quản lý phòng", pQLPhongIcon);
-		pQLPhong.setBounds(0, 430, 250, 40);
-		pQLPhong.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setMainPanel(new QuanLyPhongForm(), "Quản Lý Phòng", pQLPhongIcon);
-			}
-		});
-		panelSideBar.add(pQLPhong);
-
 		ImageIcon pQLKhachIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
 		PanelMenu pQLKhach = new PanelMenu("Quản Khách Hàng", pQLKhachIcon);
-		pQLKhach.setBounds(0, 470, 250, 40);
+		pQLKhach.setBounds(0, 430, 250, 40);
 		pQLKhach.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -144,9 +143,20 @@ public class MainFrame extends JFrame {
 		});
 		panelSideBar.add(pQLKhach);
 
+		ImageIcon pQLPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlPhong.png").getImage());
+		pQLPhong = new PanelMenu("Quản lý phòng", pQLPhongIcon);
+		pQLPhong.setBounds(0, 510, 250, 40);
+		pQLPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new QuanLyPhongForm(), "Quản Lý Phòng", pQLPhongIcon);
+			}
+		});
+		panelSideBar.add(pQLPhong);
+
 		ImageIcon pQLNhanVienIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
-		PanelMenu pQLNhanVien = new PanelMenu("Quản lý nhân viên", pQLNhanVienIcon);
-		pQLNhanVien.setBounds(0, 510, 250, 40);
+		pQLNhanVien = new PanelMenu("Quản lý nhân viên", pQLNhanVienIcon);
+		pQLNhanVien.setBounds(0, 590, 250, 40);
 		pQLNhanVien.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -156,7 +166,7 @@ public class MainFrame extends JFrame {
 		panelSideBar.add(pQLNhanVien);
 
 		ImageIcon pQLDichVuIcon = new ImageIcon(new ImageIcon("icon/iconQlDV.png").getImage());
-		PanelMenu pQLDichVu = new PanelMenu("Quản lý Dịch Vụ", pQLDichVuIcon);
+		pQLDichVu = new PanelMenu("Quản lý Dịch Vụ", pQLDichVuIcon);
 		pQLDichVu.setBounds(0, 550, 250, 40);
 		pQLDichVu.addMouseListener(new MouseAdapter() {
 			@Override
@@ -167,8 +177,8 @@ public class MainFrame extends JFrame {
 		panelSideBar.add(pQLDichVu);
 
 		ImageIcon pQLLoaiPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlDV.png").getImage());
-		PanelMenu pQLLoaiPhong = new PanelMenu("Quản lý Loại Phòng", pQLLoaiPhongIcon);
-		pQLLoaiPhong.setBounds(0, 590, 250, 40);
+		pQLLoaiPhong = new PanelMenu("Quản lý Loại Phòng", pQLLoaiPhongIcon);
+		pQLLoaiPhong.setBounds(0, 470, 250, 40);
 		pQLLoaiPhong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -198,12 +208,7 @@ public class MainFrame extends JFrame {
 		panelContainer.add(pTitle);
 
 		// =====================================
-	}
-
-	public void setLogInAccount(String username, String password, boolean permission) {
-		this.username = username;
-		this.password = password;
-		this.permission = permission;
+		ShowAdminMenu();
 	}
 
 	private void setMainPanel(JPanel panel, String text, ImageIcon icon) {
@@ -211,5 +216,19 @@ public class MainFrame extends JFrame {
 		lblIconTitle.setIcon(icon);
 		panelMain.removeAll();
 		panelMain.add(panel, BorderLayout.CENTER);
+	}
+
+	private void ShowAdminMenu() {
+		if (nhanVien.getTaiKhoan().isAdmin()) {
+			pQLLoaiPhong.setVisible(true);
+			pQLNhanVien.setVisible(true);
+			pQLDichVu.setVisible(true);
+			pQLPhong.setVisible(true);
+		} else {
+			pQLLoaiPhong.setVisible(false);
+			pQLNhanVien.setVisible(false);
+			pQLDichVu.setVisible(false);
+			pQLPhong.setVisible(false);
+		}
 	}
 }
