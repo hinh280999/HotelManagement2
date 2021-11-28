@@ -177,7 +177,6 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 			XoaDichVu();
 		}
 		if (o.equals(btnSuaDichVu)) {
-			System.out.println("Sua Clicked");
 			OpenUpdateDichVuDialog();
 		}
 		if (o.equals(btnSearch)) {

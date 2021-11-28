@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import ClientService.DichVuService;
 import ClientService.KhachHangService;
 import CustomControll.ColorButton2;
 import GUI.Dialog.AddKhachHangDialog;
@@ -193,6 +194,18 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn khách hàng nào cả");
 			return;
 		}
+		if (!KhachHangService.getInstance().isDeleteAble(selectedKhachHang.getMaKH())) {
+			JOptionPane.showMessageDialog(null,
+					"Khách hàng hiện đang sử dụng khách sạn: " + selectedKhachHang.getTen());
+			return;
+		}
+		if (KhachHangService.getInstance().deleteKhachHangById(selectedKhachHang.getMaKH())) {
+			JOptionPane.showMessageDialog(null, "Đã xóa khách hàng : " + selectedKhachHang.getTen());
+		} else {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa khách hàng : " + selectedKhachHang.getTen());
+		}
+		reloadDsKhachHang();
+		return;
 
 	}
 

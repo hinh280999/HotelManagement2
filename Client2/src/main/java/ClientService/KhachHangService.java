@@ -57,4 +57,22 @@ public class KhachHangService {
 		return false;
 	}
 
+	public boolean isDeleteAble(int maKH) {
+		try {
+			return khachHangService.isDeleteAble(maKH);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteKhachHangById(int maKH) {
+		try {
+			return khachHangService.deleteObjectById(maKH);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
