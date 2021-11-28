@@ -21,10 +21,11 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 	private JButton btnSua;
 	private JButton btnHuy;
 	private DichVuDTO selectedDv;
+	private JTextField txtDonVi;
 
 	public UpdateDichVuDialog(DichVuDTO dichVuDTO) {
 		setModal(true);
-		setSize(350, 340);
+		setSize(350, 360);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -43,7 +44,7 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 80, 316, 201);
+		panel_1.setBounds(10, 80, 316, 230);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
@@ -70,14 +71,25 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 		panel_1.add(txtDonGia);
 
 		btnSua = new JButton("Sửa");
-		btnSua.setBounds(210, 150, 90, 30);
+		btnSua.setBounds(210, 186, 90, 30);
 		panel_1.add(btnSua);
 
 		btnHuy = new JButton("Hủy");
-		btnHuy.setBounds(110, 150, 90, 30);
+		btnHuy.setBounds(110, 186, 90, 30);
 		panel_1.add(btnHuy);
 
 		selectedDv = dichVuDTO;
+
+		JLabel lblNewLabel_1_1_1 = new JLabel("Đơn Vị");
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1_1.setBounds(10, 140, 100, 30);
+		panel_1.add(lblNewLabel_1_1_1);
+
+		txtDonVi = new JTextField();
+		txtDonVi.setColumns(10);
+		txtDonVi.setBounds(120, 140, 180, 30);
+		txtDonVi.setText(dichVuDTO.getDonVi());
+		panel_1.add(txtDonVi);
 
 		// === Action ========================
 		btnSua.addActionListener(this);
@@ -97,8 +109,9 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 	}
 
 	private void SuaDichVu() {
-		String tenDv = txtTenDV.getText().toString();
-		String txtDongia = txtDonGia.getText().toString();
+		String tenDv = txtTenDV.getText().toString().trim();
+		String txtDongia = txtDonGia.getText().toString().trim();
+		String donVi = txtDonVi.getText().toString().trim();
 
 		if (!ValidateInPut(tenDv, txtDongia))
 			return;
@@ -107,6 +120,7 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 
 		selectedDv.setTenDv(tenDv);
 		selectedDv.setDonGia(dongia);
+		selectedDv.setDonVi(donVi);
 
 		if (DichVuService.getInstance().UpdateDichVu(selectedDv)) {
 			JOptionPane.showMessageDialog(null, "Đã cập nhật dịch vụ :" + selectedDv.getTenDv());
