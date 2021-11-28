@@ -43,7 +43,15 @@ public class KhachHangService {
 		try {
 			return khachHangService.addObject(addObj);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean updateKhachHang(KhachHangDTO updateObj) {
+		try {
+			return khachHangService.updateObject(updateObj);
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		return false;
