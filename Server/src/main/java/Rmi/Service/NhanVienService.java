@@ -65,4 +65,11 @@ public class NhanVienService extends UnicastRemoteObject implements INhanVienSer
 		return nhanVienDao.isDeleteAble(maNV);
 	}
 
+	@Override
+	public NhanVienDTO getNhanVienByTenTK(String tenTK) throws RemoteException {
+		NhanVien nv = nhanVienDao.getNhanVienByTenTK(tenTK);
+		NhanVienDTO rv = MappingDtoFacade.mapToNhanVienDTO(nv);
+		return rv;
+	}
+
 }

@@ -25,6 +25,7 @@ import ClientService.*;
 import GUI.Dialog.ChooseCustomerDialog;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhongDTO;
 
 import javax.swing.JComboBox;
@@ -41,11 +42,14 @@ public class DatPhongForm extends JPanel implements ActionListener {
 	private List<LoaiPhongDTO> lstLoaiPhong;
 	private LoaiPhongDTO selectedLoaiPhong;
 	private PhongDTO selectedPhong;
+	private NhanVienDTO nhanVien = null;
 
-	public DatPhongForm() {
+	public DatPhongForm(NhanVienDTO nhanvien) {
 		setBackground(Color.decode("#d4d5d6"));
 		setLayout(null);
 		setBounds(0, 0, 1180, 820);
+
+		this.nhanVien = nhanvien;
 
 		JPanel pKhachHang = new JPanel();
 		pKhachHang.setBackground(Color.WHITE);

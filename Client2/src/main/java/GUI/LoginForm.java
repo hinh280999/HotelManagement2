@@ -25,9 +25,11 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import ClientService.NhanVienService;
 import ClientService.TaiKhoanService;
 import CustomControll.ColorButton;
 import CustomControll.GradientPanel;
+import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.TaiKhoanDTO;
 import java.awt.Font;
 
@@ -175,6 +177,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		btnClose.setContentAreaFilled(false);
 		btnClose.setBounds(691, 0, 28, 28);
 		pControll.setLayout(null);
+		
 		pControll.add(btnMinimize);
 		pControll.add(btnClose);
 
@@ -205,11 +208,12 @@ public class LoginForm extends JFrame implements ActionListener {
 		if (validateInput(tenTk, mk) == false)
 			return;
 		try {
-			taiKhoanService = TaiKhoanService.getInstance();
-			TaiKhoanDTO rvTk = taiKhoanService.getTaiKhoanByName(tenTk);
+
+			NhanVienDTO nhanvien = NhanVienService.getInstance().getNhanVienByTenTK(tenTk);
+			TaiKhoanDTO rvTk = nhanvien.getTaiKhoan();
+			
 			if (rvTk.getMatKhau().equals(mk)) {
-				MainFrame frame = new MainFrame();
-				frame.setLogInAccount(rvTk.getTenTK(), rvTk.getMatKhau(), rvTk.isAdmin());
+				MainFrame frame = new MainFrame(nhanvien);
 				frame.setVisible(true);
 				this.dispose();
 			} else {
@@ -237,12 +241,12 @@ public class LoginForm extends JFrame implements ActionListener {
 
 	private void HandleException(Exception exception) {
 		if (exception instanceof NullPointerException) {
-			JOptionPane.showMessageDialog(null, "Tên tài khoản đã tồn tại.");
+			JOptionPane.showMessageDialog(null, "Tên tài khoản không tồn tại.");
 			txtUser.requestFocus();
 			return;
 		}
 		if (exception instanceof java.rmi.ConnectException) {
-			JOptionPane.showMessageDialog(null, "Server khách hàng hoại động");
+			JOptionPane.showMessageDialog(null, "Server hiện không hoạt động");
 			return;
 		}
 		exception.printStackTrace();

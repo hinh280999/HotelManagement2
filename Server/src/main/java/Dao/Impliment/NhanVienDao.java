@@ -2,6 +2,8 @@ package Dao.Impliment;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
@@ -231,5 +233,27 @@ public class NhanVienDao implements INhanVien {
 		}
 
 		return false;
+	}
+
+	@Override
+	public NhanVien getNhanVienByTenTK(String tenTK) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String query = "db.nhanviens.aggregate([{'$match': { 'taiKhoan.tenTK':'" + tenTK + "'}}])";
+		try {
+			NhanVien nv = session.createNativeQuery(query, NhanVien.class).getSingleResult();
+
+			tr.commit();
+
+			return nv;
+		} catch (Exception e) {
+			tr.rollback();
+			if (e instanceof NoResultException) {
+				System.out.println("Không tìm thấy tài khoản với tên: " + tenTK);
+			} else {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 }
