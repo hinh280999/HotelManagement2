@@ -10,6 +10,7 @@ import org.hibernate.query.NativeQuery;
 import Constant.Page;
 import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
+import Entity.PhieuThue;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Utilities.HibernateUtil;
@@ -77,13 +78,10 @@ public class KhachHangDao implements IKhachHangDao {
 			session.save(addObject);
 
 			tr.commit();
-			session.close();
 
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 
@@ -95,16 +93,13 @@ public class KhachHangDao implements IKhachHangDao {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
-			session.saveOrUpdate(updateObject);
-
+			session.update(updateObject);
 			tr.commit();
 			session.close();
 
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 
@@ -169,7 +164,7 @@ public class KhachHangDao implements IKhachHangDao {
 
 		return null;
 	}
-	
+
 	@Override
 	public PageList<KhachHangDTO> getListKhachHangByPage(int pageNumb, int maxRow, String customerName) {
 		OgmSession session = sessionFactory.getCurrentSession();
@@ -177,7 +172,8 @@ public class KhachHangDao implements IKhachHangDao {
 
 		String mongoAggregate;
 		if (customerName.length() > 0) {
-			mongoAggregate = "db.khachhangs.aggregate([{ '$match': { '$text': { '$search': '" + customerName + "' }}}])";
+			mongoAggregate = "db.khachhangs.aggregate([{ '$match': { '$text': { '$search': '" + customerName
+					+ "' }}}])";
 		} else {
 			mongoAggregate = "db.khachhangs.find({})";
 		}
@@ -205,6 +201,25 @@ public class KhachHangDao implements IKhachHangDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isDeleteAble(int maKH) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+			String query = "db.phieuthues.find({maKH: " + maKH + "})";
+
+			int row = session.createNativeQuery(query, PhieuThue.class).getResultList().size();
+
+			tr.commit();
+
+			return row > 0 ? false : true;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

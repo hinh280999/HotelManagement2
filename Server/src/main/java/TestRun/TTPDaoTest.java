@@ -10,6 +10,7 @@ public class TTPDaoTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+//<<<<<<< HEAD
 //		ITinhTrangPhongDao Dao  = new TinhTrangPhongDao();
 //		
 //		TinhTrangPhong tTTP = new TinhTrangPhong("Trống");
@@ -19,6 +20,17 @@ public class TTPDaoTest {
 //		} else {
 //			System.out.println("Add fail");
 //		}
+//=======
+		ITinhTrangPhongDao Dao  = new TinhTrangPhongDao();
+		
+		TinhTrangPhong tTTP = new TinhTrangPhong("Đã Thuê");
+		
+		if (Dao.add(tTTP)) {
+			System.out.println("Add Complete");
+		} else {
+			System.out.println("Add fail");
+		}
+//>>>>>>> 63117e0bc7c42054a950b1090bc14425fce1f7aa
 //		
 //		TinhTrangPhong ttpInfo = null;
 //		try {

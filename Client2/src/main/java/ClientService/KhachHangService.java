@@ -43,7 +43,33 @@ public class KhachHangService {
 		try {
 			return khachHangService.addObject(addObj);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean updateKhachHang(KhachHangDTO updateObj) {
+		try {
+			return khachHangService.updateObject(updateObj);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean isDeleteAble(int maKH) {
+		try {
+			return khachHangService.isDeleteAble(maKH);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteKhachHangById(int maKH) {
+		try {
+			return khachHangService.deleteObjectById(maKH);
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		return false;

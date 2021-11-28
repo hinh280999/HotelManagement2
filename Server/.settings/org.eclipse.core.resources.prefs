@@ -3,6 +3,7 @@ encoding//src/main/java/Dao/Impliment/PhieuThueDao.java=UTF-8
 encoding//src/main/java/Dao/Impliment/PhongDao.java=UTF-8
 encoding//src/main/java/Dao/Impliment/TaiKhoanDao.java=UTF-8
 encoding//src/main/java/Rmi/Service/PhongService.java=UTF-8
+encoding//src/main/java/TestRun/AfterDeleteDatabaseRun.java=UTF-8
 encoding//src/main/java/TestRun/KhachHangDaoTest.java=UTF-8
 encoding//src/main/java/TestRun/NhanVIenDaoTest.java=UTF-8
 encoding//src/main/java/TestRun/PhieuDichVuTest.java=UTF-8

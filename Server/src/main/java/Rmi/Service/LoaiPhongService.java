@@ -7,6 +7,7 @@ import java.util.List;
 import Dao.Impliment.LoaiPhongDao;
 import Dao.Interface.ILoaiPhongDao;
 import Entity.LoaiPhong;
+import Model.PageList;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.Interface.ILoaiPhongService;
 import Utilities.MappingDtoFacade;
@@ -52,6 +53,16 @@ public class LoaiPhongService extends UnicastRemoteObject implements ILoaiPhongS
 	public List<LoaiPhongDTO> getAllLoaiPhong() throws RemoteException {
 		List<LoaiPhong> lstLoaiPhong = loaiPhongDao.getAll();
 		return MappingDtoFacade.mapToListLoaiPhongDTO(lstLoaiPhong);
+	}
+
+	@Override
+	public PageList<LoaiPhongDTO> getListLoaiPhongByPage(int pageNumb, int maxRow, String key) throws RemoteException {
+		return loaiPhongDao.getListLoaiPhongByPage(pageNumb, maxRow, key);
+	}
+
+	@Override
+	public boolean isDeleteAble(int maLP) throws RemoteException {
+		return loaiPhongDao.isDeleteAble(maLP);
 	}
 
 }

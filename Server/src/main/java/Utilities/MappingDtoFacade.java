@@ -28,11 +28,12 @@ public class MappingDtoFacade {
 		DichVu returnVL = new DichVu();
 		returnVL.setTenDv(mapObject.getTenDv());
 		returnVL.setDonGia(mapObject.getDonGia());
+		returnVL.setDonVi(mapObject.getDonVi());
 		return returnVL;
 	}
 
 	public static DichVuDTO mapToDichVuDTO(DichVu mapObject) {
-		DichVuDTO returnVL = new DichVuDTO(mapObject.getTenDv(), mapObject.getDonGia());
+		DichVuDTO returnVL = new DichVuDTO(mapObject.getTenDv(), mapObject.getDonGia(), mapObject.getDonVi());
 		returnVL.setMaDv(mapObject.getMaDv());
 		return returnVL;
 	}

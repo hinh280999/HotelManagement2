@@ -10,7 +10,7 @@ public class DichVuDaoTest {
 	public static void main(String[] args) {
 		IDichVuDao Dao = new DichVuDao();
 //
-		DichVu tDichVu = new DichVu("Phof Capas Ba", 10000.0);
+		DichVu tDichVu = new DichVu("Phof Capas Ba", 10000.0, "vnd");
 
 		if (Dao.add(tDichVu)) {
 			System.out.println("Add DV Complete");

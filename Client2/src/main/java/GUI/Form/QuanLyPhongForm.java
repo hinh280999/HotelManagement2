@@ -102,6 +102,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 				selectedPhong = lstPhong.getListData().get(selectedRow);
 			}
 		});
+		tblDsPhong.setRowHeight(tblDsPhong.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsPhong);
 
 		JLabel lblNewLabel = new JLabel("Danh sách phòng");

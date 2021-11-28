@@ -65,4 +65,9 @@ public class KhachHangService extends UnicastRemoteObject implements IKhachHangS
 		return null;
 	}
 
+	@Override
+	public boolean isDeleteAble(int maKH) throws RemoteException {
+		return khachHangDao.isDeleteAble(maKH);
+	}
+
 }

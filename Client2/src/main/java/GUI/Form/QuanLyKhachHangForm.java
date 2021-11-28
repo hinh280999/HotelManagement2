@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
-import java.util.EventObject;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,9 +19,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import ClientService.DichVuService;
+import ClientService.KhachHangService;
 import CustomControll.ColorButton2;
 import GUI.Dialog.AddKhachHangDialog;
-import ClientService.*;
+import GUI.Dialog.UpdateKhachHangDialog;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 
@@ -38,7 +39,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 	private JButton btnNext;
 	private PageList<KhachHangDTO> lstKhachHang;
 	private int currentPage, maxPage;
-	private static int maxRow = 15;
+	private static int maxRow = 4;
 	private KhachHangService khachHangService = null;
 	protected KhachHangDTO selectedKhachHang;
 
@@ -98,6 +99,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 				selectedKhachHang = lstKhachHang.getListData().get(selectedRow);
 			}
 		});
+		tblDsKhachHang.setRowHeight(tblDsKhachHang.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsKhachHang);
 
 		JLabel lblNewLabel = new JLabel("Danh khách hàng");
@@ -178,15 +180,57 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			OpenAddKhachHangDialog();
 		}
 		if (o.equals(btnXoaKhachHang)) {
-			System.out.println("Xoa Clicked");
+			DeleteKhachHang();
 		}
 		if (o.equals(btnSuaKhachHang)) {
-			System.out.println("Sua Clicked");
+			OpenUpdateKhachHangDialog();
 		}
 		if (o.equals(btnSearch)) {
-			System.out.println("Search Clicked");
 			SearchDsKhachHang();
 		}
+	}
+
+	private void DeleteKhachHang() {
+		if (selectedKhachHang == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn khách hàng nào cả");
+			return;
+		}
+		if (!KhachHangService.getInstance().isDeleteAble(selectedKhachHang.getMaKH())) {
+			JOptionPane.showMessageDialog(null,
+					"Khách hàng hiện đang sử dụng khách sạn: " + selectedKhachHang.getTen());
+			return;
+		}
+		if (JOptionPane.showConfirmDialog(
+				this, "Bạn có muốn xóa khách hàng " + selectedKhachHang.getTen() + " có số điện thoại là: "
+						+ selectedKhachHang.getSdt() + " không?",
+				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+			if (KhachHangService.getInstance().deleteKhachHangById(selectedKhachHang.getMaKH())) {
+				JOptionPane.showMessageDialog(null, "Đã xóa khách hàng : " + selectedKhachHang.getTen());
+			} else {
+				JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa khách hàng : " + selectedKhachHang.getTen());
+			}
+		}
+		
+		reloadDsKhachHang();
+		return;
+
+	}
+
+	private void OpenUpdateKhachHangDialog() {
+		if (selectedKhachHang == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn khách hàng nào cả");
+			return;
+		}
+
+		UpdateKhachHangDialog dialog = new UpdateKhachHangDialog(selectedKhachHang);
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				reloadDsKhachHang();
+			}
+		});
+
 	}
 
 	private void OpenAddKhachHangDialog() {
@@ -205,7 +249,6 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			lstKhachHang = khachHangService.getListKhachHangByPage(1, maxRow, "");
 			LoadDsKhachHang(lstKhachHang);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		selectedKhachHang = null;

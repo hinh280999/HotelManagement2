@@ -54,7 +54,6 @@ public class DichVuService {
 		try {
 			return dichVuService.addObject(addObj);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -64,7 +63,6 @@ public class DichVuService {
 		try {
 			return dichVuService.isDeleteAble(maDV);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -74,7 +72,6 @@ public class DichVuService {
 		try {
 			return dichVuService.deleteObjectById(maDv);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -84,7 +81,6 @@ public class DichVuService {
 		try {
 			return dichVuService.updateObject(updateObj);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
