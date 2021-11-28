@@ -12,7 +12,7 @@ public class TTPDaoTest {
 		// TODO Auto-generated method stub
 		ITinhTrangPhongDao Dao  = new TinhTrangPhongDao();
 		
-		TinhTrangPhong tTTP = new TinhTrangPhong("Đã Đặt");
+		TinhTrangPhong tTTP = new TinhTrangPhong("Đã Thuê");
 		
 		if (Dao.add(tTTP)) {
 			System.out.println("Add Complete");

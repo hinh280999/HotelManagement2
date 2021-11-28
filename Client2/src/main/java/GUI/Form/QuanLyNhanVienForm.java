@@ -99,6 +99,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 				selectedNhanVien = lstNhanVien.getListData().get(selectedRow);
 			}
 		});
+		tblDsNhanVien.setRowHeight(tblDsNhanVien.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsNhanVien);
 
 		JLabel lblNewLabel = new JLabel("Danh sách nhân viên");
@@ -183,7 +184,6 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 			OpenUpdateNhanVienDialog();
 		}
 		if (o.equals(btnSearch)) {
-			System.out.println("Search Clicked");
 			SearchDsNhanVien();
 		}
 	}
@@ -216,17 +216,19 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 				"Bạn có muốn xóa nhân viên " + selectedNhanVien.getTen() + " có số điện thoại là: "
 						+ selectedNhanVien.getSdt() + " không?",
 				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-			if (NhanVienService.getInstance().deleteNhanVienById(selectedNhanVien.getMaNV())) {
-				JOptionPane.showMessageDialog(null, "Đã xóa nhân viên : " + selectedNhanVien.getTen());
-			} else {
-				JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa nhân viên : " + selectedNhanVien.getTen());
-			}
-
+			deleteNhanvien();
 		}
-
 		reloadDsNhanVien();
 		return;
 
+	}
+
+	private void deleteNhanvien() {
+		if (NhanVienService.getInstance().deleteNhanVienById(selectedNhanVien.getMaNV())) {
+			JOptionPane.showMessageDialog(null, "Đã xóa nhân viên : " + selectedNhanVien.getTen());
+		} else {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa nhân viên : " + selectedNhanVien.getTen());
+		}
 	}
 
 	private void OpenAddNhanVienDialog() {

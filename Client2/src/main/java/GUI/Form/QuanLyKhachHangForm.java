@@ -99,6 +99,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 				selectedKhachHang = lstKhachHang.getListData().get(selectedRow);
 			}
 		});
+		tblDsKhachHang.setRowHeight(tblDsKhachHang.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsKhachHang);
 
 		JLabel lblNewLabel = new JLabel("Danh khách hàng");

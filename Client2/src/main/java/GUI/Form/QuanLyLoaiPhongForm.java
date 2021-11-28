@@ -105,7 +105,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 				selectedLoaiPhong = lstLoaiPhong.getListData().get(selectedRow);
 			}
 		});
-		tblDsLoaiPhong.setRowHeight(tblDsLoaiPhong.getRowHeight() + 20);
+		tblDsLoaiPhong.setRowHeight(tblDsLoaiPhong.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsLoaiPhong);
 
 		JLabel lblNewLabel = new JLabel("Danh Loại Phòng");

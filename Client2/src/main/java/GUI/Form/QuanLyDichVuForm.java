@@ -41,7 +41,6 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	private PageList<DichVuDTO> lstDichVu;
 	private int currentPage, maxPage;
 	private static int maxRow = 2;
-	private DichVuService dichVuService = null;
 	private DichVuDTO selectedDichVu;
 
 	public QuanLyDichVuForm() {
@@ -100,6 +99,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 				selectedDichVu = lstDichVu.getListData().get(selectedRow);
 			}
 		});
+		tblDsDichVu.setRowHeight(tblDsDichVu.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsDichVu);
 
 		JLabel lblNewLabel = new JLabel("Danh khách hàng");
@@ -128,17 +128,16 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		btnSearch.addActionListener(this);
 
 		// == load DS =====
-		dichVuService = dichVuService.getInstance();
-		lstDichVu = dichVuService.getListDichVuByPage(1, maxRow, "");
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(1, maxRow, "");
 		LoadDsDichVu(lstDichVu);
 	}
 
 	private void LoadDsDichVu(PageList<DichVuDTO> lstDichVu) {
-		String[] tieude = { "Mã Dịch Vụ", "Tên Dịch Vụ", "Đơn Giá" };
+		String[] tieude = { "Mã Dịch Vụ", "Tên Dịch Vụ", "Đơn Giá", "Đơn Vị" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 
 		for (DichVuDTO dichvu : lstDichVu.getListData()) {
-			Object[] o = { dichvu.getMaDv(), dichvu.getTenDv(), dichvu.getDonGia() };
+			Object[] o = { dichvu.getMaDv(), dichvu.getTenDv(), dichvu.getDonGia(), dichvu.getDonVi() };
 			model.addRow(o);
 		}
 		tblDsDichVu.setModel(model);
@@ -235,7 +234,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	}
 
 	private void ReloadDsDichVu() {
-		lstDichVu = dichVuService.getListDichVuByPage(1, maxRow, "");
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(1, maxRow, "");
 		LoadDsDichVu(lstDichVu);
 		selectedDichVu = null;
 	}
@@ -248,7 +247,8 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 			return;
 		}
 
-		lstDichVu = dichVuService.getListDichVuByPage(currentPage, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(currentPage, maxRow,
+				nameSearch.length() > 0 ? nameSearch : "");
 		LoadDsDichVu(lstDichVu);
 	}
 
@@ -261,7 +261,8 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 
 		int nextPageNumb = lstDichVu.getCurrentPage() + 1;
 		String nameSearch = txtSearchText.getText().toString();
-		lstDichVu = dichVuService.getListDichVuByPage(nextPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(nextPageNumb, maxRow,
+				nameSearch.length() > 0 ? nameSearch : "");
 		LoadDsDichVu(lstDichVu);
 	}
 
@@ -274,7 +275,8 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 
 		int PrevPageNumb = lstDichVu.getCurrentPage() - 1;
 		String nameSearch = txtSearchText.getText().toString();
-		lstDichVu = dichVuService.getListDichVuByPage(PrevPageNumb, maxRow, nameSearch.length() > 0 ? nameSearch : "");
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(PrevPageNumb, maxRow,
+				nameSearch.length() > 0 ? nameSearch : "");
 		LoadDsDichVu(lstDichVu);
 	}
 
