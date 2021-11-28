@@ -10,6 +10,7 @@ import org.hibernate.query.NativeQuery;
 import Constant.Page;
 import Dao.Interface.IKhachHangDao;
 import Entity.KhachHang;
+import Entity.PhieuThue;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 import Utilities.HibernateUtil;
@@ -200,6 +201,25 @@ public class KhachHangDao implements IKhachHangDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isDeleteAble(int maKH) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+			String query = "db.phieuthues.find({maKH: " + maKH + "})";
+
+			int row = session.createNativeQuery(query, PhieuThue.class).getResultList().size();
+
+			tr.commit();
+
+			return row > 0 ? false : true;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

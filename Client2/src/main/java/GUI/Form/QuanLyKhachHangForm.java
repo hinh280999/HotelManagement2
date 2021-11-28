@@ -178,7 +178,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			OpenAddKhachHangDialog();
 		}
 		if (o.equals(btnXoaKhachHang)) {
-			System.out.println("Xoa Clicked");
+			DeleteKhachHang();
 		}
 		if (o.equals(btnSuaKhachHang)) {
 			OpenUpdateKhachHangDialog();
@@ -186,6 +186,14 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		if (o.equals(btnSearch)) {
 			SearchDsKhachHang();
 		}
+	}
+
+	private void DeleteKhachHang() {
+		if (selectedKhachHang == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn khách hàng nào cả");
+			return;
+		}
+
 	}
 
 	private void OpenUpdateKhachHangDialog() {
