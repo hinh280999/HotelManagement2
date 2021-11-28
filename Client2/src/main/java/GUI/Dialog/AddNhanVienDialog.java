@@ -159,10 +159,7 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 			this.dispose();
 		}
 		if (o.equals(btnThem)) {
-			System.out.println("btnThem");
-			if (check_data()) {
-				ThemNhanVien();
-			}
+			ThemNhanVien();
 		}
 	}
 
@@ -242,6 +239,8 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 	}
 
 	private void ThemNhanVien() {
+		System.out.println("btnThem");
+		if (!check_data()) return;
 		String name = txtName.getText().toString();
 		String gender = comboBox.getSelectedItem().toString();
 		String phone = txtPhone.getText().toString();
