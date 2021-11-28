@@ -22,10 +22,12 @@ import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
 
 import ClientService.*;
+import Entity.PhieuThue;
 import GUI.Dialog.ChooseCustomerDialog;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
+import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.PhongDTO;
 
 import javax.swing.JComboBox;
@@ -33,7 +35,7 @@ import javax.swing.JDialog;
 
 public class DatPhongForm extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private KhachHangDTO selectedKH = new KhachHangDTO();
+	private KhachHangDTO selectedKH = null;
 	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblEmailKH, lblDiaChiKH, lblDonGia;
 	private JLabel lblTenPhong;
 	private JDateChooser ngayDen, ngayKetThuc;
@@ -41,7 +43,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 	private JComboBox<String> cbxLoaiPhong;
 	private List<LoaiPhongDTO> lstLoaiPhong;
 	private LoaiPhongDTO selectedLoaiPhong;
-	private PhongDTO selectedPhong;
+	private PhongDTO selectedPhong = null;
 	private NhanVienDTO nhanVien = null;
 
 	public DatPhongForm(NhanVienDTO nhanvien) {
@@ -327,6 +329,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		Object o = e.getSource();
 		if (o.equals(btnDatPhong)) {
 			System.out.println("Click đặt phòng");
+			DatPhong();
 		}
 		if (o.equals(btnXoaTrang)) {
 			System.out.println("Click xóa trắng");
@@ -334,6 +337,21 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		if (o.equals(btnTimPhongTrong)) {
 			timPhongTrong();
 		}
+	}
+
+	private void DatPhong() {
+		if (selectedPhong == null) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn phòng");
+		}
+		if (selectedKH == null) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn khách hàng");
+		}
+
+		Date ngayDat = ngayDen.getDate();
+		Date ngayKt = ngayKetThuc.getDate();
+		PhieuThueDTO pt = new PhieuThueDTO(ngayDat, ngayKt, selectedPhong.getMaP(), nhanVien.getMaNV(),
+				selectedKH.getMaKH());
+
 	}
 
 	private void timPhongTrong() {
