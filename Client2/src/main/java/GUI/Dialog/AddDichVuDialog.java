@@ -25,18 +25,20 @@ public class AddDichVuDialog extends JDialog implements ActionListener {
 	private JButton btnThem;
 	private JButton btnHuy;
 	private JTextField txtDonGia;
-	private JTextField txtDonVi;
+	private JComboBox cbbDonVi;
 
 	public AddDichVuDialog() {
+		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
+		getContentPane().setBackground(new Color(240, 240, 240));
 		setModal(true);
-		setSize(350, 350);
+		setSize(360, 350);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.GREEN);
-		panel.setBounds(10, 10, 316, 60);
+		panel.setBounds(10, 10, 326, 60);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -48,47 +50,56 @@ public class AddDichVuDialog extends JDialog implements ActionListener {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 80, 316, 220);
+		panel_1.setBounds(10, 80, 326, 220);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
 		JLabel lblNewLabel_1 = new JLabel("Tên Dịch Vụ");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(10, 60, 100, 30);
+		lblNewLabel_1.setBounds(10, 30, 100, 30);
 		panel_1.add(lblNewLabel_1);
 
 		txtTenDV = new JTextField();
-		txtTenDV.setBounds(120, 60, 180, 30);
+		txtTenDV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtTenDV.setBounds(120, 30, 196, 30);
 		panel_1.add(txtTenDV);
 		txtTenDV.setColumns(10);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Đơn Giá");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1.setBounds(10, 100, 100, 30);
+		lblNewLabel_1_1.setBounds(10, 80, 100, 30);
 		panel_1.add(lblNewLabel_1_1);
 
 		txtDonGia = new JTextField();
+		txtDonGia.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtDonGia.setColumns(10);
-		txtDonGia.setBounds(120, 100, 180, 30);
+		txtDonGia.setBounds(120, 80, 196, 30);
 		panel_1.add(txtDonGia);
 
 		btnThem = new JButton("Thêm");
-		btnThem.setBounds(210, 180, 90, 30);
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThem.setBounds(226, 180, 90, 30);
 		panel_1.add(btnThem);
 
 		btnHuy = new JButton("Hủy");
-		btnHuy.setBounds(110, 180, 90, 30);
+		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnHuy.setBounds(120, 180, 90, 30);
 		panel_1.add(btnHuy);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Đơn Vị");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1.setBounds(10, 140, 100, 30);
+		lblNewLabel_1_1_1.setBounds(10, 130, 100, 30);
 		panel_1.add(lblNewLabel_1_1_1);
-
-		txtDonVi = new JTextField();
-		txtDonVi.setColumns(10);
-		txtDonVi.setBounds(120, 140, 180, 30);
-		panel_1.add(txtDonVi);
+		
+		cbbDonVi = new JComboBox();
+		cbbDonVi.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbbDonVi.setBounds(120, 130, 196, 30);
+		panel_1.add(cbbDonVi);
+		cbbDonVi.addItem("1 Chai");
+		cbbDonVi.addItem("1 Lon");
+		cbbDonVi.addItem("1 Gói");
+		cbbDonVi.addItem("1 Hộp");
+		cbbDonVi.addItem("1 Đĩa");
 
 		// === Action ========================
 		btnThem.addActionListener(this);
@@ -112,39 +123,37 @@ public class AddDichVuDialog extends JDialog implements ActionListener {
 			return;
 		String tenDv = txtTenDV.getText().toString().trim();
 		String txtdongia = txtDonGia.getText().toString().trim();
-		String DonVi = txtDonVi.getText().toString().trim();
-
+		String donVi = cbbDonVi.getSelectedItem().toString();
+		
 		Double dongia = Double.parseDouble(txtdongia);
-		DichVuDTO addObj = new DichVuDTO(tenDv, dongia, DonVi);
+		DichVuDTO addObj = new DichVuDTO(tenDv, dongia, donVi);
 		DichVuService.getInstance().AddDichVu(addObj);
-
+		
+		JOptionPane.showMessageDialog(this, "Thêm thành công.");
 		this.dispose();
 	}
 
-	private boolean ValidateInPut() {
-//		if (tenDv.length() <= 0) {
-//			JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên cho dịch vụ");
-//			txtTenDV.requestFocus();
-//			return false;
-//		}
-//		if (txtdongia.length() <= 0) {
-//			JOptionPane.showMessageDialog(null, "Bạn chưa nhập giá cho dịch vụ");
-//			txtDonGia.requestFocus();
-//			return false;
-//		}
-//
-//		try {
-//			Double gia = Double.parseDouble(txtdongia);
-//			if (gia <= 0) {
-//				JOptionPane.showMessageDialog(null, "Giá dịch vụ phải lớn hơn '0'");
-//				txtDonGia.requestFocus();
-//				return false;
-//			}
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, "Giá dịch vụ phải là số");
-//			txtDonGia.requestFocus();
-//			return false;
-//		}
+	private boolean ValidateInPut() {	
+		if (txtTenDV.getText().trim().length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên cho dịch vụ");
+			txtTenDV.selectAll();
+			txtTenDV.requestFocus();
+			return false;
+		}
+		String gia = txtDonGia.getText().trim();
+		if (gia.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa nhập giá cho dịch vụ");
+			txtDonGia.selectAll();
+			txtDonGia.requestFocus();
+			return false;
+		}
+		
+		if (!gia.matches("^[1-9]{1}[0-9]{3,}$")) {
+			JOptionPane.showMessageDialog(null, "Giá dịch vụ phải là số và phải lớn hơn 1000 VND. \n Please.");
+			txtDonGia.selectAll();
+			txtDonGia.requestFocus();
+			return false;
+		}
 		return true;
 	}
 }
