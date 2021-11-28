@@ -132,15 +132,15 @@ public class UpdateKhachHangDialog extends JDialog implements ActionListener {
 	}
 
 	private void SuaThongTinKhachHang() {
+		if (!check_data())
+			return;
+
 		String name = txtName.getText().toString();
 		String soCMT = txtCMT.getText().toString();
 		String phone = txtSDT.getText().toString();
 		String mail = txtMail.getText().toString();
 		String diachi = txtDiaChi.getText().toString();
 
-		if (!validateInPut(name, soCMT, phone, mail, diachi))
-			return;
-		
 		KhachHangDTO UpdateObj = new KhachHangDTO(name, mail, phone, diachi, soCMT);
 		UpdateObj.setMaKH(selectedKhachHang.getMaKH());
 
@@ -153,32 +153,71 @@ public class UpdateKhachHangDialog extends JDialog implements ActionListener {
 		this.dispose();
 	}
 
-	private boolean validateInPut(String name, String soCMT, String phone, String mail, String diaChi) {
-		if (name.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên khách hàng");
-			txtName.requestFocus();
+	private boolean check_data() {
+		String maCheck = txtName.getText().trim();
+		String mess = "";
+
+		if (!(maCheck.length() > 0 && maCheck.matches(
+				"^([ẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴA-Z]{1}[ắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵa-z]*\\s)+([ẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴA-Z]{1}[ắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵa-z]*)$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập tên khách hàng.";
+			} else {
+				mess = "Tên khách hàng có chữ hoa ở đầu mỗi từ, cách nhau bởi đấu cách. \nVD: Nguyễn Văn A";
+			}
+			getMess(txtName, mess);
 			return false;
 		}
-		if (soCMT.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập số CMT khách hàng");
-			txtCMT.requestFocus();
+		//
+
+		maCheck = txtCMT.getText().trim();
+		if (!(maCheck.length() > 0 && maCheck.matches("^[0-9]{12}$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập số chứng minh của khách hàng.";
+			} else if (maCheck.length() != 10) {
+				mess = "Số chứng mính có 12 số.";
+			}
+			getMess(txtCMT, mess);
 			return false;
 		}
-		if (phone.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập số điện thoại khách hàng");
-			txtSDT.requestFocus();
+		//
+
+		maCheck = txtSDT.getText().trim();
+		if (!(maCheck.length() > 0 && maCheck.matches("^0[0-9]{9}$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập số điện thoại của khách hàng.";
+			} else if (maCheck.length() != 10) {
+				mess = "Số điện thoại có 10 số và bắt đầu bằng số 0.";
+			}
+			getMess(txtSDT, mess);
 			return false;
 		}
-		if (mail.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập Email khách hàng");
-			txtMail.requestFocus();
+
+		//
+		maCheck = txtMail.getText().trim();
+		if (!(maCheck.matches("^[A-Za-z0-9._]+@[A-Za-z0-9.]+\\.[a-z]{2,4}$"))) {
+			if (maCheck.length() == 0) {
+				mess = "Hãy nhập Email của khách hàng";
+			} else {
+				mess = "Email phải đúng theo định dạng (VD: Abc@gmail.com)";
+
+			}
+			getMess(txtMail, mess);
 			return false;
 		}
-		if (diaChi.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Bạn chưa nhập địa chỉ");
+		maCheck = txtDiaChi.getText().trim();
+		if (maCheck.length() == 0) {
+			JOptionPane.showMessageDialog(this, "Hãy nhập địa chỉ.");
+			txtDiaChi.selectAll();
 			txtDiaChi.requestFocus();
 			return false;
 		}
+		//
 		return true;
+	}
+
+	private void getMess(JTextField txt, String mess) {
+		JOptionPane.showMessageDialog(this, mess);
+		txt.selectAll();
+		txt.requestFocus();
 	}
 }

@@ -29,11 +29,12 @@ import ClientService.TaiKhoanService;
 import CustomControll.ColorButton;
 import CustomControll.GradientPanel;
 import Rmi.DTO.TaiKhoanDTO;
+import java.awt.Font;
 
 public class LoginForm extends JFrame implements ActionListener {
 	private ClientService.TaiKhoanService taiKhoanService;
 	private JPanel contentPane;
-	private JTextField txtEmail;
+	private JTextField txtUser;
 	private JPasswordField txtPassword;
 	private ColorButton btnDangNhap;
 	private JButton btnQuenMk;
@@ -84,29 +85,30 @@ public class LoginForm extends JFrame implements ActionListener {
 		panelForm.setLayout(null);
 		LogInfromPanel.add(panelForm);
 
-		txtEmail = new JTextField();
-		txtEmail.setText("Nháº­p tÃªn tÃ i khoáº£n");
-		txtEmail.setForeground(new Color(169, 169, 169));
-		txtEmail.addFocusListener(new FocusAdapter() {
+		txtUser = new JTextField();
+		txtUser.setToolTipText("");
+		txtUser.setText("Nhập tên tài khoản");
+		txtUser.setForeground(new Color(169, 169, 169));
+		txtUser.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				if (txtEmail.getText().toString().equals("Nháº­p tÃªn tÃ i khoáº£n")) {
-					txtEmail.setText("");
-					txtEmail.setForeground(new Color(0, 0, 0));
+				if (txtUser.getText().toString().equals("Nhập tên tài khoản")) {
+					txtUser.setText("");
+					txtUser.setForeground(new Color(0, 0, 0));
 				}
 			}
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (txtEmail.getText().toString().equals("")) {
-					txtEmail.setText("Nháº­p tÃªn tÃ i khoáº£n");
-					txtEmail.setForeground(new Color(169, 169, 169));
+				if (txtUser.getText().toString().equals("")) {
+					txtUser.setText("Nhập tên tài khoản");
+					txtUser.setForeground(new Color(169, 169, 169));
 				}
 			}
 		});
-		txtEmail.setBounds(6, 97, 283, 36);
-		txtEmail.setColumns(10);
-		panelForm.add(txtEmail);
+		txtUser.setBounds(6, 97, 283, 36);
+		txtUser.setColumns(10);
+		panelForm.add(txtUser);
 
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(6, 166, 283, 36);
@@ -114,16 +116,18 @@ public class LoginForm extends JFrame implements ActionListener {
 
 		btnDangNhap = new ColorButton();
 		btnDangNhap.setBounds(6, 239, 283, 28);
-		btnDangNhap.setText("Ä�Äƒng Nháº­p");
-		btnDangNhap.setToolTipText("NÃºt Ä�Äƒng Nháº­p");
+		btnDangNhap.setText("Đăng nhập");
+		btnDangNhap.setToolTipText("Đăng nhập hệ thống");
 		panelForm.add(btnDangNhap);
 
-		JLabel lblNewLabel_1 = new JLabel("TÃ i Khoáº£n");
-		lblNewLabel_1.setBounds(6, 79, 59, 16);
+		JLabel lblNewLabel_1 = new JLabel("Tài khoản");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(6, 79, 100, 20);
 		panelForm.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("Máº­t Kháº©u");
-		lblNewLabel_2.setBounds(6, 150, 59, 16);
+		JLabel lblNewLabel_2 = new JLabel("Mật khẩu");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_2.setBounds(6, 145, 100, 20);
 		panelForm.add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("");
@@ -133,7 +137,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		lblNewLabel_3.setIcon(imageIcon);
 		panelForm.add(lblNewLabel_3);
 
-		btnQuenMk = new JButton("QuÃªn Máº­t Kháº©u ? ");
+		btnQuenMk = new JButton("Quên mật khẩu ? ");
 		btnQuenMk.setBounds(6, 297, 121, 28);
 		panelForm.add(btnQuenMk);
 
@@ -155,7 +159,7 @@ public class LoginForm extends JFrame implements ActionListener {
 				setState(JFrame.ICONIFIED);
 			}
 		});
-		btnMinimize.setToolTipText("Thu gá»�n");
+		btnMinimize.setToolTipText("Thu gần");
 		btnMinimize.setIcon(new ImageIcon("img/minimize.png"));
 		btnMinimize.setContentAreaFilled(false);
 		btnMinimize.setBounds(649, 0, 28, 28);
@@ -166,7 +170,7 @@ public class LoginForm extends JFrame implements ActionListener {
 				System.exit(0);
 			}
 		});
-		btnClose.setToolTipText("ThoÃ¡t");
+		btnClose.setToolTipText("thoát");
 		btnClose.setIcon(new ImageIcon("img/cross.png"));
 		btnClose.setContentAreaFilled(false);
 		btnClose.setBounds(691, 0, 28, 28);
@@ -190,13 +194,13 @@ public class LoginForm extends JFrame implements ActionListener {
 			}
 		}
 		if (o.equals(btnQuenMk)) {
-			System.out.println("QuÃªn máº­t kháº©u");
+			System.out.println("Quên mật khẩu.");
 		}
 
 	}
 
 	private void FuntionDangNhap() throws MalformedURLException, RemoteException, NotBoundException, ConnectException {
-		String tenTk = txtEmail.getText().toString();
+		String tenTk = txtUser.getText().toString();
 		String mk = txtPassword.getText().toString();
 		if (validateInput(tenTk, mk) == false)
 			return;
@@ -209,7 +213,7 @@ public class LoginForm extends JFrame implements ActionListener {
 				frame.setVisible(true);
 				this.dispose();
 			} else {
-				JOptionPane.showMessageDialog(null, "Nháº­p sai máº­t kháº©u");
+				JOptionPane.showMessageDialog(null, "Nhập sai mật khẩu");
 				txtPassword.requestFocus();
 			}
 		} catch (Exception e) {
@@ -218,13 +222,13 @@ public class LoginForm extends JFrame implements ActionListener {
 	}
 
 	private boolean validateInput(String tenTk, String mk) {
-		if (tenTk.equals("Nháº­p tÃªn tÃ i khoáº£n")) {
-			JOptionPane.showMessageDialog(null, "Oops!, báº¡n chÆ°a nháº­p tÃªn tÃ i khoáº£n");
-			txtEmail.requestFocus();
+		if (tenTk.equals("Nhập tên tài khoản")) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tài khoản.");
+			txtUser.requestFocus();
 			return false;
 		}
 		if (mk.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Oops!, báº¡n chÆ°a nháº­p máº­t kháº©u");
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập mật khẩu");
 			txtPassword.requestFocus();
 			return false;
 		}
@@ -233,12 +237,12 @@ public class LoginForm extends JFrame implements ActionListener {
 
 	private void HandleException(Exception exception) {
 		if (exception instanceof NullPointerException) {
-			JOptionPane.showMessageDialog(null, "TÃªn TÃ i khoáº£n khÃ´ng tá»“n táº¡i");
-			txtEmail.requestFocus();
+			JOptionPane.showMessageDialog(null, "Tên tài khoản đã tồn tại.");
+			txtUser.requestFocus();
 			return;
 		}
 		if (exception instanceof java.rmi.ConnectException) {
-			JOptionPane.showMessageDialog(null, "Server hiá»‡n khÃ´ng hoáº¡t Ä‘á»™ng");
+			JOptionPane.showMessageDialog(null, "Server khách hàng hoại động");
 			return;
 		}
 		exception.printStackTrace();

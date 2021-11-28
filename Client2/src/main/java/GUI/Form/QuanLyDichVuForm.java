@@ -212,10 +212,16 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Dịch vụ đang có người sử dụng");
 			return;
 		}
-		if (DichVuService.getInstance().deleteDichVuById(selectedDichVu.getMaDv())) {
-			JOptionPane.showMessageDialog(null, "Đã xóa dịch vụ : " + selectedDichVu.getTenDv());
-		} else {
-			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa dịch vụ : " + selectedDichVu.getTenDv());
+		if (JOptionPane.showConfirmDialog(this,
+				"Bạn có muốn xóa dịch vụ " + selectedDichVu.getTenDv() + " có giá là là: " + selectedDichVu.getDonGia()
+						+ " trên " + selectedDichVu.getDonVi() + " không?",
+				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+
+			if (DichVuService.getInstance().deleteDichVuById(selectedDichVu.getMaDv())) {
+				JOptionPane.showMessageDialog(null, "Đã xóa dịch vụ : " + selectedDichVu.getTenDv());
+			} else {
+				JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa dịch vụ : " + selectedDichVu.getTenDv());
+			}
 		}
 		ReloadDsDichVu();
 		return;

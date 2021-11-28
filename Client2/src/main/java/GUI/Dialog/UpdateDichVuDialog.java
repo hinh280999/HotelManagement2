@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import ClientService.DichVuService;
 import Rmi.DTO.DichVuDTO;
+import javax.swing.JComboBox;
 
 public class UpdateDichVuDialog extends JDialog implements ActionListener {
 	private JTextField txtTenDV;
@@ -21,18 +22,18 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 	private JButton btnSua;
 	private JButton btnHuy;
 	private DichVuDTO selectedDv;
-	private JTextField txtDonVi;
+	private JComboBox cbbDonVi;
 
 	public UpdateDichVuDialog(DichVuDTO dichVuDTO) {
 		setModal(true);
-		setSize(350, 360);
+		setSize(360, 350);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.GREEN);
-		panel.setBounds(10, 10, 316, 60);
+		panel.setBounds(10, 10, 326, 60);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -44,52 +45,60 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 80, 316, 230);
+		panel_1.setBounds(10, 80, 326, 230);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
 		JLabel lblNewLabel_1 = new JLabel("Tên Dịch Vụ");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(10, 60, 100, 30);
+		lblNewLabel_1.setBounds(10, 30, 100, 30);
 		panel_1.add(lblNewLabel_1);
 
 		txtTenDV = new JTextField();
+		txtTenDV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtTenDV.setColumns(10);
-		txtTenDV.setBounds(120, 60, 180, 30);
+		txtTenDV.setBounds(120, 30, 196, 30);
 		txtTenDV.setText(dichVuDTO.getTenDv());
 		panel_1.add(txtTenDV);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Đơn Giá");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1.setBounds(10, 100, 100, 30);
+		lblNewLabel_1_1.setBounds(10, 80, 100, 30);
 		panel_1.add(lblNewLabel_1_1);
 
 		txtDonGia = new JTextField();
+		txtDonGia.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtDonGia.setColumns(10);
-		txtDonGia.setText(String.valueOf(dichVuDTO.getDonGia()));
-		txtDonGia.setBounds(120, 100, 180, 30);
+		txtDonGia.setText("0");
+		txtDonGia.setBounds(120, 80, 196, 30);
 		panel_1.add(txtDonGia);
 
 		btnSua = new JButton("Sửa");
-		btnSua.setBounds(210, 186, 90, 30);
+		btnSua.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSua.setBounds(226, 186, 90, 30);
 		panel_1.add(btnSua);
 
 		btnHuy = new JButton("Hủy");
-		btnHuy.setBounds(110, 186, 90, 30);
+		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnHuy.setBounds(120, 186, 90, 30);
 		panel_1.add(btnHuy);
 
 		selectedDv = dichVuDTO;
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Đơn Vị");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1.setBounds(10, 140, 100, 30);
+		lblNewLabel_1_1_1.setBounds(10, 130, 100, 30);
 		panel_1.add(lblNewLabel_1_1_1);
-
-		txtDonVi = new JTextField();
-		txtDonVi.setColumns(10);
-		txtDonVi.setBounds(120, 140, 180, 30);
-		txtDonVi.setText(dichVuDTO.getDonVi());
-		panel_1.add(txtDonVi);
+		
+		cbbDonVi = new JComboBox();
+		cbbDonVi.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbbDonVi.setBounds(120, 130, 196, 30);
+		panel_1.add(cbbDonVi);
+		cbbDonVi.addItem("1 Chai");
+		cbbDonVi.addItem("1 Lon");
+		cbbDonVi.addItem("1 Gói");
+		cbbDonVi.addItem("1 Hộp");
+		cbbDonVi.addItem("1 Đĩa");
 
 		// === Action ========================
 		btnSua.addActionListener(this);
@@ -109,12 +118,12 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 	}
 
 	private void SuaDichVu() {
+		if (!ValidateInPut())
+			return;
+		
 		String tenDv = txtTenDV.getText().toString().trim();
 		String txtDongia = txtDonGia.getText().toString().trim();
-		String donVi = txtDonVi.getText().toString().trim();
-
-		if (!ValidateInPut(tenDv, txtDongia))
-			return;
+		String donVi = cbbDonVi.getSelectedItem().toString();
 
 		Double dongia = Double.parseDouble(txtDongia);
 
@@ -131,27 +140,24 @@ public class UpdateDichVuDialog extends JDialog implements ActionListener {
 		this.dispose();
 	}
 
-	private boolean ValidateInPut(String tenDv, String txtdongia) {
-		if (tenDv.length() <= 0) {
+	private boolean ValidateInPut() {
+		if (txtTenDV.getText().trim().length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Bạn chưa nhập tên cho dịch vụ");
+			txtTenDV.selectAll();
 			txtTenDV.requestFocus();
 			return false;
 		}
-		if (txtdongia.length() <= 0) {
+		String gia = txtDonGia.getText().trim();
+		if (gia.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Bạn chưa nhập giá cho dịch vụ");
+			txtDonGia.selectAll();
 			txtDonGia.requestFocus();
 			return false;
 		}
-
-		try {
-			Double gia = Double.parseDouble(txtdongia);
-			if (gia <= 0) {
-				JOptionPane.showMessageDialog(null, "Giá dịch vụ phải lớn hơn '0'");
-				txtDonGia.requestFocus();
-				return false;
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Giá dịch vụ phải là số");
+		
+		if (!gia.matches("^[1-9]{1}[0-9]{3,}$")) {
+			JOptionPane.showMessageDialog(null, "Giá dịch vụ phải là số và phải lớn hơn 1000 VND. \n Please.");
+			txtDonGia.selectAll();
 			txtDonGia.requestFocus();
 			return false;
 		}
