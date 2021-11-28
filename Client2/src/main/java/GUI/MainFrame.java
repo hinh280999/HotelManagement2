@@ -142,7 +142,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		panelSideBar.add(pQLKhach);
-		
+
 		ImageIcon pQLNhanVienIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
 		PanelMenu pQLNhanVien = new PanelMenu("Quản lý nhân viên", pQLNhanVienIcon);
 		pQLNhanVien.setBounds(0, 510, 250, 40);
@@ -153,7 +153,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		panelSideBar.add(pQLNhanVien);
-		
+
 		ImageIcon pQLDichVuIcon = new ImageIcon(new ImageIcon("icon/iconQlDV.png").getImage());
 		PanelMenu pQLDichVu = new PanelMenu("Quản lý Dịch Vụ", pQLDichVuIcon);
 		pQLDichVu.setBounds(0, 549, 250, 40);

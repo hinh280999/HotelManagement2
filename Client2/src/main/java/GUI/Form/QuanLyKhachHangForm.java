@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import CustomControll.ColorButton2;
+import GUI.Dialog.AddKhachHangDialog;
 import ClientService.*;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
@@ -37,6 +40,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 	private int currentPage, maxPage;
 	private static int maxRow = 15;
 	private KhachHangService khachHangService = null;
+	protected KhachHangDTO selectedKhachHang;
 
 	public QuanLyKhachHangForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -91,7 +95,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int selectedRow = tblDsKhachHang.getSelectedRow();
-//				selectedPhong = lstPhong.getListData().get(selectedRow);
+				selectedKhachHang = lstKhachHang.getListData().get(selectedRow);
 			}
 		});
 		scrollPane.setViewportView(tblDsKhachHang);
@@ -146,6 +150,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		maxPage = lstKhachHang.getMaxPage();
 
 		showPageNumber();
+		selectedKhachHang = null;
 
 	}
 
@@ -170,7 +175,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			LoadNextPage();
 		}
 		if (o.equals(btnThemKhachHang)) {
-			System.out.println("Them clicked");
+			OpenAddKhachHangDialog();
 		}
 		if (o.equals(btnXoaKhachHang)) {
 			System.out.println("Xoa Clicked");
@@ -182,6 +187,28 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			System.out.println("Search Clicked");
 			SearchDsKhachHang();
 		}
+	}
+
+	private void OpenAddKhachHangDialog() {
+		AddKhachHangDialog dialog = new AddKhachHangDialog();
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				reloadDsKhachHang();
+			}
+		});
+	}
+
+	protected void reloadDsKhachHang() {
+		try {
+			lstKhachHang = khachHangService.getListKhachHangByPage(1, maxRow, "");
+			LoadDsKhachHang(lstKhachHang);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		selectedKhachHang = null;
 	}
 
 	private void SearchDsKhachHang() {

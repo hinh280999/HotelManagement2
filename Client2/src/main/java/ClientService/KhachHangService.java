@@ -39,4 +39,14 @@ public class KhachHangService {
 		return instance;
 	}
 
+	public boolean addKhachHang(KhachHangDTO addObj) {
+		try {
+			return khachHangService.addObject(addObj);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
