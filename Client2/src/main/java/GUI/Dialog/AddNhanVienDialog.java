@@ -232,8 +232,7 @@ public class AddNhanVienDialog extends JDialog implements ActionListener {
 
 		//
 
-		System.out.println("TRUE");
-		return false;
+		return true;
 	}
 
 	private void getMess(JTextField txt, String mess) {
