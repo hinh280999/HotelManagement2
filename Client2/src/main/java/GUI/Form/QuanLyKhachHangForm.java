@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
-import java.util.EventObject;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,9 +19,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import ClientService.KhachHangService;
 import CustomControll.ColorButton2;
 import GUI.Dialog.AddKhachHangDialog;
-import ClientService.*;
+import GUI.Dialog.UpdateKhachHangDialog;
 import Model.PageList;
 import Rmi.DTO.KhachHangDTO;
 
@@ -181,12 +181,28 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			System.out.println("Xoa Clicked");
 		}
 		if (o.equals(btnSuaKhachHang)) {
-			System.out.println("Sua Clicked");
+			OpenUpdateKhachHangDialog();
 		}
 		if (o.equals(btnSearch)) {
-			System.out.println("Search Clicked");
 			SearchDsKhachHang();
 		}
+	}
+
+	private void OpenUpdateKhachHangDialog() {
+		if (selectedKhachHang == null) {
+			JOptionPane.showMessageDialog(null, "Oops!, Bạn chưa chọn khách hàng nào cả");
+			return;
+		}
+
+		UpdateKhachHangDialog dialog = new UpdateKhachHangDialog(selectedKhachHang);
+		dialog.setVisible(true);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				reloadDsKhachHang();
+			}
+		});
+
 	}
 
 	private void OpenAddKhachHangDialog() {
@@ -205,7 +221,6 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 			lstKhachHang = khachHangService.getListKhachHangByPage(1, maxRow, "");
 			LoadDsKhachHang(lstKhachHang);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		selectedKhachHang = null;
