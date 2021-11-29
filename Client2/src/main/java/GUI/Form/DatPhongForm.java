@@ -214,6 +214,8 @@ public class DatPhongForm extends JPanel implements ActionListener, PropertyChan
 				} else {
 					lblDonGia.setText("............................");
 					lblTenPhong.setText("............................");
+					lblDonGia_tt.setText("............................");
+					lblTongTien.setText("............................");
 				}
 
 			}
