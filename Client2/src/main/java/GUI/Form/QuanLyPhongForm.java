@@ -131,6 +131,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		btnSuaPhong.addActionListener(this);
 		btnXoaPhong.addActionListener(this);
 		btnSearch.addActionListener(this);
+		txtSearchText.addActionListener(this);
 
 		// == load ds phong ====
 		try {
@@ -203,7 +204,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		if (o.equals(btnSuaPhong)) {
 			OpenUpdatePhongDialog();
 		}
-		if (o.equals(btnSearch)) {
+		if (o.equals(btnSearch) || o.equals(txtSearchText)) {
 			SearchDsPhong();
 		}
 
@@ -273,9 +274,9 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 		String nameSearch = txtSearchText.getText().toString();
 		if (nameSearch.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên phòng cần tìm");
-			txtSearchText.requestFocus();
-			return;
 		}
+		txtSearchText.selectAll();
+		txtSearchText.requestFocus();
 
 		try {
 			lstPhong = phongDao.getListPhongPaged(1, maxRow, nameSearch);

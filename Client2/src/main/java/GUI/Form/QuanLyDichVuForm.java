@@ -126,6 +126,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		btnSuaDichVu.addActionListener(this);
 		btnXoaDichVu.addActionListener(this);
 		btnSearch.addActionListener(this);
+		txtSearchText.addActionListener(this);
 
 		// == load DS =====
 		lstDichVu = DichVuService.getInstance().getListDichVuByPage(1, maxRow, "");
@@ -178,7 +179,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		if (o.equals(btnSuaDichVu)) {
 			OpenUpdateDichVuDialog();
 		}
-		if (o.equals(btnSearch)) {
+		if (o.equals(btnSearch) || o.equals(txtSearchText)) {
 			SearchDsDichVu();
 		}
 	}
@@ -249,9 +250,9 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 		String nameSearch = txtSearchText.getText().toString();
 		if (nameSearch.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên khách hàng cần tìm");
-			txtSearchText.requestFocus();
-			return;
 		}
+		txtSearchText.selectAll();
+		txtSearchText.requestFocus();
 
 		lstDichVu = DichVuService.getInstance().getListDichVuByPage(currentPage, maxRow,
 				nameSearch.length() > 0 ? nameSearch : "");

@@ -126,6 +126,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		btnSuaNhanVien.addActionListener(this);
 		btnXoaNhanVien.addActionListener(this);
 		btnSearch.addActionListener(this);
+		txtSearchText.addActionListener(this);
 
 		// == load ds nhan vien ====
 		try {
@@ -183,7 +184,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		if (o.equals(btnSuaNhanVien)) {
 			OpenUpdateNhanVienDialog();
 		}
-		if (o.equals(btnSearch)) {
+		if (o.equals(btnSearch) || o.equals(txtSearchText)) {
 			SearchDsNhanVien();
 		}
 	}
@@ -246,9 +247,10 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 		String nameSearch = txtSearchText.getText().toString();
 		if (nameSearch.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên nhân viên cần tìm");
-			txtSearchText.requestFocus();
-			return;
 		}
+		txtSearchText.selectAll();
+		txtSearchText.requestFocus();
+		
 		try {
 			lstNhanVien = nhanVienService.getListNhanVienByPage(1, maxRow, nameSearch);
 			LoadDsNhanVien(lstNhanVien);

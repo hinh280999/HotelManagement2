@@ -132,7 +132,8 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		btnSua.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnSearch.addActionListener(this);
-
+		txtSearchText.addActionListener(this);
+		
 		// === Load Ds LOai Phong ======
 		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(1, maxRow, "");
 		LoadDsLoaiPhong(lstLoaiPhong);
@@ -185,7 +186,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		if (o.equals(btnSua)) {
 			OpenUpdateLoaiPhongDialog();
 		}
-		if (o.equals(btnSearch)) {
+		if (o.equals(btnSearch) || o.equals(txtSearchText)) {
 			SearchDsLoaiPhong();
 		}
 
@@ -276,9 +277,9 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 		String nameSearch = txtSearchText.getText().toString();
 		if (nameSearch.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên phòng cần tìm");
-			txtSearchText.requestFocus();
-			return;
 		}
+		txtSearchText.selectAll();
+		txtSearchText.requestFocus();
 
 		lstLoaiPhong = LoaiPhongService.getInstance().getListLoaiPhongByPage(1, maxRow, nameSearch);
 		LoadDsLoaiPhong(lstLoaiPhong);
