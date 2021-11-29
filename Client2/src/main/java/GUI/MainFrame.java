@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 
 import CustomControll.PanelMenu;
 import GUI.Form.DatPhongForm;
+import GUI.Form.NhanPhongForm;
 import GUI.Form.QuanLyDichVuForm;
 import GUI.Form.QuanLyKhachHangForm;
 import GUI.Form.QuanLyLoaiPhongForm;
@@ -109,6 +110,12 @@ public class MainFrame extends JFrame {
 		ImageIcon pNhanPhongIcon = new ImageIcon(new ImageIcon("icon/iconNhanPhong.png").getImage());
 		PanelMenu pNhanPhong = new PanelMenu("Nhận Phòng", pNhanPhongIcon);
 		pNhanPhong.setBounds(0, 230, 250, 40);
+		pNhanPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new NhanPhongForm(), "Nhận Phòng", pNhanPhongIcon);
+			}
+		});
 		panelSideBar.add(pNhanPhong);
 
 		ImageIcon pTraPhongIcon = new ImageIcon(new ImageIcon("icon/iconTraPhong.png").getImage());
