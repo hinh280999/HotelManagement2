@@ -13,13 +13,17 @@ import javax.swing.JSeparator;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import ClientService.DichVuService;
 import ClientService.LoaiPhongService;
 import ClientService.PhongService;
 import ClientService.TinhTrangPhongService;
@@ -28,6 +32,8 @@ import Rmi.DTO.DichVuDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TinhTrangPhongDTO;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GoiDichVuForm extends JPanel implements ActionListener {
 	private JTable tblDsPhong, tblDsDv;
@@ -43,6 +49,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	private int maxRow = 2;
 
 	private List<Component> lstComponent = new ArrayList<>();
+	private DecimalFormat Currentcyformatter = new DecimalFormat("###,###,###.00 VND");
 	private JLabel lblTenDV;
 	private JLabel lblDonGia;
 	private JLabel lblDonVi;
@@ -75,6 +82,14 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		panel_1.add(scrollPane);
 
 		tblDsPhong = new JTable();
+		tblDsPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tblDsPhong.getSelectedRow();
+				selectedPhong = lstPhong.getListData().get(selectedRow);
+			}
+		});
+		tblDsPhong.setRowHeight(tblDsPhong.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsPhong);
 
 		btnPhongPrev = new JButton("<");
@@ -104,6 +119,15 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		panel_2.add(scrollPane_1);
 
 		tblDsDv = new JTable();
+		tblDsDv.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tblDsDv.getSelectedRow();
+				selectedDichVu = lstDichVu.getListData().get(selectedRow);
+				ShowDichVuInfo();
+			}
+		});
+		tblDsDv.setRowHeight(tblDsDv.getRowHeight() + 10);
 		scrollPane_1.setViewportView(tblDsDv);
 
 		btnDvPrev = new JButton("<");
@@ -168,6 +192,16 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		panel_2.add(lblTongTien);
 
 		txtSoLuong = new JTextField();
+		txtSoLuong.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if (selectedDichVu == null) {
+					return;
+				}
+				int soLuong = Integer.parseInt(txtSoLuong.getText().toString());
+				lblTongTien.setText(Currentcyformatter.format(soLuong*selectedDichVu.getDonGia()));	
+			}
+		});
 		txtSoLuong.setBounds(431, 570, 130, 30);
 		txtSoLuong.setColumns(10);
 		lstComponent.add(txtSoLuong);
@@ -201,6 +235,15 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		// ==== load ds =======
 		lstPhong = PhongService.getInstance().getListPhongDaThue(1, maxRow, "");
 		LoadDsPhong(lstPhong);
+
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(1, maxRow, "");
+		LoadDsDichVu(lstDichVu);
+	}
+
+	protected void ShowDichVuInfo() {
+		lblTenDV.setText(selectedDichVu.getTenDv());
+		lblDonVi.setText(selectedDichVu.getDonVi());
+		lblDonGia.setText(Currentcyformatter.format(selectedDichVu.getDonGia()));
 	}
 
 	@Override
@@ -228,12 +271,57 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	}
 
 	private void DichVuPrevPage() {
-		// TODO Auto-generated method stub
+		currentDvPage--;
+		if (currentDvPage < 1) {
+			currentDvPage = 1;
+			return;
+		}
 
+		int PrevPageNumb = lstDichVu.getCurrentPage() - 1;
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(PrevPageNumb, maxRow, "");
+		LoadDsDichVu(lstDichVu);
 	}
 
 	private void DichVuNextPage() {
-		// TODO Auto-generated method stub
+		currentDvPage++;
+		if (currentDvPage > maxDvPage) {
+			currentDvPage = maxDvPage;
+			return;
+		}
+
+		int nextPageNumb = lstDichVu.getCurrentPage() + 1;
+		lstDichVu = DichVuService.getInstance().getListDichVuByPage(nextPageNumb, maxRow, "");
+		LoadDsDichVu(lstDichVu);
+
+	}
+
+	private void LoadDsDichVu(PageList<DichVuDTO> lstDichVu2) {
+		String[] tieude = { "Mã Dịch Vụ", "Tên Dịch Vụ", "Đơn Giá", "Đơn Vị" };
+		DefaultTableModel model = new DefaultTableModel(tieude, 0);
+
+		for (DichVuDTO dichvu : lstDichVu.getListData()) {
+			Object[] o = { dichvu.getMaDv(), dichvu.getTenDv(), dichvu.getDonGia(), dichvu.getDonVi() };
+			model.addRow(o);
+		}
+		tblDsDv.setModel(model);
+
+		currentDvPage = lstDichVu.getCurrentPage();
+		maxDvPage = lstDichVu.getMaxPage();
+
+		selectedDichVu = null;
+		showDvPageNumber();
+
+	}
+
+	private void showDvPageNumber() {
+		if (currentDvPage > maxDvPage) {
+			currentDvPage = maxDvPage;
+		}
+		if (maxDvPage == 1) {
+			lblDichVuPage.setText("1");
+		} else {
+			lblDichVuPage.setText(currentDvPage + "/" + maxDvPage);
+		}
 
 	}
 
