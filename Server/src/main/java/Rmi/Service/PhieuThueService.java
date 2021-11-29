@@ -61,4 +61,9 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 		return null;
 	}
 
+	@Override
+	public boolean traPhong(int maPhong) throws RemoteException {
+		return phieuThueDao.traPhong(maPhong);
+	}
+
 }

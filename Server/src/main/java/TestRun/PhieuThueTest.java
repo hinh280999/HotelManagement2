@@ -120,7 +120,10 @@ public class PhieuThueTest {
 //		phongDao.delete(samplePhong.getMaP());
 //		nvDao.delete(tempNV.getMaNV());
 //		//cvDao.delete(sampleCV.getMaCV());
-		PhieuThue pt = Dao.getPhieuThueByCMT("1231231231232");
-		System.out.println(pt.getNgayDat());
+//		PhieuThue pt = Dao.getPhieuThueByCMT("1231231231232");
+//		System.out.println(pt.getNgayDat());
+		
+//		boolean kq = Dao.traPhong(18);
+//		System.out.println(kq);
 	}
 }

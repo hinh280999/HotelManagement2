@@ -102,7 +102,7 @@ public class PhongDao implements IPhongDao {
 		Transaction tr = session.beginTransaction();
 
 		try {
-			session.saveOrUpdate(updateObject);
+			session.update(updateObject);
 
 			tr.commit();
 			session.close();

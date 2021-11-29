@@ -6,4 +6,6 @@ import Rmi.DTO.PhieuThueDTO;
 
 public interface IPhieuThueService extends IBaseService<PhieuThueDTO> {
 	PhieuThueDTO getPhieuThueByCMT(String cmt) throws RemoteException;
+
+	boolean traPhong(int maPhong) throws RemoteException;
 }

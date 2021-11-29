@@ -1,5 +1,6 @@
 package Dao.Impliment;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -160,15 +161,51 @@ public class PhieuThueDao implements IPhieuThue {
 			tr.rollback();
 			if (e instanceof NoResultException) {
 				System.out.println("Không tìm thấy phiếu thuê có trạng thái 'NEW' của KH : " + cmt);
-			}
-			else if (e instanceof EntityNotFoundException) {
+			} else if (e instanceof EntityNotFoundException) {
 				System.out.println("Mã của một entity nào đó không đúng trong database: ");
-			}
-			else {
+			} else {
 				e.printStackTrace();
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean traPhong(int maPhong) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String query = "db.tinhtrangphongs.find({'tenTTP' : 'Trống'})";
+		try {
+
+			Phong phongThue = session.find(Phong.class, maPhong);
+
+			TinhTrangPhong ttp = session.createNativeQuery(query, TinhTrangPhong.class).getSingleResult();
+			phongThue.setMaTTP(ttp);
+
+			session.update(phongThue);
+
+			String queryPhieuThue = "db.phieuthues.find({'$and':[{'maP':" + maPhong + " ,'trangThai':'CHECKED'}]})";
+			PhieuThue pt = session.createNativeQuery(queryPhieuThue, PhieuThue.class).getSingleResult();
+
+			pt.setNgayTra(new Date());
+			pt.setTrangThai("OUT");
+
+			session.update(pt);
+
+			tr.commit();
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+			if (e instanceof NullPointerException) {
+				System.out.println(
+						"Có thể không tồn tại phòng với mã : " + maPhong + "hoặc ko có tình trạng phòng : {'Trống'}");
+			} else {
+				e.printStackTrace();
+			}
+
+		}
+
+		return false;
 	}
 
 }

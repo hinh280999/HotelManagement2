@@ -119,7 +119,6 @@ public class TraPhongForm extends JPanel implements ActionListener {
 			LoadPrevPage();
 		}
 		if (o.equals(btnTim)) {
-			System.out.println("Clicked");
 			TimDsPhong();
 		}
 		if (o.equals(btnTraPhong)) {
