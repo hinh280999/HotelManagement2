@@ -95,16 +95,12 @@ public class PhieuThueDao implements IPhieuThue {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
-			session.saveOrUpdate(updateObject);
+			session.update(updateObject);
 
 			tr.commit();
-			session.close();
-
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 

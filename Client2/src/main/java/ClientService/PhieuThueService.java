@@ -50,4 +50,13 @@ public class PhieuThueService {
 		}
 		return null;
 	}
+
+	public boolean updatePhieuThue(PhieuThueDTO updateObj) {
+		try {
+			return phieuThueService.updateObject(updateObj);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

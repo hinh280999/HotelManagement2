@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -266,11 +267,18 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 	}
 
 	private void NhanPhong() {
-
+		phieuthue.setNgayNhan(new Date());
+		phieuthue.setTrangThai("CHECKED");
+		boolean kq = PhieuThueService.getInstance().updatePhieuThue(phieuthue);
+		if (kq) {
+			JOptionPane.showMessageDialog(null, "Nhận phòng thành công.");
+			XoaTrang();
+			return;
+		}
+		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi nhận phòng có mã: " + phieuthue.getMaPT());
 	}
 
 	private void TimPhieuThue() {
-		System.out.println("in");
 		String cmt = txtCMT.getText().toString().trim();
 		if (cmt.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Chưa nhập số chứng minh nhân dân");
@@ -278,7 +286,7 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 		}
 
 		phieuthue = PhieuThueService.getInstance().getPhieuThueByCMT(cmt);
-
+		System.out.println(phieuthue.getMaPT());
 		KhachHangDTO khachhang = KhachHangService.getInstance().getKhachHangById(phieuthue.getKhachHang_id());
 		PhongDTO phong = PhongService.getInstance().getPhongById(phieuthue.getPhong_id());
 
