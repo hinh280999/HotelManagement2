@@ -59,4 +59,12 @@ public class PhieuThueService {
 		}
 		return false;
 	}
+	public boolean traPhong (int maPhong) {
+		try {
+			return phieuThueService.traPhong(maPhong);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

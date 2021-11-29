@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import ClientService.LoaiPhongService;
+import ClientService.PhieuThueService;
 import ClientService.PhongService;
 import ClientService.TinhTrangPhongService;
 import Model.PageList;
@@ -170,7 +171,19 @@ public class TraPhongForm extends JPanel implements ActionListener {
 	}
 
 	private void TraPhong() {
-		// TODO Auto-generated method stub
+		if (selectedPhong == null) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn phòng nào cả");
+			return;
+		}
+
+		boolean kq = PhieuThueService.getInstance().traPhong(selectedPhong.getMaP());
+		if (!kq) {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi trả phòng: " + selectedPhong.getTen());
+			return;
+		}
+
+		JOptionPane.showMessageDialog(null, "Trả phòng thành công : " + selectedPhong.getTen());
+		reloadDsPhong();
 
 	}
 
@@ -200,8 +213,8 @@ public class TraPhongForm extends JPanel implements ActionListener {
 			String nameSearch = txtName.getText().toString().trim();
 			lstPhong = PhongService.getInstance().getListPhongPaged(PrevPageNumb, maxRow,
 					nameSearch.length() > 0 ? nameSearch : "");
-			LoadDsPhong(lstPhong);
 			selectedPhong = null;
+			LoadDsPhong(lstPhong);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -219,8 +232,8 @@ public class TraPhongForm extends JPanel implements ActionListener {
 			String nameSearch = txtName.getText().toString().trim();
 			lstPhong = PhongService.getInstance().getListPhongPaged(nextPageNumb, maxRow,
 					nameSearch.length() > 0 ? nameSearch : "");
-			LoadDsPhong(lstPhong);
 			selectedPhong = null;
+			LoadDsPhong(lstPhong);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -228,6 +241,7 @@ public class TraPhongForm extends JPanel implements ActionListener {
 	}
 
 	private void reloadDsPhong() {
+		selectedPhong = null;
 		lstPhong = PhongService.getInstance().getListPhongDaThue(1, maxRow, "");
 		LoadDsPhong(lstPhong);
 	}
