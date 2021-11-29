@@ -1,5 +1,7 @@
 package TestRun;
 
+import java.util.List;
+
 import Dao.Impliment.DichVuDao;
 import Dao.Interface.IDichVuDao;
 import Entity.DichVu;
@@ -44,6 +46,11 @@ public class DichVuDaoTest {
 //		}
 //		boolean i = Dao.isDeleteAble(0);
 //		System.out.println(i);
+		
+//		List<DichVu> abc = Dao.getListDichVuDaDatByMaPT(34);
+//		for (DichVu dichVu : abc) {
+//			System.out.println(dichVu.toString());
+//		}
 
 	}
 }
