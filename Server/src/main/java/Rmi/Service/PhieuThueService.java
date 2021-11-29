@@ -56,7 +56,9 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 			PhieuThueDTO dto = MappingDtoFacade.mapToPhieuThueDTO(phieuThueDao.getPhieuThueByCMT(cmt));
 			return dto;
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (e instanceof NullPointerException) {
+				System.out.println("Không có phiếu thuê phòng với số cmt : " + cmt);
+			}
 		}
 		return null;
 	}

@@ -10,9 +10,10 @@ public class AfterDeleteDatabaseRun {
 		ITinhTrangPhongDao ttpDao = new TinhTrangPhongDao();
 
 		TinhTrangPhong tTTP = new TinhTrangPhong("Trống");
-		TinhTrangPhong tTTP2 = new TinhTrangPhong("Đã Thuê");
+		TinhTrangPhong tTTP2 = new TinhTrangPhong("Đã Đặt");
+		TinhTrangPhong tTTP3 = new TinhTrangPhong("Đã Thuê");
 
-		ttpDao.add(tTTP);
+		// ttpDao.add(tTTP);
 		ttpDao.add(tTTP2);
 
 	}

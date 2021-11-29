@@ -28,6 +28,8 @@ import Model.PageList;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TinhTrangPhongDTO;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private PhongService phongDao = null;
