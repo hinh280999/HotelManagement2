@@ -23,7 +23,7 @@ public class TTPDaoTest {
 //=======
 		ITinhTrangPhongDao Dao  = new TinhTrangPhongDao();
 		
-		TinhTrangPhong tTTP = new TinhTrangPhong("Đã Thuê");
+		TinhTrangPhong tTTP = new TinhTrangPhong("Đã Đặt");
 		
 		if (Dao.add(tTTP)) {
 			System.out.println("Add Complete");
