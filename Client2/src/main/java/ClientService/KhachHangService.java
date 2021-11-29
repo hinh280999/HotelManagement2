@@ -75,4 +75,13 @@ public class KhachHangService {
 		return false;
 	}
 
+	public KhachHangDTO getKhachHangById(int id) {
+		try {
+			return khachHangService.getObjectById(id);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
