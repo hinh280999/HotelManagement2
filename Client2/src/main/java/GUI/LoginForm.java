@@ -88,7 +88,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		LogInfromPanel.add(panelForm);
 
 		txtUser = new JTextField();
-		txtUser.setToolTipText("");
+		txtUser.setToolTipText("Nhập tài khoản của bạn.");
 		txtUser.setText("Nhập tên tài khoản");
 		txtUser.setForeground(new Color(169, 169, 169));
 		txtUser.addFocusListener(new FocusAdapter() {
@@ -113,6 +113,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		panelForm.add(txtUser);
 
 		txtPassword = new JPasswordField();
+		txtPassword.setToolTipText("Nhập mật khẩu cho tài khoản của bạn.");
 		txtPassword.setBounds(6, 166, 283, 36);
 		panelForm.add(txtPassword);
 
@@ -184,12 +185,13 @@ public class LoginForm extends JFrame implements ActionListener {
 		// ===================================================
 		btnDangNhap.addActionListener(this);
 		btnQuenMk.addActionListener(this);
+		txtPassword.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(btnDangNhap)) {
+		if (o.equals(btnDangNhap) || o.equals(txtPassword)) {
 			try {
 				FuntionDangNhap();
 			} catch (MalformedURLException | RemoteException | NotBoundException | ConnectException e1) {
