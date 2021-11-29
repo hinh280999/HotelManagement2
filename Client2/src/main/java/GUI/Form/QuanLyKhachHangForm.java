@@ -39,7 +39,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 	private JButton btnNext;
 	private PageList<KhachHangDTO> lstKhachHang;
 	private int currentPage, maxPage;
-	private static int maxRow = 15;
+	private static int maxRow = 4;
 	private KhachHangService khachHangService = null;
 	protected KhachHangDTO selectedKhachHang;
 
