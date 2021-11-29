@@ -18,6 +18,7 @@ import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhieuDichVuDTO;
 import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhieuThuePhongInfoDTO;
 import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TaiKhoanDTO;
 import Rmi.DTO.TinhTrangPhongDTO;
@@ -221,5 +222,13 @@ public class MappingDtoFacade {
 			lstDTO.add(DTO);
 		}
 		return lstDTO;
+	}
+	public static PhieuThuePhongInfoDTO convertToPhieuThuePhongInfoDTO(PhieuThue phieuThue) {
+		PhieuThuePhongInfoDTO rv= new PhieuThuePhongInfoDTO();
+		
+		rv.setMaPT(phieuThue.getMaPT());
+		
+		return null;
+		
 	}
 }

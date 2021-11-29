@@ -92,4 +92,13 @@ public class LoaiPhongService {
 		return false;
 	}
 
+	public LoaiPhongDTO getLoaiPhongById(int id) {
+		try {
+			return loaiPhongService.getObjectById(id);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
