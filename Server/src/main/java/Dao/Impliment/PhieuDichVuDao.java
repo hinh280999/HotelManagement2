@@ -1,5 +1,6 @@
 package Dao.Impliment;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Transaction;
@@ -7,7 +8,11 @@ import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IPhieuDichVu;
+import Entity.DichVu;
 import Entity.PhieuDichVu;
+import Entity.PhieuThue;
+import Entity.Phong;
+import Entity.TinhTrangPhong;
 import Utilities.HibernateUtil;
 
 public class PhieuDichVuDao implements IPhieuDichVu {
@@ -123,6 +128,42 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 
 			e.printStackTrace();
 		}
+		return false;
+	}
+
+	@Override
+	public boolean addPhieuDichVuByMaPhong(int maPhong, int maDichVu,int soluong) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+
+			Phong phongThue = session.find(Phong.class, maPhong);
+
+			String queryPhieuThue = "db.phieuthues.find({'$and':[{'maP':" + maPhong
+					+ " ,'trangThai':'CHECKED'}]},{'_id':1})";
+			int mapt = (int) session.createNativeQuery(queryPhieuThue).getSingleResult();
+
+			PhieuDichVu pdv = new PhieuDichVu();
+			pdv.setDichVu(new DichVu(maDichVu));
+			pdv.setPhieuThue(new PhieuThue(mapt));
+			pdv.setNgayLap(new Date());
+			pdv.setDaThanhToan(false);
+			pdv.setSoLuong(soluong);
+			
+			session.save(pdv);
+
+			tr.commit();
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+			if (e instanceof NullPointerException) {
+				System.out.println(
+						"Có thể không tồn tại phòng với mã : " + maPhong + "");
+			} else {
+				e.printStackTrace();
+			}
+		}
+
 		return false;
 	}
 
