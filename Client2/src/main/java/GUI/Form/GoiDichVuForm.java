@@ -8,20 +8,39 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import ClientService.LoaiPhongService;
+import ClientService.PhongService;
+import ClientService.TinhTrangPhongService;
+import Model.PageList;
+import Rmi.DTO.DichVuDTO;
+import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.PhongDTO;
+import Rmi.DTO.TinhTrangPhongDTO;
 
 public class GoiDichVuForm extends JPanel implements ActionListener {
 	private JTable tblDsPhong, tblDsDv;
 	private JTextField txtSoLuong;
 	private JButton btnPhongPrev, btnPhongNext;
 	private JButton btnDvPrev, btnDvNext;
+	private PageList<PhongDTO> lstPhong = null;
+	private PageList<DichVuDTO> lstDichVu = null;
+	private int currentPhongPage;
+	private int maxPhongPage;
+	private int currentDvPage;
+	private int maxDvPage;
+	private int maxRow = 2;
 
 	private List<Component> lstComponent = new ArrayList<>();
 	private JLabel lblTenDV;
@@ -30,6 +49,10 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	private JLabel lblTongTien;
 	private JButton btnThemDV;
 	private JButton btnXoaTrang;
+	private PhongDTO selectedPhong = null;
+	private DichVuDTO selectedDichVu = null;
+	private JLabel lblDichVuPage;
+	private JLabel lblPhongPage;
 
 	public GoiDichVuForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -58,9 +81,9 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		btnPhongPrev.setBounds(10, 460, 130, 30);
 		panel_1.add(btnPhongPrev);
 
-		JLabel lblNewLabel = new JLabel("page");
-		lblNewLabel.setBounds(150, 460, 90, 30);
-		panel_1.add(lblNewLabel);
+		lblPhongPage = new JLabel("page");
+		lblPhongPage.setBounds(150, 460, 90, 30);
+		panel_1.add(lblPhongPage);
 
 		btnPhongNext = new JButton(">");
 		btnPhongNext.setBounds(250, 460, 130, 30);
@@ -87,9 +110,9 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		btnDvPrev.setBounds(10, 460, 130, 30);
 		panel_2.add(btnDvPrev);
 
-		JLabel lblNewLabel_1 = new JLabel("page");
-		lblNewLabel_1.setBounds(150, 460, 90, 30);
-		panel_2.add(lblNewLabel_1);
+		lblDichVuPage = new JLabel("page");
+		lblDichVuPage.setBounds(150, 460, 90, 30);
+		panel_2.add(lblDichVuPage);
 
 		btnDvNext = new JButton(">");
 		btnDvNext.setBounds(242, 460, 130, 30);
@@ -174,6 +197,10 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		btnPhongPrev.addActionListener(this);
 		btnThemDV.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
+
+		// ==== load ds =======
+		lstPhong = PhongService.getInstance().getListPhongDaThue(1, maxRow, "");
+		LoadDsPhong(lstPhong);
 	}
 
 	@Override
@@ -186,7 +213,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 			DichVuNextPage();
 		}
 		if (o.equals(btnPhongNext)) {
-			PhongPrevPage();
+			PhongNextPage();
 		}
 		if (o.equals(btnPhongPrev)) {
 			PhongPrevPage();
@@ -202,7 +229,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 
 	private void DichVuPrevPage() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void DichVuNextPage() {
@@ -210,8 +237,37 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 
 	}
 
+	private void PhongNextPage() {
+		currentPhongPage++;
+		if (currentPhongPage > maxPhongPage) {
+			currentPhongPage = maxPhongPage;
+			return;
+		}
+
+		int nextPageNumb = lstPhong.getCurrentPage() + 1;
+		try {
+			lstPhong = PhongService.getInstance().getListPhongPaged(nextPageNumb, maxRow, "");
+			LoadDsPhong(lstPhong);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	private void PhongPrevPage() {
-		// TODO Auto-generated method stub
+		currentPhongPage--;
+		if (currentPhongPage < 1) {
+			currentPhongPage = 1;
+			return;
+		}
+
+		int PrevPageNumb = lstPhong.getCurrentPage() - 1;
+		try {
+			lstPhong = PhongService.getInstance().getListPhongPaged(PrevPageNumb, maxRow, "");
+			LoadDsPhong(lstPhong);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -223,5 +279,33 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	private void XoaTrang() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void LoadDsPhong(PageList<PhongDTO> lstPhong) {
+		String[] tieude = { "Mã Phòng", "Tên Phòng" };
+		DefaultTableModel model = new DefaultTableModel(tieude, 0);
+
+		for (PhongDTO phong : lstPhong.getListData()) {
+			Object[] o = { phong.getMaP(), phong.getTen() };
+			model.addRow(o);
+		}
+		tblDsPhong.setModel(model);
+
+		currentPhongPage = lstPhong.getCurrentPage();
+		maxPhongPage = lstPhong.getMaxPage();
+
+		selectedPhong = null;
+		showPhongPageNumber();
+	}
+
+	private void showPhongPageNumber() {
+		if (currentPhongPage > maxPhongPage) {
+			currentPhongPage = maxPhongPage;
+		}
+		if (maxPhongPage == 1) {
+			lblPhongPage.setText("1");
+		} else {
+			lblPhongPage.setText(currentPhongPage + "/" + maxPhongPage);
+		}
 	}
 }
