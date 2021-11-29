@@ -1,0 +1,7 @@
+// db.nhanviens.getIndexes() 
+
+db.nhanviens.createIndex({ten:'text', sdt: 'text',email: 'text', gioiTinh: 'text' }) 
+db.khachhangs.createIndex({ ten:'text', sdt: 'text', email: 'text', soCMND: 'text',  diaChi: 'text' }) 
+db.phongs.createIndex({ ten : 'text' }) //đứng QL phòng chưa tìm theo loại phòng đc
+db.loaiphongs.createIndex( {  tenLP: 'text', donGia: 'text' } )
+db.dichvus.createIndex({ donVi: 'text', tenDv: 'text', donGia: 'text' })
