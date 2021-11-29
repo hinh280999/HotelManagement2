@@ -2,17 +2,11 @@ package GUI.Form;
 
 import java.awt.Color;
 import java.awt.Component;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
@@ -20,20 +14,22 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import ClientService.DichVuService;
-import ClientService.LoaiPhongService;
+import ClientService.PhieuDichVuService;
 import ClientService.PhongService;
-import ClientService.TinhTrangPhongService;
 import Model.PageList;
 import Rmi.DTO.DichVuDTO;
-import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.PhongDTO;
-import Rmi.DTO.TinhTrangPhongDTO;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GoiDichVuForm extends JPanel implements ActionListener {
 	private JTable tblDsPhong, tblDsDv;
@@ -263,6 +259,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		}
 		if (o.equals(btnThemDV)) {
 			DatDichVu();
+			XoaTrang();
 		}
 		if (o.equals(btnXoaTrang)) {
 			XoaTrang();
@@ -360,7 +357,29 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	}
 
 	private void DatDichVu() {
-		
+		if (selectedPhong == null) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn phòng nào cả");
+			return;
+		}
+		if (selectedDichVu == null) {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn dịch vụ nào cả");
+			return;
+		}
+		int soLuong;
+		try {
+			soLuong = Integer.parseInt(txtSoLuong.getText().toString());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Số lượng nhập phải là số");
+			return;
+		}
+
+		boolean kq = PhieuDichVuService.getInstance().addPhieuDichVuByMaPhong(selectedPhong.getMaP(),
+				selectedDichVu.getMaDv(), soLuong);
+		if (kq) {
+			JOptionPane.showMessageDialog(null, "Đã đặt dịch vụ thành công cho phòng : " + selectedPhong.getTen());
+			return;
+		}
+		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi thêm phiếu dịch vụ : " + selectedPhong.getTen());
 
 	}
 

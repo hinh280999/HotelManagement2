@@ -11,6 +11,7 @@ import Rmi.Interface.IDichVuService;
 import Rmi.Interface.IKhachHangService;
 import Rmi.Interface.ILoaiPhongService;
 import Rmi.Interface.INhanVienService;
+import Rmi.Interface.IPhieuDichVuService;
 import Rmi.Interface.IPhieuThueService;
 import Rmi.Interface.IPhongService;
 import Rmi.Interface.ITaiKhoanService;
@@ -19,6 +20,7 @@ import Rmi.Service.DichVuService;
 import Rmi.Service.KhachHangService;
 import Rmi.Service.LoaiPhongService;
 import Rmi.Service.NhanVienService;
+import Rmi.Service.PhieuDichVuService;
 import Rmi.Service.PhieuThueService;
 import Rmi.Service.PhongService;
 import Rmi.Service.TaiKhoanService;
@@ -45,6 +47,7 @@ public class Server {
 		INhanVienService nhanVienService = new NhanVienService();
 		IDichVuService dichVuService = new DichVuService();
 		IPhieuThueService phieuThueService = new PhieuThueService();
+		IPhieuDichVuService phieuDichVuService = new PhieuDichVuService();
 
 		// === public service ============================================
 		LocateRegistry.createRegistry(3000);
@@ -57,6 +60,7 @@ public class Server {
 		context.bind("rmi://localhost:3000/nhanVienService", nhanVienService);
 		context.bind("rmi://localhost:3000/dichVuService", dichVuService);
 		context.bind("rmi://localhost:3000/phieuThueService", phieuThueService);
+		context.bind("rmi://localhost:3000/phieuDichVuService", phieuDichVuService);
 		System.out.println("Server is running at Port: 3000 (^__^)!");
 	}
 

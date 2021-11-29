@@ -39,4 +39,10 @@ public class PhieuDichVuService extends UnicastRemoteObject implements IPhieuDic
 		return false;
 	}
 
+	@Override
+	public boolean addPhieuDichVuByMaPhong(int maPhong, int maDichVu, int soluong) throws RemoteException {
+
+		return phieuDichVuDao.addPhieuDichVuByMaPhong(maPhong, maDichVu, soluong);
+	}
+
 }
