@@ -7,6 +7,7 @@ import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IPhieuThue;
+import Entity.KhachHang;
 import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TinhTrangPhong;
@@ -137,6 +138,30 @@ public class PhieuThueDao implements IPhieuThue {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public PhieuThue getPhieuThueByCMT(String cmt) {
+
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String queryKhachHang = "db.khachhangs.find({'soCMND' : '" + cmt + "'})";
+		try {
+
+			KhachHang khachhang = session.createNativeQuery(queryKhachHang, KhachHang.class).getSingleResult();
+
+			String queryPhieuThue = "db.phieuthues.find({'$and':[ { 'maKH': " + khachhang.getMaKH()
+					+ ", 'trangThai': 'NEW'}]})";
+			PhieuThue phieuthue = session.createNativeQuery(queryPhieuThue, PhieuThue.class).getSingleResult();
+
+			tr.commit();
+
+			return phieuthue;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
