@@ -6,7 +6,9 @@ import java.rmi.server.UnicastRemoteObject;
 import Dao.Impliment.PhieuThueDao;
 import Dao.Interface.IPhieuThue;
 import Entity.PhieuThue;
+import Model.PageList;
 import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhieuThuePhongInfoDTO;
 import Rmi.Interface.IPhieuThueService;
 import Utilities.MappingDtoFacade;
 
@@ -66,6 +68,11 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 	@Override
 	public boolean traPhong(int maPhong) throws RemoteException {
 		return phieuThueDao.traPhong(maPhong);
+	}
+
+	@Override
+	public PageList<PhieuThuePhongInfoDTO> getListPhieuThueByPage(int pageNumb, int maxRow) throws RemoteException {
+		return phieuThueDao.getListPhieuThueByPage(pageNumb, maxRow);
 	}
 
 }

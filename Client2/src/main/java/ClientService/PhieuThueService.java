@@ -5,7 +5,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import Model.PageList;
 import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhieuThuePhongInfoDTO;
 import Rmi.Interface.IPhieuThueService;
 
 public class PhieuThueService {
@@ -59,12 +61,22 @@ public class PhieuThueService {
 		}
 		return false;
 	}
-	public boolean traPhong (int maPhong) {
+
+	public boolean traPhong(int maPhong) {
 		try {
 			return phieuThueService.traPhong(maPhong);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public PageList<PhieuThuePhongInfoDTO> getListPhieuThueByPage(int pageNumb, int maxRow) {
+		try {
+			return phieuThueService.getListPhieuThueByPage(pageNumb, maxRow);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
