@@ -128,7 +128,6 @@ public class MainFrame extends JFrame {
 				setMainPanel(new TraPhongForm(), "Trả Phòng", pTraPhongIcon);
 			}
 		});
-		panelSideBar.add(pNhanPhong);
 		panelSideBar.add(pTraPhong);
 
 		ImageIcon pGoiDichVuIcon = new ImageIcon(new ImageIcon("icon/iconGoiDichVu.png").getImage());
