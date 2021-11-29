@@ -40,6 +40,7 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 	@Override
 	public boolean updateObject(PhieuThueDTO objectDTO) throws RemoteException {
 		PhieuThue updateObj = MappingDtoFacade.mapToPhieuThueAdd(objectDTO);
+		updateObj.setMaPT(objectDTO.getMaPT());
 		updateObj.setTrangThai(objectDTO.getTrangThai());
 		return phieuThueDao.update(updateObj);
 	}
