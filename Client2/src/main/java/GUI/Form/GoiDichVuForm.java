@@ -199,7 +199,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 					return;
 				}
 				int soLuong = Integer.parseInt(txtSoLuong.getText().toString());
-				lblTongTien.setText(Currentcyformatter.format(soLuong*selectedDichVu.getDonGia()));	
+				lblTongTien.setText(Currentcyformatter.format(soLuong * selectedDichVu.getDonGia()));
 			}
 		});
 		txtSoLuong.setBounds(431, 570, 130, 30);
@@ -365,8 +365,11 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	}
 
 	private void XoaTrang() {
-		// TODO Auto-generated method stub
-
+		for (Component component : lstComponent) {
+			if (component instanceof JLabel) {
+				((JLabel) component).setText("...........");
+			}
+		}
 	}
 
 	private void LoadDsPhong(PageList<PhongDTO> lstPhong) {
