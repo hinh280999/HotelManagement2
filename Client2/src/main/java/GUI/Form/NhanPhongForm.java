@@ -1,0 +1,240 @@
+package GUI.Form;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class NhanPhongForm extends JPanel {
+	private JTextField txtCMT;
+	private JButton btnTim;
+	private JLabel lblTenKH;
+	private JLabel lblCmtKH;
+	private JLabel lblSdtKH;
+	private JLabel lblDiaChiKH;
+	private List<Component> lstComponent = new ArrayList<>();
+	private JLabel lblEmailKH;
+	private JLabel lblNgayLap;
+	private JLabel lblNgayDat;
+	private JLabel lblNgayKet;
+	private JLabel lblNgayNhan;
+	private JLabel lblNgayTra;
+	private JLabel lblSoNgay;
+	private JLabel lblTenPhong;
+	private JLabel lblLoaiPhong;
+	private JButton btnXoaTrang;
+
+	public NhanPhongForm() {
+		setBackground(Color.decode("#d4d5d6"));
+		setBounds(0, 0, 1180, 820);
+		setLayout(null);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(20, 20, 1140, 780);
+		add(panel);
+		panel.setLayout(null);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 10, 390, 130);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+
+		txtCMT = new JTextField();
+		txtCMT.setBounds(10, 70, 240, 30);
+		panel_1.add(txtCMT);
+		txtCMT.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel("Nhập số chứng minh thư khách hàng");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(10, 10, 298, 40);
+		panel_1.add(lblNewLabel);
+
+		btnTim = new JButton("Tìm phiếu thuê");
+		btnTim.setBounds(260, 70, 120, 30);
+		panel_1.add(btnTim);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(410, 10, 720, 760);
+		panel.add(panel_2);
+		panel_2.setLayout(null);
+
+		JLabel lblNewLabel_1 = new JLabel("Thông tin phiếu thuê");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(10, 10, 298, 40);
+		panel_2.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_5_2 = new JLabel("Ngày Lập: ");
+		lblNewLabel_5_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2.setBounds(10, 70, 130, 40);
+		panel_2.add(lblNewLabel_5_2);
+		
+		JLabel lblNewLabel_5_2_1 = new JLabel("Ngày Đặt: ");
+		lblNewLabel_5_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_1.setBounds(10, 120, 130, 40);
+		panel_2.add(lblNewLabel_5_2_1);
+		
+		JLabel lblNewLabel_5_2_1_1 = new JLabel("Ngày Kết Thúc: ");
+		lblNewLabel_5_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_1_1.setBounds(10, 170, 130, 40);
+		panel_2.add(lblNewLabel_5_2_1_1);
+		
+		JLabel lblNewLabel_5_2_1_1_1 = new JLabel("Ngày Nhận Phòng: ");
+		lblNewLabel_5_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_1_1_1.setBounds(10, 220, 160, 40);
+		panel_2.add(lblNewLabel_5_2_1_1_1);
+		
+		JLabel lblNewLabel_5_2_1_1_1_1 = new JLabel("Ngày Trả Phòng: ");
+		lblNewLabel_5_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_1_1_1_1.setBounds(10, 270, 160, 40);
+		panel_2.add(lblNewLabel_5_2_1_1_1_1);
+		
+		JLabel lblNewLabel_5_2_1_1_1_1_1 = new JLabel("Số ngày thuê: ");
+		lblNewLabel_5_2_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_1_1_1_1_1.setBounds(10, 320, 160, 30);
+		panel_2.add(lblNewLabel_5_2_1_1_1_1_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Thông tin phòng thuê");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1.setBounds(10, 390, 298, 40);
+		panel_2.add(lblNewLabel_1_1);
+		
+		JLabel lblNewLabel_5_2_2 = new JLabel("Tên Phòng: ");
+		lblNewLabel_5_2_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_2.setBounds(10, 440, 130, 30);
+		panel_2.add(lblNewLabel_5_2_2);
+		
+		JLabel lblNewLabel_5_2_2_1 = new JLabel("Loại Phòng: ");
+		lblNewLabel_5_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_2_2_1.setBounds(10, 490, 130, 40);
+		panel_2.add(lblNewLabel_5_2_2_1);
+		
+		JButton btnNhanPhong = new JButton("Nhận Phòng");
+		btnNhanPhong.setBounds(270, 700, 240, 30);
+		panel_2.add(btnNhanPhong);
+		
+		lblNgayLap = new JLabel("............................");
+		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayLap.setBounds(215, 70, 210, 40);
+		lstComponent.add(lblNgayLap);
+		panel_2.add(lblNgayLap);
+		
+		lblNgayDat = new JLabel("............................");
+		lblNgayDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayDat.setBounds(215, 120, 210, 40);
+		lstComponent.add(lblNgayDat);
+		panel_2.add(lblNgayDat);
+		
+		lblNgayKet = new JLabel("............................");
+		lblNgayKet.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayKet.setBounds(215, 170, 210, 40);
+		lstComponent.add(lblNgayKet);
+		panel_2.add(lblNgayKet);
+		
+		lblNgayNhan = new JLabel("............................");
+		lblNgayNhan.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayNhan.setBounds(215, 220, 210, 40);
+		lstComponent.add(lblNgayNhan);
+		panel_2.add(lblNgayNhan);
+		
+		lblNgayTra = new JLabel("............................");
+		lblNgayTra.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayTra.setBounds(215, 270, 210, 40);
+		lstComponent.add(lblNgayTra);
+		panel_2.add(lblNgayTra);
+		
+		lblSoNgay = new JLabel("............................");
+		lblSoNgay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblSoNgay.setBounds(215, 320, 210, 40);
+		lstComponent.add(lblSoNgay);
+		panel_2.add(lblSoNgay);
+		
+		lblTenPhong = new JLabel("............................");
+		lblTenPhong.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTenPhong.setBounds(215, 440, 210, 40);
+		lstComponent.add(lblTenPhong);
+		panel_2.add(lblTenPhong);
+		
+		lblLoaiPhong = new JLabel("............................");
+		lblLoaiPhong.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblLoaiPhong.setBounds(215, 490, 210, 40);
+		lstComponent.add(lblLoaiPhong);
+		panel_2.add(lblLoaiPhong);
+		
+		btnXoaTrang = new JButton("Xóa Trắng");
+		btnXoaTrang.setBounds(10, 700, 240, 30);
+		panel_2.add(btnXoaTrang);
+
+		JPanel pKhachHang = new JPanel();
+		pKhachHang.setBounds(10, 150, 390, 620);
+		panel.add(pKhachHang);
+		pKhachHang.setLayout(null);
+
+		JLabel lblNewLabel_2 = new JLabel("Thông tin khách hàng");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_2.setBounds(10, 10, 370, 30);
+		pKhachHang.add(lblNewLabel_2);
+
+		JLabel lblNewLabel_5 = new JLabel("Tên Khách: ");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5.setBounds(10, 150, 130, 40);
+		pKhachHang.add(lblNewLabel_5);
+
+		lblTenKH = new JLabel("............................");
+		lblTenKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTenKH.setBounds(180, 150, 210, 40);
+		lstComponent.add(lblTenKH);
+		pKhachHang.add(lblTenKH);
+
+		JLabel lblNewLabel_5_1 = new JLabel("Số CMT: ");
+		lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_1.setBounds(10, 200, 130, 40);
+		pKhachHang.add(lblNewLabel_5_1);
+
+		lblCmtKH = new JLabel("............................");
+		lblCmtKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCmtKH.setBounds(180, 200, 210, 40);
+		lstComponent.add(lblCmtKH);
+		pKhachHang.add(lblCmtKH);
+
+		JLabel lblNewLabel_5_1_1 = new JLabel("Số Điện Thoại: ");
+		lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_1_1.setBounds(10, 250, 130, 40);
+		pKhachHang.add(lblNewLabel_5_1_1);
+
+		lblSdtKH = new JLabel("............................");
+		lblSdtKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblSdtKH.setBounds(180, 250, 210, 40);
+		lstComponent.add(lblSdtKH);
+		pKhachHang.add(lblSdtKH);
+
+		JLabel lblNewLabel_5_1_1_1 = new JLabel("Địa Chỉ: ");
+		lblNewLabel_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_1_1_1.setBounds(10, 300, 130, 40);
+		pKhachHang.add(lblNewLabel_5_1_1_1);
+
+		lblDiaChiKH = new JLabel("............................");
+		lblDiaChiKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDiaChiKH.setBounds(180, 300, 210, 40);
+		lstComponent.add(lblDiaChiKH);
+		pKhachHang.add(lblDiaChiKH);
+
+		JLabel lblNewLabel_5_1_1_1_1 = new JLabel("Email: ");
+		lblNewLabel_5_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_5_1_1_1_1.setBounds(10, 350, 130, 40);
+		pKhachHang.add(lblNewLabel_5_1_1_1_1);
+
+		lblEmailKH = new JLabel("............................");
+		lblEmailKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEmailKH.setBounds(180, 350, 210, 40);
+		lstComponent.add(lblEmailKH);
+		pKhachHang.add(lblEmailKH);
+
+	}
+}
