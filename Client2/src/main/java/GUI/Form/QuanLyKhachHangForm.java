@@ -126,6 +126,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		btnSuaKhachHang.addActionListener(this);
 		btnXoaKhachHang.addActionListener(this);
 		btnSearch.addActionListener(this);
+		txtSearchText.addActionListener(this);
 
 		// == load ds khach hang ====
 		try {
@@ -185,7 +186,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		if (o.equals(btnSuaKhachHang)) {
 			OpenUpdateKhachHangDialog();
 		}
-		if (o.equals(btnSearch)) {
+		if (o.equals(btnSearch) || o.equals(txtSearchText)) {
 			SearchDsKhachHang();
 		}
 	}
@@ -200,8 +201,8 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 					"Khách hàng hiện đang sử dụng khách sạn: " + selectedKhachHang.getTen());
 			return;
 		}
-		if (JOptionPane.showConfirmDialog(
-				this, "Bạn có muốn xóa khách hàng " + selectedKhachHang.getTen() + " có số điện thoại là: "
+		if (JOptionPane.showConfirmDialog(this,
+				"Bạn có muốn xóa khách hàng " + selectedKhachHang.getTen() + " có số điện thoại là: "
 						+ selectedKhachHang.getSdt() + " không?",
 				"Cảnh báo.", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
 			if (KhachHangService.getInstance().deleteKhachHangById(selectedKhachHang.getMaKH())) {
@@ -210,7 +211,7 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xóa khách hàng : " + selectedKhachHang.getTen());
 			}
 		}
-		
+
 		reloadDsKhachHang();
 		return;
 
@@ -258,9 +259,9 @@ public class QuanLyKhachHangForm extends JPanel implements ActionListener {
 		String nameSearch = txtSearchText.getText().toString();
 		if (nameSearch.length() <= 0) {
 			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên khách hàng cần tìm");
-			txtSearchText.requestFocus();
-			return;
 		}
+		txtSearchText.selectAll();
+		txtSearchText.requestFocus();
 
 		try {
 			lstKhachHang = khachHangService.getListKhachHangByPage(1, maxRow, nameSearch);
