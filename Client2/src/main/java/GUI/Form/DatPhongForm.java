@@ -1,6 +1,7 @@
 package GUI.Form;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,29 +11,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.toedter.calendar.JDateChooser;
 
-import ClientService.*;
-import Entity.PhieuThue;
+import ClientService.LoaiPhongService;
+import ClientService.PhongService;
 import GUI.Dialog.ChooseCustomerDialog;
 import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.PhongDTO;
-
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 
 public class DatPhongForm extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -46,6 +45,14 @@ public class DatPhongForm extends JPanel implements ActionListener {
 	private LoaiPhongDTO selectedLoaiPhong;
 	private PhongDTO selectedPhong = null;
 	private NhanVienDTO nhanVien = null;
+	private List<Component> lstComponent = new ArrayList<>();
+	private JLabel lblTenKH_tt;
+	private JLabel lblTenPhong_tt;
+	private JLabel lblNgayDen_tt;
+	private JLabel lblNgayKetThuc_tt;
+	private JLabel lblSoNgay;
+	private JLabel lblDonGia_tt;
+	private JLabel lblTongTien;
 
 	public DatPhongForm(NhanVienDTO nhanvien) {
 		setBackground(Color.decode("#d4d5d6"));
@@ -82,6 +89,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblTenKH = new JLabel("............................");
 		lblTenKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTenKH.setBounds(180, 150, 240, 40);
+		lstComponent.add(lblTenKH);
 		pKhachHang.add(lblTenKH);
 
 		JLabel lblNewLabel_5_1 = new JLabel("Số CMT: ");
@@ -92,6 +100,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblCmtKH = new JLabel("............................");
 		lblCmtKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblCmtKH.setBounds(180, 200, 240, 40);
+		lstComponent.add(lblCmtKH);
 		pKhachHang.add(lblCmtKH);
 
 		JLabel lblNewLabel_5_1_1 = new JLabel("Số Điện Thoại: ");
@@ -102,6 +111,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblSdtKH = new JLabel("............................");
 		lblSdtKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblSdtKH.setBounds(180, 250, 240, 40);
+		lstComponent.add(lblSdtKH);
 		pKhachHang.add(lblSdtKH);
 
 		JLabel lblNewLabel_5_1_1_1 = new JLabel("Địa Chỉ: ");
@@ -112,6 +122,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblDiaChiKH = new JLabel("............................");
 		lblDiaChiKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDiaChiKH.setBounds(180, 300, 240, 40);
+		lstComponent.add(lblDiaChiKH);
 		pKhachHang.add(lblDiaChiKH);
 
 		JLabel lblNewLabel_5_1_1_1_1 = new JLabel("Email: ");
@@ -122,6 +133,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblEmailKH = new JLabel("............................");
 		lblEmailKH.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblEmailKH.setBounds(180, 350, 240, 40);
+		lstComponent.add(lblEmailKH);
 		pKhachHang.add(lblEmailKH);
 
 		JPanel pThoiGian = new JPanel();
@@ -191,6 +203,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 
 			}
 		});
+		lstComponent.add(cbxLoaiPhong);
 		pPhong.add(cbxLoaiPhong);
 
 		JLabel lblNewLabel_5_2_2_1 = new JLabel("Đơn Giá: ");
@@ -201,6 +214,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblDonGia = new JLabel("............................");
 		lblDonGia.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDonGia.setBounds(170, 85, 230, 30);
+		lstComponent.add(lblDonGia);
 		pPhong.add(lblDonGia);
 
 		JLabel lblNewLabel_5_2_2_1_1 = new JLabel("Tên Phòng: ");
@@ -211,6 +225,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblTenPhong = new JLabel("............................");
 		lblTenPhong.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTenPhong.setBounds(170, 125, 118, 30);
+		lstComponent.add(lblTenPhong);
 		pPhong.add(lblTenPhong);
 
 		btnTimPhongTrong = new JButton("Tìm Phòng Trống");
@@ -233,9 +248,10 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_3.setBounds(10, 44, 110, 30);
 		pThongTin.add(lblNewLabel_5_2_3);
 
-		JLabel lblTenKH_tt = new JLabel("............................");
+		lblTenKH_tt = new JLabel("............................");
 		lblTenKH_tt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTenKH_tt.setBounds(130, 40, 190, 40);
+		lstComponent.add(lblTenKH_tt);
 		pThongTin.add(lblTenKH_tt);
 
 		JLabel lblNewLabel_5_2_2_1_1_1 = new JLabel("Tên Phòng: ");
@@ -243,9 +259,10 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_2_1_1_1.setBounds(320, 44, 130, 30);
 		pThongTin.add(lblNewLabel_5_2_2_1_1_1);
 
-		JLabel lblTenPhong_tt = new JLabel("............................");
+		lblTenPhong_tt = new JLabel("............................");
 		lblTenPhong_tt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTenPhong_tt.setBounds(473, 44, 118, 30);
+		lstComponent.add(lblTenPhong_tt);
 		pThongTin.add(lblTenPhong_tt);
 
 		JLabel lblNewLabel_5_2_4 = new JLabel("Ngày đến: ");
@@ -258,14 +275,16 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_1_1.setBounds(320, 84, 150, 30);
 		pThongTin.add(lblNewLabel_5_2_1_1);
 
-		JLabel lblNgayDen_tt = new JLabel("............................");
+		lblNgayDen_tt = new JLabel("............................");
 		lblNgayDen_tt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayDen_tt.setBounds(130, 84, 118, 30);
+		lstComponent.add(lblNgayDen_tt);
 		pThongTin.add(lblNgayDen_tt);
 
-		JLabel lblNgayKetThuc_tt = new JLabel("............................");
+		lblNgayKetThuc_tt = new JLabel("............................");
 		lblNgayKetThuc_tt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayKetThuc_tt.setBounds(473, 84, 118, 30);
+		lstComponent.add(lblNgayDen_tt);
 		pThongTin.add(lblNgayKetThuc_tt);
 
 		JLabel lblNewLabel_5_2_2_1_1_2 = new JLabel("Số Ngày: ");
@@ -273,9 +292,10 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_2_1_1_2.setBounds(10, 124, 110, 30);
 		pThongTin.add(lblNewLabel_5_2_2_1_1_2);
 
-		JLabel lblSoNgay = new JLabel("............................");
+		lblSoNgay = new JLabel("............................");
 		lblSoNgay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblSoNgay.setBounds(130, 124, 60, 30);
+		lstComponent.add(lblSoNgay);
 		pThongTin.add(lblSoNgay);
 
 		JLabel lblNewLabel_5_2_2_1_1_2_1 = new JLabel("Đơn Giá: ");
@@ -283,9 +303,10 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_2_1_1_2_1.setBounds(220, 124, 100, 30);
 		pThongTin.add(lblNewLabel_5_2_2_1_1_2_1);
 
-		JLabel lblDonGia_tt = new JLabel("............................");
+		lblDonGia_tt = new JLabel("............................");
 		lblDonGia_tt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDonGia_tt.setBounds(330, 125, 100, 30);
+		lstComponent.add(lblDonGia_tt);
 		pThongTin.add(lblDonGia_tt);
 
 		JLabel lblNewLabel_5_2_2_1_1_2_1_1 = new JLabel("Tổng tiền: ");
@@ -293,9 +314,10 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNewLabel_5_2_2_1_1_2_1_1.setBounds(462, 124, 100, 30);
 		pThongTin.add(lblNewLabel_5_2_2_1_1_2_1_1);
 
-		JLabel lblTongTien = new JLabel("............................");
+		lblTongTien = new JLabel("............................");
 		lblTongTien.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTongTien.setBounds(572, 124, 118, 30);
+		lstComponent.add(lblTongTien);
 		pThongTin.add(lblTongTien);
 
 		JPanel pControll = new JPanel();
@@ -334,7 +356,6 @@ public class DatPhongForm extends JPanel implements ActionListener {
 			DatPhong();
 		}
 		if (o.equals(btnXoaTrang)) {
-			System.out.println("Click xóa trắng");
 			XoaTrang();
 		}
 		if (o.equals(btnTimPhongTrong)) {
@@ -343,20 +364,19 @@ public class DatPhongForm extends JPanel implements ActionListener {
 	}
 
 	private void XoaTrang() {
-		String text = "............................";
-		lblTenKH.setText(text);
-		lblCmtKH.setText(text);
-		lblSdtKH.setText(text);
-		lblDiaChiKH.setText(text);
-		lblEmailKH.setText(text);
-		//
 		ngayDen.setDate(new Date());
 		ngayKetThuc.setDate(null);
-		//
-		cbxLoaiPhong.setSelectedIndex(0);
-		lblDonGia.setText(text);
-		lblTenPhong.setText(text);
-		//
+		selectedKH = null;
+		selectedLoaiPhong = null;
+		selectedPhong = null;
+		for (Component component : lstComponent) {
+			if (component instanceof JLabel) {
+				((JLabel) component).setText("............................");
+			}
+			if (component instanceof JComboBox) {
+				((JComboBox) component).setSelectedIndex(0);
+			}
+		}
 	}
 
 	private void DatPhong() {
