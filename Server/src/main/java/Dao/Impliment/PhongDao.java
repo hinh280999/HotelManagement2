@@ -149,8 +149,8 @@ public class PhongDao implements IPhongDao {
 		try {
 			TinhTrangPhong ttp = session.createNativeQuery(queryTTP, TinhTrangPhong.class).getSingleResult();
 
-			String queryPhong = "db.phongs.find({'$and':[{'maTTP' : " + ttp.getMaTTP() + "},{'maLP' : " + loaiPhongId
-					+ "}]})";
+			String queryPhong = "db.phongs.aggregate([{ '$match': { '$and': [ {'maTTP' : " + ttp.getMaTTP()
+					+ "},{'maLP' : " + loaiPhongId + "}]}},{'$limit' :1}])";
 			Phong phong = session.createNativeQuery(queryPhong, Phong.class).getSingleResult();
 
 			tr.commit();

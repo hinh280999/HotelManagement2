@@ -202,7 +202,6 @@ public class PhieuThueDao implements IPhieuThue {
 			} else {
 				e.printStackTrace();
 			}
-
 		}
 
 		return false;
