@@ -34,74 +34,74 @@ public class PhieuDichVuTest {
 		// TODO Auto-generated method stub
 		// can 1 so Dao de tao du lieu mau sau do xoa du lieu mau di
 
-		IPhieuThue ptDao = new PhieuThueDao();
-		IKhachHangDao khDao = new KhachHangDao();
-		INhanVien nvDao = new NhanVienDao();
-		IPhongDao phongDao = new PhongDao();
-
-		ITinhTrangPhongDao DaoTTP = new TinhTrangPhongDao();
-		ILoaiPhongDao LPDao = new LoaiPhongDao();
-
-		TinhTrangPhong tTTP = new TinhTrangPhong("Trống2");
-		LoaiPhong newLP = new LoaiPhong("Standard", 100000.0);
-		DaoTTP.add(tTTP);
-		LPDao.add(newLP);
-
-		Phong samplePhong = new Phong("P2809");
-		samplePhong.setMaTTP(tTTP);
-		samplePhong.setMaLP(newLP);
-
-		// da co Sample Phong
-		phongDao.add(samplePhong);
-
-//		ChucVu sampleCV = new ChucVu("SampleChucVu", 1.0);
-//		cvDao.add(sampleCV);
-
-		TaiKhoan tkNV = new TaiKhoan("hinh99", "123123", true);
-		NhanVien tempNV = new NhanVien("Phan Trong Hinh", "abc@gmail.com", "male", "123123");
-		//tempNV.setChucVu(sampleCV);
-		tempNV.setTaiKhoan(tkNV);
-
-		// da co SampleNhanVien
-		nvDao.add(tempNV);
-
-		KhachHang tKhachHang = new KhachHang("Phan Trong HInh", "Samplemail@gmail.com", "0981986242", "Tp HCM",
-				"123123");
-
-		// da co khach hang sample
-		khDao.add(tKhachHang);
-
-		@SuppressWarnings("deprecation")
-		Date ngayDat = new Date(2021, 12, 10);
-		@SuppressWarnings("deprecation")
-		Date ngayKetThuc = new Date(2022, 1, 10);
-		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, samplePhong, tempNV, tKhachHang);
-
-		// đã có phiếu thuê Sample
-		ptDao.add(samplePT);
-
-		PhieuThue tempPt = new PhieuThue(samplePT.getMaPT());
-
-		// ============= =========================================================== //
-		IPhieuDichVu pdvDao = new PhieuDichVuDao();
-		IDichVuDao dvDao = new DichVuDao();
-
-		DichVu tDichVu = new DichVu("Coca-cola", 10000.0,"Chai");
-		dvDao.add(tDichVu);
-
-		DichVu tempDv = new DichVu(tDichVu.getMaDv());
-
-		PhieuDichVu pdvSample = new PhieuDichVu();
-		pdvSample.setNgayLap(new Date());
-		pdvSample.setDichVu(tempDv);
-		pdvSample.setPhieuThue(tempPt);
-		pdvSample.setSoLuong(1);
-		pdvSample.setDaThanhToan(false);
-
-		if (pdvDao.add(pdvSample))
-			System.out.println("Add success");
-		else
-			System.out.println("add fail");
+//		IPhieuThue ptDao = new PhieuThueDao();
+//		IKhachHangDao khDao = new KhachHangDao();
+//		INhanVien nvDao = new NhanVienDao();
+//		IPhongDao phongDao = new PhongDao();
+//
+//		ITinhTrangPhongDao DaoTTP = new TinhTrangPhongDao();
+//		ILoaiPhongDao LPDao = new LoaiPhongDao();
+//
+//		TinhTrangPhong tTTP = new TinhTrangPhong("Trống2");
+//		LoaiPhong newLP = new LoaiPhong("Standard", 100000.0);
+//		DaoTTP.add(tTTP);
+//		LPDao.add(newLP);
+//
+//		Phong samplePhong = new Phong("P2809");
+//		samplePhong.setMaTTP(tTTP);
+//		samplePhong.setMaLP(newLP);
+//
+//		// da co Sample Phong
+//		phongDao.add(samplePhong);
+//
+////		ChucVu sampleCV = new ChucVu("SampleChucVu", 1.0);
+////		cvDao.add(sampleCV);
+//
+//		TaiKhoan tkNV = new TaiKhoan("hinh99", "123123", true);
+//		NhanVien tempNV = new NhanVien("Phan Trong Hinh", "abc@gmail.com", "male", "123123");
+//		//tempNV.setChucVu(sampleCV);
+//		tempNV.setTaiKhoan(tkNV);
+//
+//		// da co SampleNhanVien
+//		nvDao.add(tempNV);
+//
+//		KhachHang tKhachHang = new KhachHang("Phan Trong HInh", "Samplemail@gmail.com", "0981986242", "Tp HCM",
+//				"123123");
+//
+//		// da co khach hang sample
+//		khDao.add(tKhachHang);
+//
+//		@SuppressWarnings("deprecation")
+//		Date ngayDat = new Date(2021, 12, 10);
+//		@SuppressWarnings("deprecation")
+//		Date ngayKetThuc = new Date(2022, 1, 10);
+//		PhieuThue samplePT = new PhieuThue(ngayDat, ngayKetThuc, samplePhong, tempNV, tKhachHang);
+//
+//		// đã có phiếu thuê Sample
+//		ptDao.add(samplePT);
+//
+//		PhieuThue tempPt = new PhieuThue(samplePT.getMaPT());
+//
+//		// ============= =========================================================== //
+//		IPhieuDichVu pdvDao = new PhieuDichVuDao();
+//		IDichVuDao dvDao = new DichVuDao();
+//
+//		DichVu tDichVu = new DichVu("Coca-cola", 10000.0,"Chai");
+//		dvDao.add(tDichVu);
+//
+//		DichVu tempDv = new DichVu(tDichVu.getMaDv());
+//
+//		PhieuDichVu pdvSample = new PhieuDichVu();
+//		pdvSample.setNgayLap(new Date());
+//		pdvSample.setDichVu(tempDv);
+//		pdvSample.setPhieuThue(tempPt);
+//		pdvSample.setSoLuong(1);
+//		pdvSample.setDaThanhToan(false);
+//
+//		if (pdvDao.add(pdvSample))
+//			System.out.println("Add success");
+//		else
+//			System.out.println("add fail");
 
 //		PhieuDichVu temp = null;
 //
@@ -133,6 +133,8 @@ public class PhieuDichVuTest {
 //		phongDao.delete(samplePhong.getMaP());
 //		nvDao.delete(tempNV.getMaNV());
 		//cvDao.delete(sampleCV.getMaCV());
+//		IPhieuDichVu pdvDao = new PhieuDichVuDao();
+//		pdvDao.addPhieuDichVuByMaPhong(18, 11,1);
 	}
 
 }

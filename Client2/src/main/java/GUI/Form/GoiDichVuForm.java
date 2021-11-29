@@ -360,7 +360,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	}
 
 	private void DatDichVu() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
