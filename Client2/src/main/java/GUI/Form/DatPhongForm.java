@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -185,6 +186,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 					lblDonGia.setText(selectedLoaiPhong.getDonGia() + " (VND)");
 				} else {
 					lblDonGia.setText("............................");
+					lblTenPhong.setText("............................");
 				}
 
 			}
@@ -333,10 +335,28 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		}
 		if (o.equals(btnXoaTrang)) {
 			System.out.println("Click xóa trắng");
+			XoaTrang();
 		}
 		if (o.equals(btnTimPhongTrong)) {
 			timPhongTrong();
 		}
+	}
+
+	private void XoaTrang() {
+		String text = "............................";
+		lblTenKH.setText(text);
+		lblCmtKH.setText(text);
+		lblSdtKH.setText(text);
+		lblDiaChiKH.setText(text);
+		lblEmailKH.setText(text);
+		//
+		ngayDen.setDate(new Date());
+		ngayKetThuc.setDate(null);
+		//
+		cbxLoaiPhong.setSelectedIndex(0);
+		lblDonGia.setText(text);
+		lblTenPhong.setText(text);
+		//
 	}
 
 	private void DatPhong() {
