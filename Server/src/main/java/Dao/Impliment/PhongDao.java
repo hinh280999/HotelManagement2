@@ -79,7 +79,7 @@ public class PhongDao implements IPhongDao {
 		try {
 			TinhTrangPhong ttp = session.createNativeQuery(queryTTP, TinhTrangPhong.class).getSingleResult();
 			addObject.setMaTTP(ttp);
-			
+
 			session.save(addObject);
 
 			tr.commit();
@@ -102,7 +102,7 @@ public class PhongDao implements IPhongDao {
 		Transaction tr = session.beginTransaction();
 
 		try {
-			session.saveOrUpdate(updateObject);
+			session.update(updateObject);
 
 			tr.commit();
 			session.close();
@@ -145,9 +145,6 @@ public class PhongDao implements IPhongDao {
 	public Phong getPhongTrongByLoaiPhongId(int loaiPhongId) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-//		String query = "db.phongs.aggregate([{'$lookup': {'from': 'tinhtrangphongs', 'localField': 'maTTP', 'foreignField': '_id', 'as': 'tinhtrangphong'}},"
-//				+ "{'$unwind' :'$tinhtrangphong'}," + "{'$match':{'tinhtrangphong.tenTTP' : 'Trống'}},"
-//				+ "{'$project' : {'tinhtrangphong' : 0}}," + "{'$limit' : 1}])";
 		String queryTTP = "db.tinhtrangphongs.find({tenTTP : 'Trống'})";
 		try {
 			TinhTrangPhong ttp = session.createNativeQuery(queryTTP, TinhTrangPhong.class).getSingleResult();
@@ -214,6 +211,54 @@ public class PhongDao implements IPhongDao {
 		}
 
 		return null;
+	}
+
+	@Override
+	public PageList<PhongDTO> getListPhongDaThue(int pageNumb, int maxRow, String roomName) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String mongoAggregate;
+		try {
+			String queryttp = "db.tinhtrangphongs.find({tenTTP : 'Đã Thuê'})";
+			TinhTrangPhong ttp = session.createNativeQuery(queryttp, TinhTrangPhong.class).getSingleResult();
+
+			mongoAggregate = buidQueryGetPhongDaThue(roomName, ttp.getMaTTP());
+
+			NativeQuery<Phong> javaQuery = session.createNativeQuery(mongoAggregate, Phong.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<Phong> Phongs_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
+					.getResultList();
+
+			PageList<PhongDTO> pageList = new PageList<>();
+
+			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+
+			pageList.setListData(MappingDtoFacade.convertToListPhongDTO(Phongs_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+			return pageList;
+
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	private String buidQueryGetPhongDaThue(String roomName, int maTTP) {
+		String query = "";
+		if (roomName.length() > 0) {
+			query = "db.phongs.aggregate([{ '$match': { '$and': [ {'maTTP' : " + maTTP + "}, { '$text': { '$search': '"
+					+ roomName + "' }}]}}])";
+		} else {
+			query = "db.phongs.find({'maTTP': " + maTTP + "})";
+		}
+		return query;
+
 	}
 
 //	@Override

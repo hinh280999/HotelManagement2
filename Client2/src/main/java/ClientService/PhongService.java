@@ -79,6 +79,15 @@ public class PhongService {
 		return null;
 	}
 
+	public PageList<PhongDTO> getListPhongDaThue(int pageNumb, int maxRow, String roomName) {
+		try {
+			return phongService.getListPhongDaThue(pageNumb, maxRow, roomName);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public IPhongService getService() {
 		return phongService;
 	}

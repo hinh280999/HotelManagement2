@@ -40,6 +40,7 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 	@Override
 	public boolean updateObject(PhieuThueDTO objectDTO) throws RemoteException {
 		PhieuThue updateObj = MappingDtoFacade.mapToPhieuThueAdd(objectDTO);
+		updateObj.setMaPT(objectDTO.getMaPT());
 		updateObj.setTrangThai(objectDTO.getTrangThai());
 		return phieuThueDao.update(updateObj);
 	}
@@ -47,6 +48,22 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 	@Override
 	public boolean deleteObjectById(int objectId) throws RemoteException {
 		return phieuThueDao.delete(objectId);
+	}
+
+	@Override
+	public PhieuThueDTO getPhieuThueByCMT(String cmt) throws RemoteException {
+		try {
+			PhieuThueDTO dto = MappingDtoFacade.mapToPhieuThueDTO(phieuThueDao.getPhieuThueByCMT(cmt));
+			return dto;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean traPhong(int maPhong) throws RemoteException {
+		return phieuThueDao.traPhong(maPhong);
 	}
 
 }

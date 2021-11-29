@@ -1,12 +1,17 @@
 package Dao.Impliment;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
 
 import Dao.Interface.IPhieuThue;
+import Entity.KhachHang;
 import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TinhTrangPhong;
@@ -94,16 +99,12 @@ public class PhieuThueDao implements IPhieuThue {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
-			session.saveOrUpdate(updateObject);
+			session.update(updateObject);
 
 			tr.commit();
-			session.close();
-
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 
@@ -136,6 +137,74 @@ public class PhieuThueDao implements IPhieuThue {
 
 			e.printStackTrace();
 		}
+		return false;
+	}
+
+	@Override
+	public PhieuThue getPhieuThueByCMT(String cmt) {
+
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String queryKhachHang = "db.khachhangs.find({'soCMND' : '" + cmt + "'})";
+		try {
+
+			KhachHang khachhang = session.createNativeQuery(queryKhachHang, KhachHang.class).getSingleResult();
+
+			String queryPhieuThue = "db.phieuthues.find({'$and':[ { 'maKH': " + khachhang.getMaKH()
+					+ ", 'trangThai': 'NEW'}]})";
+			PhieuThue phieuthue = session.createNativeQuery(queryPhieuThue, PhieuThue.class).getSingleResult();
+
+			tr.commit();
+
+			return phieuthue;
+		} catch (Exception e) {
+			tr.rollback();
+			if (e instanceof NoResultException) {
+				System.out.println("Không tìm thấy phiếu thuê có trạng thái 'NEW' của KH : " + cmt);
+			} else if (e instanceof EntityNotFoundException) {
+				System.out.println("Mã của một entity nào đó không đúng trong database: ");
+			} else {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean traPhong(int maPhong) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String query = "db.tinhtrangphongs.find({'tenTTP' : 'Trống'})";
+		try {
+
+			Phong phongThue = session.find(Phong.class, maPhong);
+
+			TinhTrangPhong ttp = session.createNativeQuery(query, TinhTrangPhong.class).getSingleResult();
+			phongThue.setMaTTP(ttp);
+
+			session.update(phongThue);
+
+			String queryPhieuThue = "db.phieuthues.find({'$and':[{'maP':" + maPhong + " ,'trangThai':'CHECKED'}]})";
+			PhieuThue pt = session.createNativeQuery(queryPhieuThue, PhieuThue.class).getSingleResult();
+
+			pt.setNgayTra(new Date());
+			pt.setTrangThai("OUT");
+
+			session.update(pt);
+
+			tr.commit();
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+			if (e instanceof NullPointerException) {
+				System.out.println(
+						"Có thể không tồn tại phòng với mã : " + maPhong + "hoặc ko có tình trạng phòng : {'Trống'}");
+			} else {
+				e.printStackTrace();
+			}
+
+		}
+
 		return false;
 	}
 

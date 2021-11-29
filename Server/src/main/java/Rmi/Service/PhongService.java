@@ -73,4 +73,9 @@ public class PhongService extends UnicastRemoteObject implements IPhongService {
 		return null;
 	}
 
+	@Override
+	public PageList<PhongDTO> getListPhongDaThue(int pageNumb, int maxRow, String roomName) throws RemoteException {
+		return phongDao.getListPhongDaThue(pageNumb, maxRow, roomName);
+	}
+
 }

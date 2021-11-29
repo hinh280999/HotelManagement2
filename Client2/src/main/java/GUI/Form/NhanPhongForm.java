@@ -5,22 +5,38 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import ClientService.KhachHangService;
+import ClientService.LoaiPhongService;
+import ClientService.PhieuThueService;
+import ClientService.PhongService;
+import Rmi.DTO.KhachHangDTO;
+import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhongDTO;
 
 public class NhanPhongForm extends JPanel implements ActionListener {
 	private JTextField txtCMT;
 	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblDiaChiKH, lblEmailKH;
-	private JLabel lblNgayLap, lblNgayDat, lblNgayKet, lblNgayNhan, lblNgayTra, lblSoNgay;
+	private JLabel lblNgayLapPT, lblNgayDatPT, lblNgayKetPT, lblNgayNhanPT, lblNgayTraPT, lblSoNgay;
 	private JLabel lblTenPhong, lblLoaiPhong;
 	private JButton btnXoaTrang, btnTim, btnNhanPhong;
+	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 	private List<Component> lstComponent = new ArrayList<>();
+	private PhieuThueDTO phieuthue = null;
 
 	public NhanPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -111,35 +127,35 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 		btnNhanPhong.setBounds(270, 700, 240, 30);
 		panel_2.add(btnNhanPhong);
 
-		lblNgayLap = new JLabel("............................");
-		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNgayLap.setBounds(215, 70, 210, 40);
-		lstComponent.add(lblNgayLap);
-		panel_2.add(lblNgayLap);
+		lblNgayLapPT = new JLabel("............................");
+		lblNgayLapPT.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayLapPT.setBounds(215, 70, 210, 40);
+		lstComponent.add(lblNgayLapPT);
+		panel_2.add(lblNgayLapPT);
 
-		lblNgayDat = new JLabel("............................");
-		lblNgayDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNgayDat.setBounds(215, 120, 210, 40);
-		lstComponent.add(lblNgayDat);
-		panel_2.add(lblNgayDat);
+		lblNgayDatPT = new JLabel("............................");
+		lblNgayDatPT.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayDatPT.setBounds(215, 120, 210, 40);
+		lstComponent.add(lblNgayDatPT);
+		panel_2.add(lblNgayDatPT);
 
-		lblNgayKet = new JLabel("............................");
-		lblNgayKet.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNgayKet.setBounds(215, 170, 210, 40);
-		lstComponent.add(lblNgayKet);
-		panel_2.add(lblNgayKet);
+		lblNgayKetPT = new JLabel("............................");
+		lblNgayKetPT.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayKetPT.setBounds(215, 170, 210, 40);
+		lstComponent.add(lblNgayKetPT);
+		panel_2.add(lblNgayKetPT);
 
-		lblNgayNhan = new JLabel("............................");
-		lblNgayNhan.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNgayNhan.setBounds(215, 220, 210, 40);
-		lstComponent.add(lblNgayNhan);
-		panel_2.add(lblNgayNhan);
+		lblNgayNhanPT = new JLabel("............................");
+		lblNgayNhanPT.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayNhanPT.setBounds(215, 220, 210, 40);
+		lstComponent.add(lblNgayNhanPT);
+		panel_2.add(lblNgayNhanPT);
 
-		lblNgayTra = new JLabel("............................");
-		lblNgayTra.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNgayTra.setBounds(215, 270, 210, 40);
-		lstComponent.add(lblNgayTra);
-		panel_2.add(lblNgayTra);
+		lblNgayTraPT = new JLabel("............................");
+		lblNgayTraPT.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNgayTraPT.setBounds(215, 270, 210, 40);
+		lstComponent.add(lblNgayTraPT);
+		panel_2.add(lblNgayTraPT);
 
 		lblSoNgay = new JLabel("............................");
 		lblSoNgay.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -238,31 +254,58 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (e.equals(btnXoaTrang)) {
+		if (o.equals(btnXoaTrang)) {
 			XoaTrang();
 		}
-		if (e.equals(btnTim)) {
+		if (o.equals(btnTim)) {
 			TimPhieuThue();
 		}
-		if (e.equals(btnNhanPhong)) {
+		if (o.equals(btnNhanPhong)) {
 			NhanPhong();
 		}
 
 	}
 
 	private void NhanPhong() {
-
+		phieuthue.setNgayNhan(new Date());
+		phieuthue.setTrangThai("CHECKED");
+		boolean kq = PhieuThueService.getInstance().updatePhieuThue(phieuthue);
+		if (kq) {
+			JOptionPane.showMessageDialog(null, "Nhận phòng thành công.");
+			XoaTrang();
+			return;
+		}
+		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi nhận phòng có mã: " + phieuthue.getMaPT());
 	}
 
 	private void TimPhieuThue() {
+		String cmt = txtCMT.getText().toString().trim();
+		if (!(cmt.length() > 0 && cmt.matches("^[0-9]{12}$"))) {
+			if (cmt.length() == 0) {
+				JOptionPane.showMessageDialog(this,	"Hãy nhập số chứng minh của khách hàng.");
+			} else if (cmt.length() != 10) {
+				JOptionPane.showMessageDialog(this,	"Số chứng mính có 12 số.");
+			}
+			txtCMT.selectAll();
+			txtCMT.requestFocus();			
+			return;
+		}
 
-		loadKhachHangInfo();
-		LoadPhieuThueInfo();
-		LoadPhongInfo();
+		phieuthue = PhieuThueService.getInstance().getPhieuThueByCMT(cmt);
+		if (phieuthue == null) {
+			JOptionPane.showMessageDialog(null, "Không có phiếu thuê mới nào của khách cả");
+			return;
+		}
+		KhachHangDTO khachhang = KhachHangService.getInstance().getKhachHangById(phieuthue.getKhachHang_id());
+		PhongDTO phong = PhongService.getInstance().getPhongById(phieuthue.getPhong_id());
 
+		loadKhachHangInfo(khachhang);
+		LoadPhieuThueInfo(phieuthue);
+		LoadPhongInfo(phong);
 	}
 
 	private void XoaTrang() {
+		txtCMT.setText("");
 		for (Component component : lstComponent) {
 			if (component instanceof JLabel) {
 				((JLabel) component).setText("............................");
@@ -270,15 +313,28 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 		}
 	}
 
-	private void loadKhachHangInfo() {
-
+	private void loadKhachHangInfo(KhachHangDTO khachhang) {
+		lblTenKH.setText(khachhang.getTen());
+		lblCmtKH.setText(khachhang.getSoCMND());
+		lblDiaChiKH.setText(khachhang.getDiaChi());
+		lblEmailKH.setText(khachhang.getEmail());
+		lblSdtKH.setText(khachhang.getSdt());
 	}
 
-	private void LoadPhieuThueInfo() {
+	private void LoadPhieuThueInfo(PhieuThueDTO phieuthue) {
+		lblNgayDatPT.setText(dateFormat.format(phieuthue.getNgayDat()));
+		lblNgayKetPT.setText(dateFormat.format(phieuthue.getNgayKetThuc()));
+		lblNgayLapPT.setText(dateFormat.format(phieuthue.getNgayLap()));
 
+		long diff = phieuthue.getNgayKetThuc().getTime() - phieuthue.getNgayDat().getTime();
+		TimeUnit time = TimeUnit.DAYS;
+		long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+		lblSoNgay.setText(diffrence + " ( Ngày )");
 	}
 
-	private void LoadPhongInfo() {
-
+	private void LoadPhongInfo(PhongDTO phong) {
+		LoaiPhongDTO loaiphong = LoaiPhongService.getInstance().getLoaiPhongById(phong.getLoaiPhong_id());
+		lblTenPhong.setText(phong.getTen());
+		lblLoaiPhong.setText(loaiphong.getTenLP());
 	}
 }

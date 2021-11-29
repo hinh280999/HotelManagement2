@@ -1,7 +1,11 @@
 package TestRun;
 
+import java.util.Iterator;
+
 import Dao.Impliment.PhongDao;
 import Dao.Interface.IPhongDao;
+import Model.PageList;
+import Rmi.DTO.PhongDTO;
 
 public class PhongDaoTest {
 
@@ -55,6 +59,10 @@ public class PhongDaoTest {
 
 //		PageList<PhongDTO> lst = Dao.getListPhongByPage(1, 2,"P2809");
 //		for (PhongDTO string : lst.getListData()) {
+//			System.out.println(string.toString());
+//		}
+//		PageList<PhongDTO> list = Dao.getListPhongDaThue(1, 2, "Se");
+//		for (PhongDTO string : list.getListData()) {
 //			System.out.println(string.toString());
 //		}
 	}

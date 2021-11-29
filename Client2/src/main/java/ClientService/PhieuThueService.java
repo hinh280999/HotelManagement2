@@ -41,4 +41,30 @@ public class PhieuThueService {
 		}
 		return false;
 	}
+
+	public PhieuThueDTO getPhieuThueByCMT(String cmt) {
+		try {
+			return phieuThueService.getPhieuThueByCMT(cmt);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public boolean updatePhieuThue(PhieuThueDTO updateObj) {
+		try {
+			return phieuThueService.updateObject(updateObj);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public boolean traPhong (int maPhong) {
+		try {
+			return phieuThueService.traPhong(maPhong);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
