@@ -41,4 +41,13 @@ public class PhieuThueService {
 		}
 		return false;
 	}
+
+	public PhieuThueDTO getPhieuThueByCMT(String cmt) {
+		try {
+			return phieuThueService.getPhieuThueByCMT(cmt);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
