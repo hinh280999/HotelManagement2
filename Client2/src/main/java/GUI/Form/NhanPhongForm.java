@@ -280,8 +280,14 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 
 	private void TimPhieuThue() {
 		String cmt = txtCMT.getText().toString().trim();
-		if (cmt.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "Chưa nhập số chứng minh nhân dân");
+		if (!(cmt.length() > 0 && cmt.matches("^[0-9]{12}$"))) {
+			if (cmt.length() == 0) {
+				JOptionPane.showMessageDialog(this,	"Hãy nhập số chứng minh của khách hàng.");
+			} else if (cmt.length() != 10) {
+				JOptionPane.showMessageDialog(this,	"Số chứng mính có 12 số.");
+			}
+			txtCMT.selectAll();
+			txtCMT.requestFocus();			
 			return;
 		}
 
