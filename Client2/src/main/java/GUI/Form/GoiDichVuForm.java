@@ -249,10 +249,10 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		if (o.equals(btnDvNext)) {
+		if (o.equals(btnDvPrev)) {
 			DichVuPrevPage();
 		}
-		if (o.equals(btnDvPrev)) {
+		if (o.equals(btnDvNext)) {
 			DichVuNextPage();
 		}
 		if (o.equals(btnPhongNext)) {
