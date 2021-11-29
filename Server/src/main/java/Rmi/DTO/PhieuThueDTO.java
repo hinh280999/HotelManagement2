@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class PhieuThueDTO implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int maPT;
 	private Date ngayDat;

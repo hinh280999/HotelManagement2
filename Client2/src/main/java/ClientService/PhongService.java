@@ -70,6 +70,15 @@ public class PhongService {
 		return instance;
 	}
 
+	public PhongDTO getPhongById(int phongId) {
+		try {
+			return phongService.getObjectById(phongId);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public IPhongService getService() {
 		return phongService;
 	}
