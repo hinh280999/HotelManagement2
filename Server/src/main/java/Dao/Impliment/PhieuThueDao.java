@@ -85,9 +85,9 @@ public class PhieuThueDao implements IPhieuThue {
 
 			TinhTrangPhong ttp = session.createNativeQuery(query, TinhTrangPhong.class).getSingleResult();
 			phongThue.setMaTTP(ttp);
-			
+
 			session.update(phongThue);
-			
+
 			session.save(addObject);
 
 			tr.commit();
@@ -104,19 +104,18 @@ public class PhieuThueDao implements IPhieuThue {
 	public boolean update(PhieuThue updateObject) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		
+
 		String query = "db.tinhtrangphongs.find({'tenTTP' : 'Đã Thuê'})";
 		try {
-			
+
 			Phong phongThue = session.get(Phong.class, updateObject.getPhong().getMaP());
-			
+
 			TinhTrangPhong ttp = session.createNativeQuery(query, TinhTrangPhong.class).getSingleResult();
 			phongThue.setMaTTP(ttp);
-			
+
 			session.update(phongThue);
-			
+
 			session.update(updateObject);
-			
 
 			tr.commit();
 			return true;
@@ -228,7 +227,7 @@ public class PhieuThueDao implements IPhieuThue {
 	public PageList<PhieuThuePhongInfoDTO> getListPhieuThueByPage(int pageNumb, int maxRow) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		String	mongoAggregate = "db.phieuthues.find({tinhTrang:'OUT'})";
+		String mongoAggregate = "db.phieuthues.find({trangThai: 'OUT'})";
 
 		try {
 			NativeQuery<PhieuThue> javaQuery = session.createNativeQuery(mongoAggregate, PhieuThue.class);

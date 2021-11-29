@@ -23,6 +23,7 @@ import GUI.Form.QuanLyKhachHangForm;
 import GUI.Form.QuanLyLoaiPhongForm;
 import GUI.Form.QuanLyNhanVienForm;
 import GUI.Form.QuanLyPhongForm;
+import GUI.Form.ThanhToanForm;
 import GUI.Form.TraPhongForm;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.TaiKhoanDTO;
@@ -145,6 +146,12 @@ public class MainFrame extends JFrame {
 		ImageIcon pThanhToanIcon = new ImageIcon(new ImageIcon("icon/iconThanhToan.png").getImage());
 		PanelMenu pThanhToan = new PanelMenu("Thanh Toán", pThanhToanIcon);
 		pThanhToan.setBounds(0, 350, 250, 40);
+		pThanhToan.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new ThanhToanForm(), "Thanh Toán", pThanhToanIcon);
+			}
+		});
 		panelSideBar.add(pThanhToan);
 
 		JLabel LbQuanLy = new JLabel("Quản Lý");

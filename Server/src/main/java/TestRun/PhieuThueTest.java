@@ -21,6 +21,8 @@ import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TaiKhoan;
 import Entity.TinhTrangPhong;
+import Model.PageList;
+import Rmi.DTO.PhieuThuePhongInfoDTO;
 
 public class PhieuThueTest {
 	public static void main(String[] args) {
@@ -125,5 +127,10 @@ public class PhieuThueTest {
 		
 //		boolean kq = Dao.traPhong(18);
 //		System.out.println(kq);
+		
+//		PageList<PhieuThuePhongInfoDTO> lst = Dao.getListPhieuThueByPage(1, 3);
+//		for (PhieuThuePhongInfoDTO string : lst.getListData()) {
+//			System.out.println(string.getMaPT());
+//		}
 	}
 }

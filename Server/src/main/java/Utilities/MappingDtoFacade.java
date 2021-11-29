@@ -224,16 +224,7 @@ public class MappingDtoFacade {
 		return lstDTO;
 	}
 
-	public static PhieuThuePhongInfoDTO convertToPhieuThuePhongInfoDTO(PhieuThue phieuThue) {
-		PhieuThuePhongInfoDTO rv = new PhieuThuePhongInfoDTO();
-
-		rv.setMaPT(phieuThue.getMaPT());
-
-		return null;
-
-	}
-
-	private PhieuThuePhongInfoDTO convertToPhieuThueInfoDTO(PhieuThue phieuThue) {
+	private static PhieuThuePhongInfoDTO convertToPhieuThuePhongInfoDTO(PhieuThue phieuThue) {
 		PhieuThuePhongInfoDTO rvDto = new PhieuThuePhongInfoDTO();
 		rvDto.setMaPT(phieuThue.getMaPT());
 		rvDto.setNgayLap(phieuThue.getNgayLap());
