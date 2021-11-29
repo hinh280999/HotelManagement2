@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -28,7 +30,7 @@ import Rmi.DTO.TinhTrangPhongDTO;
 import javax.swing.JTable;
 
 public class TraPhongForm extends JPanel implements ActionListener {
-	private JTextField textField;
+	private JTextField txtName;
 	private JButton btnTim, btnTraPhong;
 	private JButton btnPrev, btnNext;
 	private PhongDTO selectedPhong = null;
@@ -55,8 +57,16 @@ public class TraPhongForm extends JPanel implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 70, 1140, 508);
 		pTable.add(scrollPane);
-		
+
 		tblDsPhong = new JTable();
+		tblDsPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tblDsPhong.getSelectedRow();
+				selectedPhong = lstPhong.getListData().get(selectedRow);
+			}
+		});
+		tblDsPhong.setRowHeight(tblDsPhong.getRowHeight() + 10);
 		scrollPane.setViewportView(tblDsPhong);
 
 		btnPrev = new JButton("<");
@@ -75,10 +85,10 @@ public class TraPhongForm extends JPanel implements ActionListener {
 		separator.setBounds(10, 700, 1140, 13);
 		pTable.add(separator);
 
-		textField = new JTextField();
-		textField.setBounds(10, 30, 430, 30);
-		pTable.add(textField);
-		textField.setColumns(10);
+		txtName = new JTextField();
+		txtName.setBounds(10, 30, 430, 30);
+		pTable.add(txtName);
+		txtName.setColumns(10);
 
 		btnTim = new JButton("Tìm kiếm");
 		btnTim.setBounds(455, 30, 135, 30);
@@ -94,14 +104,9 @@ public class TraPhongForm extends JPanel implements ActionListener {
 		btnTim.addActionListener(this);
 		btnTraPhong.addActionListener(this);
 
-		// ==== load ds phong
-		try {
-			lstPhong = PhongService.getInstance().getListPhongPaged(1, maxRow, "");
-			LoadDsPhong(lstPhong);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// === Load ds Phong da thue =============
+		lstPhong = PhongService.getInstance().getListPhongDaThue(1, maxRow, "");
+		LoadDsPhong(lstPhong);
 	}
 
 	@Override
@@ -114,12 +119,14 @@ public class TraPhongForm extends JPanel implements ActionListener {
 			LoadPrevPage();
 		}
 		if (o.equals(btnTim)) {
+			System.out.println("Clicked");
 			TimDsPhong();
 		}
 		if (o.equals(btnTraPhong)) {
 			TraPhong();
 		}
 	}
+
 	private void LoadDsPhong(PageList<PhongDTO> lstPhong) {
 		String[] tieude = { "Mã Phòng", "Tên Phòng", "Trạng Thái", "Loại Phòng" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
@@ -149,7 +156,9 @@ public class TraPhongForm extends JPanel implements ActionListener {
 
 		showPageNumber();
 		selectedPhong = null;
+
 	}
+
 	private void showPageNumber() {
 		if (currentPage > maxPage) {
 			currentPage = maxPage;
@@ -167,21 +176,60 @@ public class TraPhongForm extends JPanel implements ActionListener {
 	}
 
 	private void TimDsPhong() {
-		// TODO Auto-generated method stub
+		String nameSearch = txtName.getText().toString().trim();
+		if (nameSearch.length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Oops!, bạn chưa nhập tên phòng cần tìm");
+			txtName.requestFocus();
+			return;
+		}
 
+		lstPhong = PhongService.getInstance().getListPhongDaThue(1, maxRow, nameSearch);
+		LoadDsPhong(lstPhong);
+
+		selectedPhong = null;
 	}
 
 	private void LoadPrevPage() {
-		// TODO Auto-generated method stub
+		currentPage--;
+		if (currentPage < 1) {
+			currentPage = 1;
+			return;
+		}
 
+		int PrevPageNumb = lstPhong.getCurrentPage() - 1;
+		try {
+			String nameSearch = txtName.getText().toString().trim();
+			lstPhong = PhongService.getInstance().getListPhongPaged(PrevPageNumb, maxRow,
+					nameSearch.length() > 0 ? nameSearch : "");
+			LoadDsPhong(lstPhong);
+			selectedPhong = null;
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void LoadNextPage() {
-		// TODO Auto-generated method stub
+		currentPage++;
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+			return;
+		}
+
+		int nextPageNumb = lstPhong.getCurrentPage() + 1;
+		try {
+			String nameSearch = txtName.getText().toString().trim();
+			lstPhong = PhongService.getInstance().getListPhongPaged(nextPageNumb, maxRow,
+					nameSearch.length() > 0 ? nameSearch : "");
+			LoadDsPhong(lstPhong);
+			selectedPhong = null;
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	private void reloadDsPhong() {
-
+		lstPhong = PhongService.getInstance().getListPhongDaThue(1, maxRow, "");
+		LoadDsPhong(lstPhong);
 	}
 }
