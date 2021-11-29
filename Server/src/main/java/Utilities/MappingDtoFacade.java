@@ -223,12 +223,35 @@ public class MappingDtoFacade {
 		}
 		return lstDTO;
 	}
+
 	public static PhieuThuePhongInfoDTO convertToPhieuThuePhongInfoDTO(PhieuThue phieuThue) {
-		PhieuThuePhongInfoDTO rv= new PhieuThuePhongInfoDTO();
-		
+		PhieuThuePhongInfoDTO rv = new PhieuThuePhongInfoDTO();
+
 		rv.setMaPT(phieuThue.getMaPT());
-		
+
 		return null;
-		
+
+	}
+
+	private PhieuThuePhongInfoDTO convertToPhieuThueInfoDTO(PhieuThue phieuThue) {
+		PhieuThuePhongInfoDTO rvDto = new PhieuThuePhongInfoDTO();
+		rvDto.setMaPT(phieuThue.getMaPT());
+		rvDto.setNgayLap(phieuThue.getNgayLap());
+
+		rvDto.setNgayNhan(phieuThue.getNgayNhan());
+		rvDto.setNgayTra(phieuThue.getNgayTra());
+
+		rvDto.setTrangThai(phieuThue.getTrangThai());
+		rvDto.setKhachHangDTO(mapToKhachHangDTO(phieuThue.getKhachHang()));
+		rvDto.setPhongDTO(mapToPhongDTO(phieuThue.getPhong()));
+		return rvDto;
+	}
+
+	public static List<PhieuThuePhongInfoDTO> convertToListPhieuThueInfoDTO(List<PhieuThue> phieuThues_Paged) {
+		List<PhieuThuePhongInfoDTO> lstDTO = new ArrayList<PhieuThuePhongInfoDTO>();
+		for (PhieuThue phieuThue : phieuThues_Paged) {
+			lstDTO.add(convertToPhieuThuePhongInfoDTO(phieuThue));
+		}
+		return lstDTO;
 	}
 }

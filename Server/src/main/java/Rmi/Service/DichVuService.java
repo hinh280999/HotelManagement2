@@ -2,6 +2,7 @@ package Rmi.Service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import Dao.Impliment.DichVuDao;
 import Dao.Interface.IDichVuDao;
@@ -62,6 +63,12 @@ public class DichVuService extends UnicastRemoteObject implements IDichVuService
 	public boolean isDeleteAble(int maDV) throws RemoteException {
 		// TODO Auto-generated method stub
 		return dichVuDao.isDeleteAble(maDV);
+	}
+
+	@Override
+	public List<DichVu> getListDichVuDaDatByMaPT(int maPT) throws RemoteException {
+		// TODO Auto-generated method stub
+		return dichVuDao.getListDichVuDaDatByMaPT(maPT);
 	}
 
 }

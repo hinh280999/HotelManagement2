@@ -9,13 +9,19 @@ import javax.persistence.NoResultException;
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import Dao.Interface.IPhieuThue;
 import Entity.KhachHang;
 import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TinhTrangPhong;
+import Model.PageList;
+import Rmi.DTO.KhachHangDTO;
+import Rmi.DTO.PhieuThueDTO;
+import Rmi.DTO.PhieuThuePhongInfoDTO;
 import Utilities.HibernateUtil;
+import Utilities.MappingDtoFacade;
 
 public class PhieuThueDao implements IPhieuThue {
 	private OgmSessionFactory sessionFactory;
@@ -216,6 +222,37 @@ public class PhieuThueDao implements IPhieuThue {
 		}
 
 		return false;
+	}
+
+	@Override
+	public PageList<PhieuThuePhongInfoDTO> getListPhieuThueByPage(int pageNumb, int maxRow) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		String	mongoAggregate = "db.phieuthues.find({tinhTrang:'OUT'})";
+
+		try {
+			NativeQuery<PhieuThue> javaQuery = session.createNativeQuery(mongoAggregate, PhieuThue.class);
+			int totalRow = javaQuery.getResultList().size();
+
+			List<PhieuThue> PhieuThues_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
+					.getResultList();
+
+			PageList<PhieuThuePhongInfoDTO> pageList = new PageList<>();
+
+			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
+
+			pageList.setListData(MappingDtoFacade.convertToListPhieuThueInfoDTO(PhieuThues_Paged));
+			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
+			pageList.setCurrentPage(pageNumb);
+
+			tr.commit();
+
+			return pageList;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
