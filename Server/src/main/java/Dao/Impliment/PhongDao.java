@@ -261,42 +261,6 @@ public class PhongDao implements IPhongDao {
 
 	}
 
-	@Override
-	public PageList<PhongDTO> getListPhongDaDat(int pageNumb, int maxRow, String roomName) {
-		OgmSession session = sessionFactory.getCurrentSession();
-		Transaction tr = session.beginTransaction();
-		String mongoAggregate;
-		try {
-			String queryttp = "db.tinhtrangphongs.find({tenTTP : 'Đã Đặt'})";
-			TinhTrangPhong ttp = session.createNativeQuery(queryttp, TinhTrangPhong.class).getSingleResult();
-
-			mongoAggregate = buidQueryGetPhongByMaTTP(roomName, ttp.getMaTTP());
-
-			NativeQuery<Phong> javaQuery = session.createNativeQuery(mongoAggregate, Phong.class);
-			int totalRow = javaQuery.getResultList().size();
-
-			List<Phong> Phongs_Paged = javaQuery.setFirstResult(maxRow * (pageNumb - 1)).setMaxResults(maxRow)
-					.getResultList();
-
-			PageList<PhongDTO> pageList = new PageList<>();
-
-			int maxPage = totalRow / maxRow + (totalRow % maxRow > 0 ? 1 : 0);
-
-			pageList.setListData(MappingDtoFacade.convertToListPhongDTO(Phongs_Paged));
-			pageList.setMaxPage(maxPage == 0 ? 1 : maxPage);
-			pageList.setCurrentPage(pageNumb);
-
-			tr.commit();
-			return pageList;
-
-		} catch (Exception e) {
-			tr.rollback();
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
 //	@Override
 //	public List<Phong> getListByPage(int pageNumb) {
 //		OgmSession session = sessionFactory.getCurrentSession();
