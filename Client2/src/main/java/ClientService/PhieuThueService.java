@@ -5,6 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import Rmi.DTO.PhieuThueDTO;
 import Rmi.Interface.IPhieuThueService;
 
 public class PhieuThueService {
@@ -30,5 +31,14 @@ public class PhieuThueService {
 			}
 		}
 		return instance;
+	}
+
+	public boolean addPhieuThue(PhieuThueDTO addObj) {
+		try {
+			return phieuThueService.addObject(addObj);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

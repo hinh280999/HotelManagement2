@@ -11,9 +11,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -25,6 +31,7 @@ import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
 
 import ClientService.LoaiPhongService;
+import ClientService.PhieuThueService;
 import ClientService.PhongService;
 import GUI.Dialog.ChooseCustomerDialog;
 import Rmi.DTO.KhachHangDTO;
@@ -33,7 +40,7 @@ import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.PhongDTO;
 
-public class DatPhongForm extends JPanel implements ActionListener {
+public class DatPhongForm extends JPanel implements ActionListener, PropertyChangeListener {
 	private static final long serialVersionUID = 1L;
 	private KhachHangDTO selectedKH = null;
 	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblEmailKH, lblDiaChiKH, lblDonGia;
@@ -53,6 +60,9 @@ public class DatPhongForm extends JPanel implements ActionListener {
 	private JLabel lblSoNgay;
 	private JLabel lblDonGia_tt;
 	private JLabel lblTongTien;
+	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	private DecimalFormat Currentcyformatter = new DecimalFormat("###,###,###.00 VND");
+	private long diffrence;
 
 	public DatPhongForm(NhanVienDTO nhanvien) {
 		setBackground(Color.decode("#d4d5d6"));
@@ -165,6 +175,7 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		pThoiGian.add(ngayDen);
 
 		ngayKetThuc = new JDateChooser();
+		ngayKetThuc.addPropertyChangeListener(this);
 		ngayKetThuc.setDateFormatString("dd-MM-yyyy");
 		Date nextDay = new Date(ngayDen.getDate().getTime() + 86400000);
 		ngayKetThuc.setMinSelectableDate(nextDay);
@@ -195,7 +206,11 @@ public class DatPhongForm extends JPanel implements ActionListener {
 				int selectedIndex = cbxLoaiPhong.getSelectedIndex();
 				if (selectedIndex != 0) {
 					selectedLoaiPhong = lstLoaiPhong.get(selectedIndex - 1);
-					lblDonGia.setText(selectedLoaiPhong.getDonGia() + " (VND)");
+					selectedPhong = null;
+					lblTenPhong.setText("............................");
+					lblDonGia.setText(Currentcyformatter.format(selectedLoaiPhong.getDonGia()));
+					lblDonGia_tt.setText(Currentcyformatter.format(selectedLoaiPhong.getDonGia()));
+					updateTongtien();
 				} else {
 					lblDonGia.setText("............................");
 					lblTenPhong.setText("............................");
@@ -278,6 +293,8 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		lblNgayDen_tt = new JLabel("............................");
 		lblNgayDen_tt.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayDen_tt.setBounds(130, 84, 118, 30);
+
+		lblNgayDen_tt.setText(dateFormat.format(ngayDen.getDate()));
 		lstComponent.add(lblNgayDen_tt);
 		pThongTin.add(lblNgayDen_tt);
 
@@ -342,6 +359,8 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		btnDatPhong.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
 		btnTimPhongTrong.addActionListener(this);
+		ngayKetThuc.addPropertyChangeListener(this);
+		ngayDen.addPropertyChangeListener(this);
 
 		// === LoadData ========================
 		loadLoaiPhong();
@@ -352,23 +371,29 @@ public class DatPhongForm extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnDatPhong)) {
-			System.out.println("Click đặt phòng");
 			DatPhong();
+			XoaTrang();
 		}
 		if (o.equals(btnXoaTrang)) {
 			XoaTrang();
 		}
 		if (o.equals(btnTimPhongTrong)) {
 			timPhongTrong();
+			updateTongtien();
 		}
 	}
 
 	private void XoaTrang() {
 		ngayDen.setDate(new Date());
+
 		ngayKetThuc.setDate(null);
+		Date nextDay = new Date(ngayDen.getDate().getTime() + 86400000);
+		ngayKetThuc.setMinSelectableDate(nextDay);
+
 		selectedKH = null;
 		selectedLoaiPhong = null;
 		selectedPhong = null;
+
 		for (Component component : lstComponent) {
 			if (component instanceof JLabel) {
 				((JLabel) component).setText("............................");
@@ -391,7 +416,14 @@ public class DatPhongForm extends JPanel implements ActionListener {
 		Date ngayKt = ngayKetThuc.getDate();
 		PhieuThueDTO pt = new PhieuThueDTO(ngayDat, ngayKt, selectedPhong.getMaP(), nhanVien.getMaNV(),
 				selectedKH.getMaKH());
-
+		boolean kq = PhieuThueService.getInstance().addPhieuThue(pt);
+		if (kq) {
+			JOptionPane.showMessageDialog(null, "Đã đặt phòng : " + selectedPhong.getTen());
+			return;
+		} else {
+			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi đặt phòng: " + selectedPhong.getTen());
+			return;
+		}
 	}
 
 	private void timPhongTrong() {
@@ -406,7 +438,9 @@ public class DatPhongForm extends JPanel implements ActionListener {
 			lblTenPhong.setText("............................");
 			return;
 		}
+
 		lblTenPhong.setText(selectedPhong.getTen());
+		lblTenPhong_tt.setText(selectedPhong.getTen());
 	}
 
 	private void SampleOpenDialog() {
@@ -431,6 +465,8 @@ public class DatPhongForm extends JPanel implements ActionListener {
 			lblSdtKH.setText(kh.getSdt());
 			lblEmailKH.setText(kh.getEmail());
 			lblDiaChiKH.setText(kh.getDiaChi());
+
+			lblTenKH_tt.setText(kh.getTen());
 		}
 	}
 
@@ -446,6 +482,58 @@ public class DatPhongForm extends JPanel implements ActionListener {
 
 		cbxLoaiPhong.setModel(dcm);
 
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent e) {
+		Object o = e.getSource();
+		if ("date".equals(e.getPropertyName())) {
+			if (o.equals(ngayDen)) {
+				NgayDenChange();
+				updateSoNgay();
+				updateTongtien();
+			}
+			if (o.equals(ngayKetThuc)) {
+				if (ngayKetThuc.getDate() == null)
+					return;
+				NgayKetChange();
+				updateSoNgay();
+				updateTongtien();
+			}
+		}
+
+	}
+
+	private void NgayKetChange() {
+		lblNgayKetThuc_tt.setText(dateFormat.format(ngayKetThuc.getDate()));
+	}
+
+	private void NgayDenChange() {
+		Date nextDay = new Date(ngayDen.getDate().getTime() + 86400000);
+		ngayKetThuc.setMinSelectableDate(nextDay);
+		lblNgayDen_tt.setText(dateFormat.format(ngayDen.getDate()));
+		updateSoNgay();
+	}
+
+	private void updateSoNgay() {
+		if (ngayKetThuc.getDate() == null) {
+			return;
+		}
+		long diff = ngayKetThuc.getDate().getTime() - ngayDen.getDate().getTime();
+		TimeUnit time = TimeUnit.DAYS;
+		diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+		lblSoNgay.setText(diffrence + " (Ngày)");
+	}
+
+	private void updateTongtien() {
+		if (diffrence == 0) {
+			return;
+		}
+		if (selectedLoaiPhong == null) {
+			return;
+		}
+		double tongtien = diffrence * selectedLoaiPhong.getDonGia();
+		lblTongTien.setText(Currentcyformatter.format(tongtien));
 	}
 
 }
