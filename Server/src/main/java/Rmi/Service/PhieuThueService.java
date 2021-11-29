@@ -49,4 +49,15 @@ public class PhieuThueService extends UnicastRemoteObject implements IPhieuThueS
 		return phieuThueDao.delete(objectId);
 	}
 
+	@Override
+	public PhieuThueDTO getPhieuThueByCMT(String cmt) throws RemoteException {
+		try {
+			PhieuThueDTO dto = MappingDtoFacade.mapToPhieuThueDTO(phieuThueDao.getPhieuThueByCMT(cmt));
+			return dto;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
