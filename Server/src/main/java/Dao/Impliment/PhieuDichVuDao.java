@@ -132,33 +132,41 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 	}
 
 	@Override
-	public boolean addPhieuDichVuByMaPhong(int maPhong, int maDichVu,int soluong) {
+	public boolean addPhieuDichVuByMaPhong(int maPhong, int maDichVu, int soluong) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
-
-			Phong phongThue = session.find(Phong.class, maPhong);
-
 			String queryPhieuThue = "db.phieuthues.find({'$and':[{'maP':" + maPhong
 					+ " ,'trangThai':'CHECKED'}]},{'_id':1})";
 			int mapt = (int) session.createNativeQuery(queryPhieuThue).getSingleResult();
 
-			PhieuDichVu pdv = new PhieuDichVu();
-			pdv.setDichVu(new DichVu(maDichVu));
-			pdv.setPhieuThue(new PhieuThue(mapt));
-			pdv.setNgayLap(new Date());
-			pdv.setDaThanhToan(false);
-			pdv.setSoLuong(soluong);
-			
-			session.save(pdv);
+			String query = "db.phieudichvus.aggregate([{'$match':{'$and':[{'maPT':" + mapt + "},{'maDV':" + maDichVu
+					+ "}]}}])";
+			PhieuDichVu pdv = session.createNativeQuery(query, PhieuDichVu.class).uniqueResult();
+			if (pdv == null) {
+				pdv = new PhieuDichVu();
+				pdv.setDichVu(new DichVu(maDichVu));
+				pdv.setPhieuThue(new PhieuThue(mapt));
+				pdv.setNgayLap(new Date());
+				pdv.setDaThanhToan(false);
+				pdv.setSoLuong(soluong);
+
+				session.save(pdv);
+				tr.commit();
+				return true;
+			}
+
+			int soLuongCu = pdv.getSoLuong();
+			pdv.setSoLuong(soLuongCu + soluong);
+
+			session.update(pdv);
 
 			tr.commit();
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
 			if (e instanceof NullPointerException) {
-				System.out.println(
-						"Có thể không tồn tại phòng với mã : " + maPhong + "");
+				System.out.println("Có thể không tồn tại phòng với mã : " + maPhong + "");
 			} else {
 				e.printStackTrace();
 			}

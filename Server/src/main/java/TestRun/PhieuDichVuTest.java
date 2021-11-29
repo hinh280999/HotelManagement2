@@ -133,8 +133,8 @@ public class PhieuDichVuTest {
 //		phongDao.delete(samplePhong.getMaP());
 //		nvDao.delete(tempNV.getMaNV());
 		//cvDao.delete(sampleCV.getMaCV());
-//		IPhieuDichVu pdvDao = new PhieuDichVuDao();
-//		pdvDao.addPhieuDichVuByMaPhong(18, 11,1);
+		IPhieuDichVu pdvDao = new PhieuDichVuDao();
+		pdvDao.addPhieuDichVuByMaPhong(18, 1,1);
 	}
 
 }

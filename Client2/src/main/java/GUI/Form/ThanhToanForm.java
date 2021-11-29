@@ -115,37 +115,37 @@ public class ThanhToanForm extends JPanel {
 		lblNewLabel_2_1_2_1_1_1.setBounds(10, 670, 91, 40);
 		panel_1.add(lblNewLabel_2_1_2_1_1_1);
 		
-		JLabel lblNewLabel_3 = new JLabel("......................................");
-		lblNewLabel_3.setBounds(111, 420, 242, 40);
-		panel_1.add(lblNewLabel_3);
+		JLabel lblTenKH = new JLabel("......................................");
+		lblTenKH.setBounds(111, 420, 242, 40);
+		panel_1.add(lblTenKH);
 		
-		JLabel lblNewLabel_3_1 = new JLabel("......................................");
-		lblNewLabel_3_1.setBounds(111, 470, 242, 40);
-		panel_1.add(lblNewLabel_3_1);
+		JLabel lblTenPhong = new JLabel("......................................");
+		lblTenPhong.setBounds(111, 470, 242, 40);
+		panel_1.add(lblTenPhong);
 		
-		JLabel lblNewLabel_3_1_1 = new JLabel("......................................");
-		lblNewLabel_3_1_1.setBounds(111, 520, 119, 40);
-		panel_1.add(lblNewLabel_3_1_1);
+		JLabel lblNgayNhan = new JLabel("......................................");
+		lblNgayNhan.setBounds(111, 520, 119, 40);
+		panel_1.add(lblNgayNhan);
 		
-		JLabel lblNewLabel_3_1_1_1 = new JLabel("......................................");
-		lblNewLabel_3_1_1_1.setBounds(344, 520, 105, 40);
-		panel_1.add(lblNewLabel_3_1_1_1);
+		JLabel lblNgayTra = new JLabel("......................................");
+		lblNgayTra.setBounds(344, 520, 105, 40);
+		panel_1.add(lblNgayTra);
 		
-		JLabel lblNewLabel_3_1_1_2 = new JLabel("......................................");
-		lblNewLabel_3_1_1_2.setBounds(111, 570, 119, 40);
-		panel_1.add(lblNewLabel_3_1_1_2);
+		JLabel lblSoNgay = new JLabel("......................................");
+		lblSoNgay.setBounds(111, 570, 119, 40);
+		panel_1.add(lblSoNgay);
 		
-		JLabel lblNewLabel_3_1_1_2_1 = new JLabel("......................................");
-		lblNewLabel_3_1_1_2_1.setBounds(341, 570, 108, 40);
-		panel_1.add(lblNewLabel_3_1_1_2_1);
+		JLabel lblTienPhong = new JLabel("......................................");
+		lblTienPhong.setBounds(341, 570, 108, 40);
+		panel_1.add(lblTienPhong);
 		
-		JLabel lblNewLabel_3_1_1_2_1_1 = new JLabel("......................................");
-		lblNewLabel_3_1_1_2_1_1.setBounds(111, 620, 338, 40);
-		panel_1.add(lblNewLabel_3_1_1_2_1_1);
+		JLabel lblTienDichVu = new JLabel("......................................");
+		lblTienDichVu.setBounds(111, 620, 338, 40);
+		panel_1.add(lblTienDichVu);
 		
-		JLabel lblNewLabel_3_1_1_2_1_1_1 = new JLabel("......................................");
-		lblNewLabel_3_1_1_2_1_1_1.setBounds(111, 670, 338, 40);
-		panel_1.add(lblNewLabel_3_1_1_2_1_1_1);
+		JLabel lblTongTien = new JLabel("......................................");
+		lblTongTien.setBounds(111, 670, 338, 40);
+		panel_1.add(lblTongTien);
 		
 		JButton btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.setBounds(343, 720, 106, 30);
