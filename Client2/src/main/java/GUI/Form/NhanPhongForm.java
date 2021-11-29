@@ -286,7 +286,10 @@ public class NhanPhongForm extends JPanel implements ActionListener {
 		}
 
 		phieuthue = PhieuThueService.getInstance().getPhieuThueByCMT(cmt);
-		System.out.println(phieuthue.getMaPT());
+		if (phieuthue == null) {
+			JOptionPane.showMessageDialog(null, "Không có phiếu thuê mới nào của khách cả");
+			return;
+		}
 		KhachHangDTO khachhang = KhachHangService.getInstance().getKhachHangById(phieuthue.getKhachHang_id());
 		PhongDTO phong = PhongService.getInstance().getPhongById(phieuthue.getPhong_id());
 

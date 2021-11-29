@@ -2,6 +2,8 @@ package Dao.Impliment;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Transaction;
 import org.hibernate.ogm.OgmSession;
 import org.hibernate.ogm.OgmSessionFactory;
@@ -155,7 +157,11 @@ public class PhieuThueDao implements IPhieuThue {
 			return phieuthue;
 		} catch (Exception e) {
 			tr.rollback();
-			e.printStackTrace();
+			if (e instanceof NoResultException) {
+				System.out.println("Không tìm thấy phiếu thuê có trạng thái 'NEW' của KH : " + cmt);
+			} else {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
