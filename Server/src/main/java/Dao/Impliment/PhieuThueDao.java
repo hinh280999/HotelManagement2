@@ -2,6 +2,7 @@ package Dao.Impliment;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
 import org.hibernate.Transaction;
@@ -159,7 +160,11 @@ public class PhieuThueDao implements IPhieuThue {
 			tr.rollback();
 			if (e instanceof NoResultException) {
 				System.out.println("Không tìm thấy phiếu thuê có trạng thái 'NEW' của KH : " + cmt);
-			} else {
+			}
+			else if (e instanceof EntityNotFoundException) {
+				System.out.println("Mã của một entity nào đó không đúng trong database: ");
+			}
+			else {
 				e.printStackTrace();
 			}
 		}

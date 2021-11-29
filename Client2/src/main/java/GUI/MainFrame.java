@@ -22,6 +22,7 @@ import GUI.Form.QuanLyKhachHangForm;
 import GUI.Form.QuanLyLoaiPhongForm;
 import GUI.Form.QuanLyNhanVienForm;
 import GUI.Form.QuanLyPhongForm;
+import GUI.Form.TraPhongForm;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.TaiKhoanDTO;
 
@@ -121,6 +122,13 @@ public class MainFrame extends JFrame {
 		ImageIcon pTraPhongIcon = new ImageIcon(new ImageIcon("icon/iconTraPhong.png").getImage());
 		PanelMenu pTraPhong = new PanelMenu("Trả Phòng", pTraPhongIcon);
 		pTraPhong.setBounds(0, 270, 250, 40);
+		pTraPhong.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setMainPanel(new TraPhongForm(), "Trả Phòng", pTraPhongIcon);
+			}
+		});
+		panelSideBar.add(pNhanPhong);
 		panelSideBar.add(pTraPhong);
 
 		ImageIcon pGoiDichVuIcon = new ImageIcon(new ImageIcon("icon/iconGoiDichVu.png").getImage());
