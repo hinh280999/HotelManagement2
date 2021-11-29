@@ -3,6 +3,8 @@ package GUI.Form;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,24 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class NhanPhongForm extends JPanel {
+public class NhanPhongForm extends JPanel implements ActionListener {
 	private JTextField txtCMT;
-	private JButton btnTim;
-	private JLabel lblTenKH;
-	private JLabel lblCmtKH;
-	private JLabel lblSdtKH;
-	private JLabel lblDiaChiKH;
+	private JLabel lblTenKH, lblCmtKH, lblSdtKH, lblDiaChiKH, lblEmailKH;
+	private JLabel lblNgayLap, lblNgayDat, lblNgayKet, lblNgayNhan, lblNgayTra, lblSoNgay;
+	private JLabel lblTenPhong, lblLoaiPhong;
+	private JButton btnXoaTrang, btnTim, btnNhanPhong;
+
 	private List<Component> lstComponent = new ArrayList<>();
-	private JLabel lblEmailKH;
-	private JLabel lblNgayLap;
-	private JLabel lblNgayDat;
-	private JLabel lblNgayKet;
-	private JLabel lblNgayNhan;
-	private JLabel lblNgayTra;
-	private JLabel lblSoNgay;
-	private JLabel lblTenPhong;
-	private JLabel lblLoaiPhong;
-	private JButton btnXoaTrang;
 
 	public NhanPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -69,104 +61,104 @@ public class NhanPhongForm extends JPanel {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(10, 10, 298, 40);
 		panel_2.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_5_2 = new JLabel("Ngày Lập: ");
 		lblNewLabel_5_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2.setBounds(10, 70, 130, 40);
 		panel_2.add(lblNewLabel_5_2);
-		
+
 		JLabel lblNewLabel_5_2_1 = new JLabel("Ngày Đặt: ");
 		lblNewLabel_5_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_1.setBounds(10, 120, 130, 40);
 		panel_2.add(lblNewLabel_5_2_1);
-		
+
 		JLabel lblNewLabel_5_2_1_1 = new JLabel("Ngày Kết Thúc: ");
 		lblNewLabel_5_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_1_1.setBounds(10, 170, 130, 40);
 		panel_2.add(lblNewLabel_5_2_1_1);
-		
+
 		JLabel lblNewLabel_5_2_1_1_1 = new JLabel("Ngày Nhận Phòng: ");
 		lblNewLabel_5_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_1_1_1.setBounds(10, 220, 160, 40);
 		panel_2.add(lblNewLabel_5_2_1_1_1);
-		
+
 		JLabel lblNewLabel_5_2_1_1_1_1 = new JLabel("Ngày Trả Phòng: ");
 		lblNewLabel_5_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_1_1_1_1.setBounds(10, 270, 160, 40);
 		panel_2.add(lblNewLabel_5_2_1_1_1_1);
-		
+
 		JLabel lblNewLabel_5_2_1_1_1_1_1 = new JLabel("Số ngày thuê: ");
 		lblNewLabel_5_2_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_1_1_1_1_1.setBounds(10, 320, 160, 30);
 		panel_2.add(lblNewLabel_5_2_1_1_1_1_1);
-		
+
 		JLabel lblNewLabel_1_1 = new JLabel("Thông tin phòng thuê");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1.setBounds(10, 390, 298, 40);
 		panel_2.add(lblNewLabel_1_1);
-		
+
 		JLabel lblNewLabel_5_2_2 = new JLabel("Tên Phòng: ");
 		lblNewLabel_5_2_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_2.setBounds(10, 440, 130, 30);
 		panel_2.add(lblNewLabel_5_2_2);
-		
+
 		JLabel lblNewLabel_5_2_2_1 = new JLabel("Loại Phòng: ");
 		lblNewLabel_5_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_5_2_2_1.setBounds(10, 490, 130, 40);
 		panel_2.add(lblNewLabel_5_2_2_1);
-		
-		JButton btnNhanPhong = new JButton("Nhận Phòng");
+
+		btnNhanPhong = new JButton("Nhận Phòng");
 		btnNhanPhong.setBounds(270, 700, 240, 30);
 		panel_2.add(btnNhanPhong);
-		
+
 		lblNgayLap = new JLabel("............................");
 		lblNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayLap.setBounds(215, 70, 210, 40);
 		lstComponent.add(lblNgayLap);
 		panel_2.add(lblNgayLap);
-		
+
 		lblNgayDat = new JLabel("............................");
 		lblNgayDat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayDat.setBounds(215, 120, 210, 40);
 		lstComponent.add(lblNgayDat);
 		panel_2.add(lblNgayDat);
-		
+
 		lblNgayKet = new JLabel("............................");
 		lblNgayKet.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayKet.setBounds(215, 170, 210, 40);
 		lstComponent.add(lblNgayKet);
 		panel_2.add(lblNgayKet);
-		
+
 		lblNgayNhan = new JLabel("............................");
 		lblNgayNhan.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayNhan.setBounds(215, 220, 210, 40);
 		lstComponent.add(lblNgayNhan);
 		panel_2.add(lblNgayNhan);
-		
+
 		lblNgayTra = new JLabel("............................");
 		lblNgayTra.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNgayTra.setBounds(215, 270, 210, 40);
 		lstComponent.add(lblNgayTra);
 		panel_2.add(lblNgayTra);
-		
+
 		lblSoNgay = new JLabel("............................");
 		lblSoNgay.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblSoNgay.setBounds(215, 320, 210, 40);
 		lstComponent.add(lblSoNgay);
 		panel_2.add(lblSoNgay);
-		
+
 		lblTenPhong = new JLabel("............................");
 		lblTenPhong.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTenPhong.setBounds(215, 440, 210, 40);
 		lstComponent.add(lblTenPhong);
 		panel_2.add(lblTenPhong);
-		
+
 		lblLoaiPhong = new JLabel("............................");
 		lblLoaiPhong.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblLoaiPhong.setBounds(215, 490, 210, 40);
 		lstComponent.add(lblLoaiPhong);
 		panel_2.add(lblLoaiPhong);
-		
+
 		btnXoaTrang = new JButton("Xóa Trắng");
 		btnXoaTrang.setBounds(10, 700, 240, 30);
 		panel_2.add(btnXoaTrang);
@@ -235,6 +227,58 @@ public class NhanPhongForm extends JPanel {
 		lblEmailKH.setBounds(180, 350, 210, 40);
 		lstComponent.add(lblEmailKH);
 		pKhachHang.add(lblEmailKH);
+
+		// add action
+		btnTim.addActionListener(this);
+		btnXoaTrang.addActionListener(this);
+		btnNhanPhong.addActionListener(this);
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (e.equals(btnXoaTrang)) {
+			XoaTrang();
+		}
+		if (e.equals(btnTim)) {
+			TimPhieuThue();
+		}
+		if (e.equals(btnNhanPhong)) {
+			NhanPhong();
+		}
+
+	}
+
+	private void NhanPhong() {
+
+	}
+
+	private void TimPhieuThue() {
+
+		loadKhachHangInfo();
+		LoadPhieuThueInfo();
+		LoadPhongInfo();
+
+	}
+
+	private void XoaTrang() {
+		for (Component component : lstComponent) {
+			if (component instanceof JLabel) {
+				((JLabel) component).setText("............................");
+			}
+		}
+	}
+
+	private void loadKhachHangInfo() {
+
+	}
+
+	private void LoadPhieuThueInfo() {
+
+	}
+
+	private void LoadPhongInfo() {
 
 	}
 }
