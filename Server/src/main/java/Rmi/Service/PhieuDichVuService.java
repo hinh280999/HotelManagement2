@@ -52,4 +52,9 @@ public class PhieuDichVuService extends UnicastRemoteObject implements IPhieuDic
 		return phieuDichVuDao.getListPhieuDichVuByMaPT(maPT);
 	}
 
+	@Override
+	public boolean updateThanhToanDvByMaPT(int maPT) throws RemoteException {
+		return phieuDichVuDao.updateThanhToanDvByMaPT(maPT);
+	}
+
 }

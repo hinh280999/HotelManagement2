@@ -197,4 +197,24 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 		return null;
 	}
 
+	@Override
+	public boolean updateThanhToanDvByMaPT(int maPT) {
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+//		String sql = "db.phieudichvus.aggregate([{'$match':{'$and': [{'maPT': "+maPT+"},{'daThanhToan':false}]}}])";
+		String query = "db.phieudichvus.updateMany({'maPT': "+maPT+"},{'$set':{'$daThanhToan' : true}})";
+		try {
+
+			session.createNativeQuery(query).executeUpdate();
+
+			tr.commit();
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 }
