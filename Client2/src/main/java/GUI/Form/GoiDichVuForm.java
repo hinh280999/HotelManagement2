@@ -194,8 +194,13 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 				if (selectedDichVu == null) {
 					return;
 				}
+				if (txtSoLuong.getText().toString().equals("")) {
+					lblTongTien.setText("");
+				}else {
+					
 				int soLuong = Integer.parseInt(txtSoLuong.getText().toString());
 				lblTongTien.setText(Currentcyformatter.format(soLuong * selectedDichVu.getDonGia()));
+				}
 			}
 		});
 		txtSoLuong.setBounds(431, 570, 130, 30);
@@ -240,6 +245,14 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 		lblTenDV.setText(selectedDichVu.getTenDv());
 		lblDonVi.setText(selectedDichVu.getDonVi());
 		lblDonGia.setText(Currentcyformatter.format(selectedDichVu.getDonGia()));
+
+		if (txtSoLuong.getText().toString().equals("")) {
+			lblTongTien.setText("");
+		}else {
+			
+		int soLuong = Integer.parseInt(txtSoLuong.getText().toString());
+		lblTongTien.setText(Currentcyformatter.format(soLuong * selectedDichVu.getDonGia()));
+		}
 	}
 
 	@Override
