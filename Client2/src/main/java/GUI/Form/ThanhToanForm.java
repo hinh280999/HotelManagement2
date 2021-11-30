@@ -2,33 +2,11 @@ package GUI.Form;
 
 import java.awt.Color;
 import java.awt.Component;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import ClientService.LoaiPhongService;
-import ClientService.PhieuDichVuService;
-import ClientService.PhieuThueService;
-import ClientService.TinhTrangPhongService;
-import Model.PageList;
-import Rmi.DTO.LoaiPhongDTO;
-import Rmi.DTO.PhieuDichVuInfoDTO;
-import Rmi.DTO.PhieuThuePhongInfoDTO;
-import Rmi.DTO.PhongDTO;
-import Rmi.DTO.TinhTrangPhongDTO;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -36,7 +14,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import ClientService.LoaiPhongService;
+import ClientService.PhieuDichVuService;
+import ClientService.PhieuThueService;
+import Model.PageList;
+import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.PhieuDichVuInfoDTO;
+import Rmi.DTO.PhieuThuePhongInfoDTO;
+import Rmi.DTO.PhongDTO;
 
 public class ThanhToanForm extends JPanel implements ActionListener {
 	private JTable tblDsPhieuThue;

@@ -1,29 +1,25 @@
 package GUI.Dialog;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.Color;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import ClientService.NhanVienService;
-import Entity.NhanVien;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.TaiKhoanDTO;
-
-import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
 
 public class AddNhanVienDialog extends JDialog implements ActionListener {
 	private JTextField txtName;

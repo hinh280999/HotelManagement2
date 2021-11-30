@@ -61,6 +61,7 @@ public class Server {
 		context.bind("rmi://localhost:3000/dichVuService", dichVuService);
 		context.bind("rmi://localhost:3000/phieuThueService", phieuThueService);
 		context.bind("rmi://localhost:3000/phieuDichVuService", phieuDichVuService);
+		
 		System.out.println("Server is running at Port: 3000 (^__^)!");
 	}
 
