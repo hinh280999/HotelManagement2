@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
@@ -32,13 +34,20 @@ import java.util.List;
 
 import javax.swing.JSeparator;
 
-public class ThanhToanForm extends JPanel {
+public class ThanhToanForm extends JPanel implements ActionListener {
 	private JTable tblDsPhieuThue;
 	private JTable tblDsDichVu;
 	private PageList<PhieuThuePhongInfoDTO> lstPhieuThue;
 	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	private PhieuThuePhongInfoDTO selectedPT = null;
 	private List<PhieuDichVuInfoDTO> lstPdv = null;
+	private JButton btnThanhToan;
+	private JButton btnNext;
+	private JButton btnPrev;
+	private int maxPage;
+	private int currentPage;
+	private JLabel lblPage;
+	private int maxRow = 5;
 
 	public ThanhToanForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -72,15 +81,15 @@ public class ThanhToanForm extends JPanel {
 		tblDsPhieuThue.setRowHeight(tblDsPhieuThue.getRowHeight() + 5);
 		scrollPane.setViewportView(tblDsPhieuThue);
 
-		JButton btnPrev = new JButton("<");
+		btnPrev = new JButton("<");
 		btnPrev.setBounds(160, 365, 85, 25);
 		panel.add(btnPrev);
 
-		JLabel lblPage = new JLabel("New label");
+		lblPage = new JLabel("New label");
 		lblPage.setBounds(272, 365, 45, 25);
 		panel.add(lblPage);
 
-		JButton btnNext = new JButton(">");
+		btnNext = new JButton(">");
 		btnNext.setBounds(359, 365, 85, 25);
 		panel.add(btnNext);
 
@@ -183,16 +192,21 @@ public class ThanhToanForm extends JPanel {
 		lblTongTien.setBounds(111, 670, 338, 40);
 		panel_1.add(lblTongTien);
 
-		JButton btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.setBounds(343, 720, 106, 30);
 		panel_1.add(btnThanhToan);
 
 		JButton btnXoaTrang = new JButton("Xóa Trắng");
 		btnXoaTrang.setBounds(246, 720, 85, 30);
 		panel_1.add(btnXoaTrang);
+		// == Add action ========================
+		btnNext.addActionListener(this);
+		btnPrev.addActionListener(this);
+		btnThanhToan.addActionListener(this);
+		btnXoaTrang.addActionListener(this);
 
 		// === load ds =============
-		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, 8);
+		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, maxRow);
 		LoadDsPhieuThue(lstPhieuThue);
 
 	}
@@ -222,10 +236,66 @@ public class ThanhToanForm extends JPanel {
 		String[] tieude = { "Mã Phiếu thuê", "Mã Phòng", "Tên Phòng", "Tên Khách Hàng", "Ngày Đến", "Ngày Trả" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 		for (PhieuThuePhongInfoDTO DTO : lstPhieuThue2.getListData()) {
-			Object[] o = { DTO.getMaPT(),DTO.getPhongDTO().getMaP(), DTO.getPhongDTO().getTen(), DTO.getKhachHangDTO().getTen(),
-					dateFormat.format(DTO.getNgayNhan()), dateFormat.format(DTO.getNgayTra()) };
+			Object[] o = { DTO.getMaPT(), DTO.getPhongDTO().getMaP(), DTO.getPhongDTO().getTen(),
+					DTO.getKhachHangDTO().getTen(), dateFormat.format(DTO.getNgayNhan()),
+					dateFormat.format(DTO.getNgayTra()) };
 			model.addRow(o);
 		}
 		tblDsPhieuThue.setModel(model);
+
+		currentPage = lstPhieuThue2.getCurrentPage();
+		maxPage = lstPhieuThue2.getMaxPage();
+
+		showPageNumber();
+		selectedPT = null;
+	}
+
+	private void showPageNumber() {
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+		}
+		if (maxPage == 1) {
+			lblPage.setText("1");
+		} else {
+			lblPage.setText(currentPage + "/" + maxPage);
+		}
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnNext)) {
+			LoadNextPhieuThuePage();
+		}
+		if (o.equals(btnPrev)) {
+			LoadPrevPhieuThuePage();
+		}
+
+	}
+
+	private void LoadPrevPhieuThuePage() {
+		currentPage--;
+		if (currentPage < 1) {
+			currentPage = 1;
+			return;
+		}
+
+		int PrevPageNumb = lstPhieuThue.getCurrentPage() - 1;
+		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(PrevPageNumb, maxRow);
+		LoadDsPhieuThue(lstPhieuThue);
+
+	}
+
+	private void LoadNextPhieuThuePage() {
+		currentPage++;
+		if (currentPage > maxPage) {
+			currentPage = maxPage;
+			return;
+		}
+
+		int nextPageNumb = lstPhieuThue.getCurrentPage() + 1;
+		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(nextPageNumb, maxRow);
+		LoadDsPhieuThue(lstPhieuThue);
 	}
 }
