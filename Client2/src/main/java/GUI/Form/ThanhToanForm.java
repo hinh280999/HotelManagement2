@@ -398,7 +398,11 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 	}
 
 	private void reloadDsPhieuThue() {
+
 		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, maxRow);
 		LoadDsPhieuThue(lstPhieuThue);
+
+		DefaultTableModel dtm = (DefaultTableModel) tblDsDichVu.getModel();
+		dtm.setRowCount(0);
 	}
 }
