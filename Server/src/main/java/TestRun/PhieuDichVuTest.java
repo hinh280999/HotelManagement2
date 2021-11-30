@@ -1,6 +1,7 @@
 package TestRun;
 
 import java.util.Date;
+import java.util.List;
 
 import Dao.Impliment.DichVuDao;
 import Dao.Impliment.KhachHangDao;
@@ -27,6 +28,7 @@ import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TaiKhoan;
 import Entity.TinhTrangPhong;
+import Rmi.DTO.PhieuDichVuInfoDTO;
 
 public class PhieuDichVuTest {
 
@@ -132,9 +134,13 @@ public class PhieuDichVuTest {
 //
 //		phongDao.delete(samplePhong.getMaP());
 //		nvDao.delete(tempNV.getMaNV());
-		//cvDao.delete(sampleCV.getMaCV());
+		// cvDao.delete(sampleCV.getMaCV());
 		IPhieuDichVu pdvDao = new PhieuDichVuDao();
-		pdvDao.addPhieuDichVuByMaPhong(18, 1,1);
+//		pdvDao.addPhieuDichVuByMaPhong(18, 1,1);
+//		List<PhieuDichVuInfoDTO> lst = pdvDao.getListPhieuDichVuByMaPT(34);
+//		for (PhieuDichVuInfoDTO phieuDichVuInfoDTO : lst) {
+//			System.out.println(phieuDichVuInfoDTO.getDichVu().getTenDv() + ":" + phieuDichVuInfoDTO.getSoLuong());
+//		}
 	}
 
 }

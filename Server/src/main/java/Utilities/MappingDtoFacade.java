@@ -1,6 +1,7 @@
 package Utilities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Entity.DichVu;
@@ -17,6 +18,7 @@ import Rmi.DTO.KhachHangDTO;
 import Rmi.DTO.LoaiPhongDTO;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.PhieuDichVuDTO;
+import Rmi.DTO.PhieuDichVuInfoDTO;
 import Rmi.DTO.PhieuThueDTO;
 import Rmi.DTO.PhieuThuePhongInfoDTO;
 import Rmi.DTO.PhongDTO;
@@ -244,5 +246,23 @@ public class MappingDtoFacade {
 			lstDTO.add(convertToPhieuThuePhongInfoDTO(phieuThue));
 		}
 		return lstDTO;
+	}
+
+	public static List<PhieuDichVuInfoDTO> mapToListPdvInfoDTO(List<PhieuDichVu> lst) {
+		List<PhieuDichVuInfoDTO> lstDTO = new ArrayList<PhieuDichVuInfoDTO>();
+		for (PhieuDichVu Pdv : lst) {
+			lstDTO.add(mapToPhieuDichVuInfoDTO(Pdv));
+		}
+		return lstDTO;
+	}
+
+	public static PhieuDichVuInfoDTO mapToPhieuDichVuInfoDTO(PhieuDichVu pdv) {
+		// hieuDichVuInfoDTO(int maPDV, int soLuong, Date ngayLap, boolean daThanhToan,
+		// int phieuThue_id) {
+		PhieuDichVuInfoDTO dto = new PhieuDichVuInfoDTO(pdv.getMaPDV(), pdv.getSoLuong(), pdv.getNgayLap(),
+				pdv.isDaThanhToan(), pdv.getPhieuThue().getMaPT());
+		DichVuDTO dvDTO = mapToDichVuDTO(pdv.getDichVu());
+		dto.setDichVu(dvDTO);
+		return dto;
 	}
 }

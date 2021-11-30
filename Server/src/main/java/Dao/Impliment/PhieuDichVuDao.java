@@ -13,7 +13,9 @@ import Entity.PhieuDichVu;
 import Entity.PhieuThue;
 import Entity.Phong;
 import Entity.TinhTrangPhong;
+import Rmi.DTO.PhieuDichVuInfoDTO;
 import Utilities.HibernateUtil;
+import Utilities.MappingDtoFacade;
 
 public class PhieuDichVuDao implements IPhieuDichVu {
 	private OgmSessionFactory sessionFactory;
@@ -173,6 +175,26 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 		}
 
 		return false;
+	}
+
+	@Override
+	public List<PhieuDichVuInfoDTO> getListPhieuDichVuByMaPT(int maPT) {
+		String sql = "db.phieudichvus.aggregate([{'$match':{'$and': [{'maPT': "+maPT+"},{'daThanhToan':false}]}}])";
+		OgmSession session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try {
+
+			List<PhieuDichVu> lst = session.createNativeQuery(sql, PhieuDichVu.class).getResultList();
+
+			List<PhieuDichVuInfoDTO> lstDTO = MappingDtoFacade.mapToListPdvInfoDTO(lst);
+
+			tr.commit();
+			return lstDTO;
+		} catch (Exception e) {
+			tr.rollback();
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -201,13 +201,10 @@ public class DichVuDao implements IDichVuDao {
 			List<DichVu> list = session.createNativeQuery(query, DichVu.class).getResultList();
 
 			tr.commit();
-			session.close();
 
 			return list;
 		} catch (Exception e) {
 			tr.rollback();
-			session.close();
-
 			e.printStackTrace();
 		}
 
