@@ -4,7 +4,9 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
 
+import Rmi.DTO.PhieuDichVuInfoDTO;
 import Rmi.Interface.IPhieuDichVuService;
 
 public class PhieuDichVuService {
@@ -40,5 +42,14 @@ public class PhieuDichVuService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public List<PhieuDichVuInfoDTO> getListPhieuDichVuByMaPT(int maPT) {
+		try {
+			return phieuDichVuService.getListPhieuDichVuByMaPT(maPT);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

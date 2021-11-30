@@ -8,10 +8,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import ClientService.LoaiPhongService;
+import ClientService.PhieuDichVuService;
 import ClientService.PhieuThueService;
 import ClientService.TinhTrangPhongService;
 import Model.PageList;
 import Rmi.DTO.LoaiPhongDTO;
+import Rmi.DTO.PhieuDichVuInfoDTO;
 import Rmi.DTO.PhieuThuePhongInfoDTO;
 import Rmi.DTO.PhongDTO;
 import Rmi.DTO.TinhTrangPhongDTO;
@@ -21,9 +23,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.swing.JSeparator;
 
@@ -32,6 +37,8 @@ public class ThanhToanForm extends JPanel {
 	private JTable tblDsDichVu;
 	private PageList<PhieuThuePhongInfoDTO> lstPhieuThue;
 	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	private PhieuThuePhongInfoDTO selectedPT = null;
+	private List<PhieuDichVuInfoDTO> lstPdv = null;
 
 	public ThanhToanForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -54,6 +61,15 @@ public class ThanhToanForm extends JPanel {
 		panel.add(scrollPane);
 
 		tblDsPhieuThue = new JTable();
+		tblDsPhieuThue.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = tblDsPhieuThue.getSelectedRow();
+				selectedPT = lstPhieuThue.getListData().get(selectedRow);
+				ShowDichVuTable();
+			}
+		});
+		tblDsPhieuThue.setRowHeight(tblDsPhieuThue.getRowHeight() + 5);
 		scrollPane.setViewportView(tblDsPhieuThue);
 
 		JButton btnPrev = new JButton("<");
@@ -88,6 +104,7 @@ public class ThanhToanForm extends JPanel {
 		panel_1.add(scrollPane_1);
 
 		tblDsDichVu = new JTable();
+
 		scrollPane_1.setViewportView(tblDsDichVu);
 
 		JSeparator separator = new JSeparator();
@@ -175,16 +192,37 @@ public class ThanhToanForm extends JPanel {
 		panel_1.add(btnXoaTrang);
 
 		// === load ds =============
-		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, 3);
+		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, 8);
 		LoadDsPhieuThue(lstPhieuThue);
 
 	}
 
+	protected void ShowDichVuTable() {
+		if (selectedPT == null) {
+			System.out.println("Chưa chọn dịch vụ");
+		}
+
+		lstPdv = PhieuDichVuService.getInstance().getListPhieuDichVuByMaPT(selectedPT.getMaPT());
+		LoadDsDichVu(lstPdv);
+	}
+
+	private void LoadDsDichVu(List<PhieuDichVuInfoDTO> lstPdv2) {
+		String[] tieude = { "Mã Dv", "Tên Dv", "Số lượng", "đơn giá" };
+		DefaultTableModel model = new DefaultTableModel(tieude, 0);
+		for (PhieuDichVuInfoDTO pdvInfo : lstPdv2) {
+
+			Object[] o = { pdvInfo.getDichVu().getMaDv(), pdvInfo.getDichVu().getTenDv(), pdvInfo.getSoLuong(),
+					pdvInfo.getDichVu().getDonGia() };
+			model.addRow(o);
+		}
+		tblDsDichVu.setModel(model);
+	}
+
 	private void LoadDsPhieuThue(PageList<PhieuThuePhongInfoDTO> lstPhieuThue2) {
-		String[] tieude = { "Mã Phiếu thuê", "Tên Phòng", "Tên Khách Hàng", "Ngày Đến", "Ngày Trả" };
+		String[] tieude = { "Mã Phiếu thuê", "Mã Phòng", "Tên Phòng", "Tên Khách Hàng", "Ngày Đến", "Ngày Trả" };
 		DefaultTableModel model = new DefaultTableModel(tieude, 0);
 		for (PhieuThuePhongInfoDTO DTO : lstPhieuThue2.getListData()) {
-			Object[] o = { DTO.getMaPT(), DTO.getPhongDTO().getTen(), DTO.getKhachHangDTO().getTen(),
+			Object[] o = { DTO.getMaPT(),DTO.getPhongDTO().getMaP(), DTO.getPhongDTO().getTen(), DTO.getKhachHangDTO().getTen(),
 					dateFormat.format(DTO.getNgayNhan()), dateFormat.format(DTO.getNgayTra()) };
 			model.addRow(o);
 		}

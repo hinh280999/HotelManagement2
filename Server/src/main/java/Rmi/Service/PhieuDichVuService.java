@@ -2,11 +2,13 @@ package Rmi.Service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import Dao.Impliment.PhieuDichVuDao;
 import Dao.Interface.IPhieuDichVu;
 import Entity.PhieuDichVu;
 import Rmi.DTO.PhieuDichVuDTO;
+import Rmi.DTO.PhieuDichVuInfoDTO;
 import Rmi.Interface.IPhieuDichVuService;
 import Utilities.MappingDtoFacade;
 
@@ -43,6 +45,11 @@ public class PhieuDichVuService extends UnicastRemoteObject implements IPhieuDic
 	public boolean addPhieuDichVuByMaPhong(int maPhong, int maDichVu, int soluong) throws RemoteException {
 
 		return phieuDichVuDao.addPhieuDichVuByMaPhong(maPhong, maDichVu, soluong);
+	}
+
+	@Override
+	public List<PhieuDichVuInfoDTO> getListPhieuDichVuByMaPT(int maPT) throws RemoteException {
+		return phieuDichVuDao.getListPhieuDichVuByMaPT(maPT);
 	}
 
 }

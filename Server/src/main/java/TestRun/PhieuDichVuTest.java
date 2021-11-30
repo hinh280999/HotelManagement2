@@ -137,10 +137,10 @@ public class PhieuDichVuTest {
 		// cvDao.delete(sampleCV.getMaCV());
 		IPhieuDichVu pdvDao = new PhieuDichVuDao();
 //		pdvDao.addPhieuDichVuByMaPhong(18, 1,1);
-//		List<PhieuDichVuInfoDTO> lst = pdvDao.getListPhieuDichVuByMaPT(34);
-//		for (PhieuDichVuInfoDTO phieuDichVuInfoDTO : lst) {
-//			System.out.println(phieuDichVuInfoDTO.getDichVu().getTenDv() + ":" + phieuDichVuInfoDTO.getSoLuong());
-//		}
+		List<PhieuDichVuInfoDTO> lst = pdvDao.getListPhieuDichVuByMaPT(15);
+		for (PhieuDichVuInfoDTO phieuDichVuInfoDTO : lst) {
+			System.out.println(phieuDichVuInfoDTO.getDichVu().getTenDv() + ":" + phieuDichVuInfoDTO.getSoLuong());
+		}
 	}
 
 }
