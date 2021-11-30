@@ -201,7 +201,7 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 	public boolean updateThanhToanDvByMaPT(int maPT) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-		String query = "db.phieudichvus.updateMany({'maPT': " + maPT + "},{'$set':{'$daThanhToan' : true}})";
+		String query = "db.phieudichvus.updateMany({'maPT': " + maPT + "},{'$set':{'daThanhToan' : true}})";
 		try {
 
 			String queryPhieuThue = "db.phieuthues.updateOne({'$and':[{'_id':" + maPT
