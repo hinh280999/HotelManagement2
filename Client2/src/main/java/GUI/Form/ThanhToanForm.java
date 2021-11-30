@@ -1,6 +1,7 @@
 package GUI.Form;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,8 +30,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JSeparator;
 
@@ -39,6 +43,8 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 	private JTable tblDsDichVu;
 	private PageList<PhieuThuePhongInfoDTO> lstPhieuThue;
 	private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	private DecimalFormat Currentcyformatter = new DecimalFormat("###,###,###.00 VND");
+	private List<Component> lstComponent = new ArrayList<>();
 	private PhieuThuePhongInfoDTO selectedPT = null;
 	private List<PhieuDichVuInfoDTO> lstPdv = null;
 	private JButton btnThanhToan;
@@ -48,6 +54,18 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 	private int currentPage;
 	private JLabel lblPage;
 	private int maxRow = 5;
+	private JLabel lblTenKH;
+	private JLabel lblTenPhong;
+	private JLabel lblNgayNhan;
+	private JLabel lblNgayTra;
+	private JLabel lblSoNgay;
+	private JLabel lblTienPhong;
+	private JLabel lblTienDichVu;
+	private JLabel lblTongTien;
+	private long diffrence;
+	private double tongtiendv;
+	private double tienphong;
+	private JButton btnXoaTrang;
 
 	public ThanhToanForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -76,6 +94,9 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 				int selectedRow = tblDsPhieuThue.getSelectedRow();
 				selectedPT = lstPhieuThue.getListData().get(selectedRow);
 				ShowDichVuTable();
+				ShowInfoLabel();
+				ShowDichVuInfo();
+				ShowTongTien();
 			}
 		});
 		tblDsPhieuThue.setRowHeight(tblDsPhieuThue.getRowHeight() + 5);
@@ -160,43 +181,51 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 		lblNewLabel_2_1_2_1_1_1.setBounds(10, 670, 91, 40);
 		panel_1.add(lblNewLabel_2_1_2_1_1_1);
 
-		JLabel lblTenKH = new JLabel("......................................");
+		lblTenKH = new JLabel("......................................");
 		lblTenKH.setBounds(111, 420, 242, 40);
+		lstComponent.add(lblTenKH);
 		panel_1.add(lblTenKH);
 
-		JLabel lblTenPhong = new JLabel("......................................");
+		lblTenPhong = new JLabel("......................................");
 		lblTenPhong.setBounds(111, 470, 242, 40);
+		lstComponent.add(lblTenPhong);
 		panel_1.add(lblTenPhong);
 
-		JLabel lblNgayNhan = new JLabel("......................................");
+		lblNgayNhan = new JLabel("......................................");
 		lblNgayNhan.setBounds(111, 520, 119, 40);
+		lstComponent.add(lblNgayNhan);
 		panel_1.add(lblNgayNhan);
 
-		JLabel lblNgayTra = new JLabel("......................................");
+		lblNgayTra = new JLabel("......................................");
 		lblNgayTra.setBounds(344, 520, 105, 40);
+		lstComponent.add(lblNgayTra);
 		panel_1.add(lblNgayTra);
 
-		JLabel lblSoNgay = new JLabel("......................................");
+		lblSoNgay = new JLabel("......................................");
 		lblSoNgay.setBounds(111, 570, 119, 40);
+		lstComponent.add(lblSoNgay);
 		panel_1.add(lblSoNgay);
 
-		JLabel lblTienPhong = new JLabel("......................................");
+		lblTienPhong = new JLabel("......................................");
 		lblTienPhong.setBounds(341, 570, 108, 40);
+		lstComponent.add(lblTienPhong);
 		panel_1.add(lblTienPhong);
 
-		JLabel lblTienDichVu = new JLabel("......................................");
+		lblTienDichVu = new JLabel("......................................");
 		lblTienDichVu.setBounds(111, 620, 338, 40);
+		lstComponent.add(lblTienDichVu);
 		panel_1.add(lblTienDichVu);
 
-		JLabel lblTongTien = new JLabel("......................................");
+		lblTongTien = new JLabel("......................................");
 		lblTongTien.setBounds(111, 670, 338, 40);
+		lstComponent.add(lblTongTien);
 		panel_1.add(lblTongTien);
 
 		btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.setBounds(343, 720, 106, 30);
 		panel_1.add(btnThanhToan);
 
-		JButton btnXoaTrang = new JButton("Xóa Trắng");
+		btnXoaTrang = new JButton("Xóa Trắng");
 		btnXoaTrang.setBounds(246, 720, 85, 30);
 		panel_1.add(btnXoaTrang);
 		// == Add action ========================
@@ -209,6 +238,45 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, maxRow);
 		LoadDsPhieuThue(lstPhieuThue);
 
+	}
+
+	protected void ShowTongTien() {
+		lblTongTien.setText(Currentcyformatter.format(tienphong + tongtiendv));
+
+	}
+
+	protected void ShowDichVuInfo() {
+		tongtiendv = 0;
+		for (PhieuDichVuInfoDTO phieuDichVuInfoDTO : lstPdv) {
+			tongtiendv = phieuDichVuInfoDTO.getSoLuong() * phieuDichVuInfoDTO.getDichVu().getDonGia();
+		}
+
+		lblTienDichVu.setText(Currentcyformatter.format(tongtiendv));
+	}
+
+	protected void ShowInfoLabel() {
+		lblTenKH.setText(selectedPT.getKhachHangDTO().getTen());
+		lblTenPhong.setText(selectedPT.getPhongDTO().getTen());
+		lblNgayNhan.setText(dateFormat.format(selectedPT.getNgayNhan()));
+		lblNgayTra.setText(dateFormat.format(selectedPT.getNgayTra()));
+
+		long diff = selectedPT.getNgayTra().getTime() - selectedPT.getNgayNhan().getTime();
+		TimeUnit time = TimeUnit.DAYS;
+		diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+		if (diffrence == 0) {
+			diffrence++;
+		}
+
+		lblSoNgay.setText(diffrence + "( Ngày )");
+
+		tienphong = TinhTienPhong(selectedPT.getPhongDTO(), diffrence);
+
+		lblTienPhong.setText(Currentcyformatter.format(tienphong));
+	}
+
+	private double TinhTienPhong(PhongDTO phongDTO, long day) {
+		LoaiPhongDTO loaiPhong = LoaiPhongService.getInstance().getLoaiPhongById(phongDTO.getLoaiPhong_id());
+		return loaiPhong.getDonGia() * day;
 	}
 
 	protected void ShowDichVuTable() {
@@ -271,7 +339,33 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 		if (o.equals(btnPrev)) {
 			LoadPrevPhieuThuePage();
 		}
+		if (o.equals(btnXoaTrang)) {
+			XoaTrang();
+		}
+		if (o.equals(btnThanhToan)) {
+			ThanhToan();
+		}
 
+	}
+
+	private void ThanhToan() {
+		if (selectedPT == null) {
+			JOptionPane.showMessageDialog(null, "bạn hãy chọn 1 phiếu thuê mới");
+			return;
+		}
+		
+		for (PhieuDichVuInfoDTO pdv : lstPdv) {
+			
+		}
+	}
+
+	private void XoaTrang() {
+		for (Component component : lstComponent) {
+			if (component instanceof JLabel) {
+				((JLabel) component).setText("......................................");
+			}
+		}
+		selectedPT = null;
 	}
 
 	private void LoadPrevPhieuThuePage() {
