@@ -179,7 +179,7 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 
 	@Override
 	public List<PhieuDichVuInfoDTO> getListPhieuDichVuByMaPT(int maPT) {
-		String sql = "db.phieudichvus.aggregate([{'$match':{'$and': [{'maPT': "+maPT+"},{'daThanhToan':false}]}}])";
+		String sql = "db.phieudichvus.aggregate([{'$match':{'$and': [{'maPT': " + maPT + "},{'daThanhToan':false}]}}])";
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
 		try {
@@ -201,10 +201,12 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 	public boolean updateThanhToanDvByMaPT(int maPT) {
 		OgmSession session = sessionFactory.getCurrentSession();
 		Transaction tr = session.beginTransaction();
-//		String sql = "db.phieudichvus.aggregate([{'$match':{'$and': [{'maPT': "+maPT+"},{'daThanhToan':false}]}}])";
-		String query = "db.phieudichvus.updateMany({'maPT': "+maPT+"},{'$set':{'$daThanhToan' : true}})";
+		String query = "db.phieudichvus.updateMany({'maPT': " + maPT + "},{'$set':{'$daThanhToan' : true}})";
 		try {
 
+			String queryPhieuThue = "db.phieuthues.updateOne({'$and':[{'_id':" + maPT
+					+ " ,'trangThai':'OUT'}]},{'$set':{'$trangThai':'DONE'}})";
+			session.createNativeQuery(queryPhieuThue).executeUpdate();
 			session.createNativeQuery(query).executeUpdate();
 
 			tr.commit();
@@ -215,6 +217,5 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 		}
 		return false;
 	}
-	
-	
+
 }
