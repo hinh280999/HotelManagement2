@@ -52,4 +52,12 @@ public class PhieuDichVuService {
 		}
 		return null;
 	}
+	public boolean updateThanhToanDvByMaPT(int maPT) {
+		try {
+			return phieuDichVuService.updateThanhToanDvByMaPT(maPT);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

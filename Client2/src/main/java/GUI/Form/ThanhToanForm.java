@@ -353,10 +353,14 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "bạn hãy chọn 1 phiếu thuê mới");
 			return;
 		}
-		
-		for (PhieuDichVuInfoDTO pdv : lstPdv) {
-			
+
+		boolean kq = PhieuDichVuService.getInstance().updateThanhToanDvByMaPT(selectedPT.getMaPT());
+		if (kq) {
+			JOptionPane.showMessageDialog(null, "Đã thanh toán tiền phòng và dịch vụ.");
+			reloadDsPhieuThue();
+			return;
 		}
+		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi thanh toán Phiếu THuê: " + selectedPT.getMaPT());
 	}
 
 	private void XoaTrang() {
@@ -390,6 +394,11 @@ public class ThanhToanForm extends JPanel implements ActionListener {
 
 		int nextPageNumb = lstPhieuThue.getCurrentPage() + 1;
 		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(nextPageNumb, maxRow);
+		LoadDsPhieuThue(lstPhieuThue);
+	}
+
+	private void reloadDsPhieuThue() {
+		lstPhieuThue = PhieuThueService.getInstance().getListPhieuThueByPage(1, maxRow);
 		LoadDsPhieuThue(lstPhieuThue);
 	}
 }

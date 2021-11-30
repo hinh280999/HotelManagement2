@@ -205,7 +205,7 @@ public class PhieuDichVuDao implements IPhieuDichVu {
 		try {
 
 			String queryPhieuThue = "db.phieuthues.updateOne({'$and':[{'_id':" + maPT
-					+ " ,'trangThai':'OUT'}]},{'$set':{'$trangThai':'DONE'}})";
+					+ " ,'trangThai':'OUT'}]},{'$set':{'trangThai':'DONE'}})";
 			session.createNativeQuery(queryPhieuThue).executeUpdate();
 			session.createNativeQuery(query).executeUpdate();
 
