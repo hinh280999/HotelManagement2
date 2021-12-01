@@ -42,7 +42,7 @@ public class GoiDichVuForm extends JPanel implements ActionListener {
 	private int maxPhongPage;
 	private int currentDvPage;
 	private int maxDvPage;
-	private int maxRow = 2;
+	private int maxRow = 10;
 
 	private List<Component> lstComponent = new ArrayList<>();
 	private DecimalFormat Currentcyformatter = new DecimalFormat("###,###,###.00 VND");

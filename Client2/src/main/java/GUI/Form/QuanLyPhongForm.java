@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import CustomControll.ColorButton2;
 import ClientService.*;
@@ -38,7 +39,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private JLabel lblPage;
 	private PageList<PhongDTO> lstPhong;
 	private int currentPage, maxPage;
-	private static int maxRow = 3;
+	private static int maxRow = 10;
 	private ColorButton2 btnThemPhong, btnSuaPhong, btnXoaPhong;
 	private JTextField txtSearchText;
 	private JButton btnSearch;
@@ -46,6 +47,7 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 	private List<TinhTrangPhongDTO> lstTTP;
 	private List<LoaiPhongDTO> lstLP;
 	private String trangthaiSelected;
+	private JTableHeader tHead;
 
 	public QuanLyPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
@@ -166,7 +168,10 @@ public class QuanLyPhongForm extends JPanel implements ActionListener {
 			Object[] o = { phong.getMaP(), phong.getTen(), temp.getTenTTP(), tempLP.getTenLP() };
 			model.addRow(o);
 		}
+
 		tblDsPhong.setModel(model);
+		tHead = tblDsPhong.getTableHeader();
+		tHead.setBackground(Color.decode("#ff483b"));
 
 		currentPage = lstPhong.getCurrentPage();
 		maxPage = lstPhong.getMaxPage();

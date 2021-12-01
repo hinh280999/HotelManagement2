@@ -40,7 +40,7 @@ public class QuanLyDichVuForm extends JPanel implements ActionListener {
 	private JButton btnNext;
 	private PageList<DichVuDTO> lstDichVu;
 	private int currentPage, maxPage;
-	private static int maxRow = 4;
+	private static int maxRow = 10;
 	private DichVuDTO selectedDichVu;
 
 	public QuanLyDichVuForm() {

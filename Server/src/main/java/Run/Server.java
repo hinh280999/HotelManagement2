@@ -52,14 +52,14 @@ public class Server {
 		// === public service ============================================
 		LocateRegistry.createRegistry(3000);
 		Context context = new InitialContext();
-		context.bind("rmi://localhost:3000/taiKhoanService", taiKhoanService);
-		context.bind("rmi://localhost:3000/khachHangService", khachHangService);
-		context.bind("rmi://localhost:3000/loaiPhongService", loaiPhongService);
-		context.bind("rmi://localhost:3000/phongService", phongService);
-		context.bind("rmi://localhost:3000/tinhTrangPhongService", tinhTrangPhongService);
-		context.bind("rmi://localhost:3000/nhanVienService", nhanVienService);
-		context.bind("rmi://localhost:3000/dichVuService", dichVuService);
-		context.bind("rmi://localhost:3000/phieuThueService", phieuThueService);
+		context.bind("rmi://HinhPc:3000/taiKhoanService", taiKhoanService);
+		context.bind("rmi://HinhPc:3000/khachHangService", khachHangService);
+		context.bind("rmi://HinhPc:3000/loaiPhongService", loaiPhongService);
+		context.bind("rmi://HinhPc:3000/phongService", phongService);
+		context.bind("rmi://HinhPc:3000/tinhTrangPhongService", tinhTrangPhongService);
+		context.bind("rmi://HinhPc:3000/nhanVienService", nhanVienService);
+		context.bind("rmi://HinhPc:3000/dichVuService", dichVuService);
+		context.bind("rmi://HinhPc:3000/phieuThueService", phieuThueService);
 		context.bind("rmi://localhost:3000/phieuDichVuService", phieuDichVuService);
 		
 		System.out.println("Server is running at Port: 3000 (^__^)!");

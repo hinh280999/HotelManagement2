@@ -3,7 +3,10 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import CustomControll.GradientPanel;
+import CustomControll.PanelBackground;
 import CustomControll.PanelMenu;
 import GUI.Form.DatPhongForm;
 import GUI.Form.GoiDichVuForm;
@@ -27,8 +32,9 @@ import GUI.Form.ThanhToanForm;
 import GUI.Form.TraPhongForm;
 import Rmi.DTO.NhanVienDTO;
 import Rmi.DTO.TaiKhoanDTO;
+import javax.swing.JButton;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ActionListener {
 	private Color colorEnter = Color.WHITE;
 	private String username = "Sample";
 	private String password;
@@ -41,9 +47,11 @@ public class MainFrame extends JFrame {
 	private PanelMenu pQLNhanVien;
 	private PanelMenu pQLDichVu;
 	private PanelMenu pQLPhong;
+	private JButton btnDangXuat;
 
 	public static void main(String[] args) {
 		NhanVienDTO nv = new NhanVienDTO(1);
+		nv.setTen("Nguyễn Văn A");
 		TaiKhoanDTO tk = new TaiKhoanDTO("abc", "abc", true);
 		nv.setTaiKhoan(tk);
 
@@ -69,14 +77,14 @@ public class MainFrame extends JFrame {
 		panelContainer.setLayout(null);
 		contentPane.add(panelContainer);
 
-		JPanel panelSideBar = new JPanel();
+		GradientPanel panelSideBar = new GradientPanel(Color.decode("#DC2424"),Color.decode("#4A569D"),180,580);
 		panelSideBar.setBounds(0, 0, 250, 858);
 		panelSideBar.setBackground(Color.decode("#3a71fc"));
 		panelContainer.add(panelSideBar);
 		panelSideBar.setLayout(null);
 
 		JLabel lblUsername = new JLabel();
-		lblUsername.setText("Hello: " + username);
+		lblUsername.setText("Hello: " + nhanVien.getTen());
 		lblUsername.setBackground(Color.WHITE);
 		lblUsername.setForeground(SystemColor.text);
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
@@ -132,7 +140,7 @@ public class MainFrame extends JFrame {
 		});
 		panelSideBar.add(pTraPhong);
 
-		ImageIcon pGoiDichVuIcon = new ImageIcon(new ImageIcon("icon/iconGoiDichVu.png").getImage());
+		ImageIcon pGoiDichVuIcon = new ImageIcon(new ImageIcon("icon/iconGoiDv.png").getImage());
 		PanelMenu pGoiDichVu = new PanelMenu("Gọi Dịch Vụ", pGoiDichVuIcon);
 		pGoiDichVu.setBounds(0, 310, 250, 40);
 		pGoiDichVu.addMouseListener(new MouseAdapter() {
@@ -160,7 +168,7 @@ public class MainFrame extends JFrame {
 		LbQuanLy.setBounds(0, 390, 250, 30);
 		panelSideBar.add(LbQuanLy);
 
-		ImageIcon pQLKhachIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
+		ImageIcon pQLKhachIcon = new ImageIcon(new ImageIcon("icon/iconCustomer.png").getImage());
 		PanelMenu pQLKhach = new PanelMenu("Quản Khách Hàng", pQLKhachIcon);
 		pQLKhach.setBounds(0, 430, 250, 40);
 		pQLKhach.addMouseListener(new MouseAdapter() {
@@ -171,7 +179,7 @@ public class MainFrame extends JFrame {
 		});
 		panelSideBar.add(pQLKhach);
 
-		ImageIcon pQLPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlPhong.png").getImage());
+		ImageIcon pQLPhongIcon = new ImageIcon(new ImageIcon("icon/iconRotelRoom.png").getImage());
 		pQLPhong = new PanelMenu("Quản lý phòng", pQLPhongIcon);
 		pQLPhong.setBounds(0, 510, 250, 40);
 		pQLPhong.addMouseListener(new MouseAdapter() {
@@ -182,7 +190,7 @@ public class MainFrame extends JFrame {
 		});
 		panelSideBar.add(pQLPhong);
 
-		ImageIcon pQLNhanVienIcon = new ImageIcon(new ImageIcon("icon/iconQlKhach.png").getImage());
+		ImageIcon pQLNhanVienIcon = new ImageIcon(new ImageIcon("icon/iconQlNv.png").getImage());
 		pQLNhanVien = new PanelMenu("Quản lý nhân viên", pQLNhanVienIcon);
 		pQLNhanVien.setBounds(0, 590, 250, 40);
 		pQLNhanVien.addMouseListener(new MouseAdapter() {
@@ -193,7 +201,7 @@ public class MainFrame extends JFrame {
 		});
 		panelSideBar.add(pQLNhanVien);
 
-		ImageIcon pQLDichVuIcon = new ImageIcon(new ImageIcon("icon/iconQlDV.png").getImage());
+		ImageIcon pQLDichVuIcon = new ImageIcon(new ImageIcon("icon/room-service.png").getImage());
 		pQLDichVu = new PanelMenu("Quản lý Dịch Vụ", pQLDichVuIcon);
 		pQLDichVu.setBounds(0, 550, 250, 40);
 		pQLDichVu.addMouseListener(new MouseAdapter() {
@@ -204,7 +212,7 @@ public class MainFrame extends JFrame {
 		});
 		panelSideBar.add(pQLDichVu);
 
-		ImageIcon pQLLoaiPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlDV.png").getImage());
+		ImageIcon pQLLoaiPhongIcon = new ImageIcon(new ImageIcon("icon/iconQlLoaiPhong.png").getImage());
 		pQLLoaiPhong = new PanelMenu("Quản lý Loại Phòng", pQLLoaiPhongIcon);
 		pQLLoaiPhong.setBounds(0, 470, 250, 40);
 		pQLLoaiPhong.addMouseListener(new MouseAdapter() {
@@ -214,11 +222,24 @@ public class MainFrame extends JFrame {
 			}
 		});
 		panelSideBar.add(pQLLoaiPhong);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 635, 170, 175);
+		ImageIcon imageIcon = new ImageIcon(
+				new ImageIcon("img/bat.jpg").getImage().getScaledInstance(170, 175, Image.SCALE_DEFAULT));
+		lblNewLabel.setIcon(imageIcon);
+		panelSideBar.add(lblNewLabel);
+		
+		btnDangXuat = new JButton("Đăng xuất");
+		btnDangXuat.setIcon(new ImageIcon("img/power.png"));
+		btnDangXuat.setBounds(0, 815, 250, 39);
+		panelSideBar.add(btnDangXuat);
 
 		panelMain = new JPanel();
 		panelMain.setBounds(250, 40, 1186, 818);
-		panelContainer.add(panelMain);
 		panelMain.setLayout(new BorderLayout(0, 0));
+		panelContainer.add(panelMain);
+		
 
 		JPanel pTitle = new JPanel();
 		pTitle.setBackground(Color.decode("#ffa454"));
@@ -230,13 +251,17 @@ public class MainFrame extends JFrame {
 		pTitle.add(lblIconTitle);
 
 		titleLabel = new JLabel("");
-		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-		titleLabel.setBounds(60, 0, 100, 40);
+		titleLabel.setForeground(Color.BLUE);
+		titleLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		titleLabel.setBounds(60, 0, 392, 40);
 		pTitle.add(titleLabel);
 		panelContainer.add(pTitle);
-
+		// ==== action 
+		btnDangXuat.addActionListener(this);
+		
 		// =====================================
 		ShowAdminMenu();
+		setMainPanel(new PanelBackground(), "Chào mừng đến với khách sạn Transylvania", null);
 	}
 
 	private void setMainPanel(JPanel panel, String text, ImageIcon icon) {
@@ -258,5 +283,20 @@ public class MainFrame extends JFrame {
 			pQLDichVu.setVisible(false);
 			pQLPhong.setVisible(false);
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnDangXuat)) {
+			DangXuat();
+		}
+		
+	}
+
+	private void DangXuat() {
+		this.dispose();
+		LoginForm loginForm = new LoginForm();
+		loginForm.setVisible(true);
 	}
 }

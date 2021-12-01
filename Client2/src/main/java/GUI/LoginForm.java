@@ -74,7 +74,7 @@ public class LoginForm extends JFrame implements ActionListener {
 
 		Color color1 = new Color(0, 82, 212);
 		Color color2 = new Color(111, 177, 252);
-		GradientPanel LogInfromPanel = new GradientPanel(color1, color2, 180, 480);
+		GradientPanel LogInfromPanel = new GradientPanel(color1, color2, 180, 180);
 		LogInfromPanel.setBounds(0, 29, 719, 451);
 		LogInfromPanel.setLayout(null);
 		contentPane.add(LogInfromPanel);

@@ -39,7 +39,7 @@ public class QuanLyNhanVienForm extends JPanel implements ActionListener {
 	private JButton btnNext;
 	private PageList<NhanVienDTO> lstNhanVien;
 	private int currentPage, maxPage;
-	private static int maxRow = 2;
+	private static int maxRow = 10;
 	private NhanVienDTO selectedNhanVien = null;
 	private NhanVienService nhanVienService = null;
 

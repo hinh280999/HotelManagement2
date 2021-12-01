@@ -47,7 +47,7 @@ public class QuanLyLoaiPhongForm extends JPanel implements ActionListener {
 	private PageList<LoaiPhongDTO> lstLoaiPhong;
 	private LoaiPhongDTO selectedLoaiPhong = null;
 	private int currentPage, maxPage;
-	private static int maxRow = 2;
+	private static int maxRow = 10;
 
 	public QuanLyLoaiPhongForm() {
 		setBackground(Color.decode("#d4d5d6"));
